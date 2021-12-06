@@ -29,7 +29,7 @@ void testFunc2()
             case 'X':
                 exit(0);
             default:
-                cout << " Некорректный ввод. Введите ещё раз.\n";
+                cout << " Некорректный ввод. Введите ещё раз:\n";
                 break;
             }
         } while ((answer != 'D') && (answer != 'E') && (answer != 'M') && (answer != 'X'));

@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bin_dec_converter.cpp" />
+    <ClCompile Include="caesar_cipher.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="string_calculator.cpp" />
     <ClCompile Include="test_func1.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bin_dec_converter.h" />
+    <ClInclude Include="caesar_cipher.h" />
     <ClInclude Include="string_calculator.h" />
     <ClInclude Include="test_func1.h" />
     <ClInclude Include="test_func2.h" />

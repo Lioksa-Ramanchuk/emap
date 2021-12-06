@@ -36,7 +36,7 @@ void stringCalculator()
 			case 'X':
 				exit(0);
 			default:
-				cout << " Некорректный ввод. Введите ещё раз.\n";
+				cout << " Некорректный ввод. Введите ещё раз:\n";
 				break;
 			}
 		} while ((answer != 'C') && (answer != 'F') && (answer != 'R') && (answer != 'V') && (answer != 'M') && (answer != 'X'));
@@ -47,10 +47,10 @@ void compareStrings()
 {
 	string firstString, secondString;
 
-	cout << "\n Введите первую строку.\n";
+	cout << "\n Введите первую строку:\n";
 	getline(cin, firstString);
 
-	cout << "\n Введите вторую строку.\n";
+	cout << "\n Введите вторую строку:\n";
 	getline(cin, secondString);
 
 	if (firstString == secondString) {
@@ -71,11 +71,11 @@ void findSubstr()
 {
 	string str, subString;
 
-	cout << "\n Введите строку, в которой будет осуществляться поиск подстроки.\n";
+	cout << "\n Введите строку, в которой будет осуществляться поиск подстроки:\n";
 	getline(cin, str);
 	int firstStringLength = str.length();
 
-	cout << "\n Введите подстроку.\n";
+	cout << "\n Введите подстроку:\n";
 	getline(cin, subString);
 	int secondStringLength = subString.length();
 
@@ -94,13 +94,13 @@ void replaceSubstr()
 	string str, subStrToReplace, subStrToReplaceWith;
 	int pos = 0;
 
-	cout << "\n Введите строку, в которой нужно заменить подстроку.\n";
+	cout << "\n Введите строку, в которой нужно заменить подстроку:\n";
 	getline(cin, str);
 
 	char answer;
 	do
 	{
-		cout << "\n Введите подстроку, которую нужно заменить.\n";
+		cout << "\n Введите подстроку, которую нужно заменить:\n";
 		getline(cin, subStrToReplace);
 
 		pos = str.find(subStrToReplace);
@@ -126,14 +126,14 @@ void replaceSubstr()
 				case 'X':
 					exit(0);
 				default:
-					cout << " Некорректный ввод. Введите ещё раз.\n";
+					cout << " Некорректный ввод. Введите ещё раз:\n";
 					break;
 				}
 			} while (answer != 'N');
 		}
 	} while (pos == string::npos);
 
-	cout << "\n Введите подстроку, на которую нужно заменить.\n";
+	cout << "\n Введите подстроку, на которую нужно заменить:\n";
 	getline(cin, subStrToReplaceWith);
 
 	str.replace(pos, subStrToReplace.length(), subStrToReplaceWith);
@@ -146,7 +146,7 @@ void countVowels()
 {
 	string str;
 
-	cout << "\n Введите строку, в которой нужно посчитать гласные.\n";
+	cout << "\n Введите строку, в которой нужно посчитать гласные:\n";
 	getline(cin, str);
 	int strLength = str.length();
 

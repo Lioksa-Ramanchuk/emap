@@ -30,7 +30,7 @@ void binDecConverter()
             case 'X':
                 exit(0);
             default:
-                cout << " Некорректный ввод. Введите ещё раз.\n";
+                cout << " Некорректный ввод. Введите ещё раз:\n";
                 break;
             }
         } while ((answer != 'B') && (answer != 'D') && (answer != 'M') && (answer != 'X'));
@@ -48,7 +48,7 @@ void convertBinToDec()
     bool binNumberHasDots = false;
     bool inputIsOK = true;
 
-    cout << "\n Введите число в двоичной системе счисления.\n";
+    cout << "\n Введите число в двоичной системе счисления:\n";
 
     do
     {
@@ -94,7 +94,7 @@ void convertBinToDec()
         }
 
         if (!inputIsOK) {
-            cout << " Некорректный ввод. Введите ещё раз.\n";
+            cout << " Некорректный ввод. Введите ещё раз:\n";
         }
     } while (!inputIsOK);
 
@@ -140,7 +140,7 @@ void convertDecToBin()
     bool decNumberHasDots = false;
     bool inputIsOK = true;
 
-    cout << "\n Введите число в десятичной системе счисления.\n";
+    cout << "\n Введите число в десятичной системе счисления:\n";
 
     do
     {
@@ -195,7 +195,7 @@ void convertDecToBin()
             }
         }
         if (!inputIsOK) {
-            cout << " Некорректный ввод. Введите ещё раз.\n";
+            cout << " Некорректный ввод. Введите ещё раз:\n";
         }
         else
         {
@@ -205,7 +205,7 @@ void convertDecToBin()
             }
             catch (out_of_range)
             {
-                cerr << " Число слишком большое. Введите другое число.\n";
+                cerr << " Число слишком большое. Введите другое число:\n";
                 inputIsOK = false;
             }
         }
