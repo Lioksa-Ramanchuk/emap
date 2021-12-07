@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Проект EMAP</title>
+
+        <style>
+            body {
+                margin: 0;
+                min-width: 1000px;
+                background-color: black;
+                color: white;
+                font-family: 'Arial';
+                font-size: x-large;
+            }
+            #container {
+                display: grid;
+                grid-template-columns: 30% auto 10%;
+                grid-template-rows: auto auto auto;
+                align-self: center;
+            }
+            header {
+                height: 80px;
+                border-bottom: 5px solid rgb(50, 50, 50);
+                padding: 0 20px;
+
+                grid-row-start: 1;
+                grid-row-end: 2;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                
+                overflow: hidden;
+            }
+            img#logo {
+                vertical-align: middle;
+                height: 90%;
+                padding: 5px;
+            }
+            p#header {
+                display: inline-block;
+                margin-left: 50px;
+                vertical-align: middle;
+
+                font-family: 'Courier New';
+                font-size: 25px;
+                letter-spacing: 2px;
+            }
+            nav {
+                border-right: 5px solid rgb(50, 50, 50);
+                padding: 5px;
+
+                grid-row-start: 2;
+                grid-row-end: 3;
+                grid-column-start: 1;
+                grid-column-end: 2;
+            }
+            nav ul {
+                position: sticky;
+                top: 20px;
+            }
+            nav li {
+                padding: 5px;
+            }
+            nav a {
+                text-decoration: none;
+                color: white;
+            }
+            section {
+                border-right: 5px solid rgb(50, 50, 50);
+                padding: 20px;
+
+                grid-row-start: 2;
+                grid-row-end: 3;
+                grid-column-start: 2;
+                grid-column-end: 3;
+            }
+            article {
+                margin: 30px;
+            }
+            article p {
+                text-indent: 25px;
+            }
+            hr {
+                border-style: solid none none none;
+                border-top: 3px solid white;
+            }
+            footer {
+                border-top: 5px solid rgb(50, 50, 50);
+                padding: 30px;
+
+                grid-row-start: 3;
+                grid-row-end: 4;
+                grid-column-start: 1;
+                grid-column-end: 4;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="container">            
+            <header>
+                <img id="logo" src="images/emap_short_logo.jpg" alt="emap_logo.jpg"/>
+                <p id="header">EMAP — наших рук дело</p>
+            </header>
+
+            <nav>
+                <ul>
+                    <li><a href="#about-project">О проекте</a></li>
+                    <li><a href="#project-team">Команда проекта</a></li>
+                    <li><a href="#product-backlog">Бэклог продукта</a></li>
+                    <li><a href="#diagrams">Диаграммы вариантов использования</a></li>
+                    <li><a href="#test-cases">Система тестов</a></li>
+                    <li><a href="#project-history">История проекта</a></li>
+                </ul>
+                
+            </nav>
+
+            <section>
+                <article id="about-project">
+                    <h2><a name="about-project">О проекте</a></h2>
+
+                    <p>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст
+                    </p>
+                </article>
+
+                <hr/>
+                
+                <article id="project-team">
+                    <h2><a name="project-team">Команда проекта</a></h2>
+                    
+                    <p>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст
+                    </p>
+                </article>
+
+                <hr/>
+                
+                <article id="product-backlog">
+                    <h2><a name="product-backlog">Бэклог продукта</a></h2>
+                    
+                    <p>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст
+                    </p>
+                </article>
+                
+                <hr/>
+
+                <article id="diagrams">
+                    <h2><a name="diagrams">Диаграммы вариантов использования</a></h2>
+                    
+                    <p>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст
+                    </p>
+                </article>
+                <hr/>
+
+                <article id="test-cases">
+                    <h2><a name="test-cases">Система тестов</a></h2>
+                    
+                    <p>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст
+                    </p>
+                </article>
+
+                <hr/>
+
+                <article id="project-history">
+                    <h2><a name="project-history">История проекта</a></h2>
+                    
+                    <p>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст<br/>
+                        текст
+                    </p>
+                </article>
+            </section>
+
+            <footer></footer>
+        </div>
+    </body>
+</html>
