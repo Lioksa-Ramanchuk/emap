@@ -3,96 +3,7 @@
     <head>
         <title>Проект EMAP</title>
 
-        <style>
-            body {
-                margin: 0;
-                min-width: 1000px;
-                background-color: black;
-                color: white;
-                font-family: 'Arial';
-                font-size: x-large;
-            }
-            #container {
-                display: grid;
-                grid-template-columns: 30% auto 10%;
-                grid-template-rows: auto auto auto;
-                align-self: center;
-            }
-            header {
-                height: 80px;
-                border-bottom: 5px solid rgb(50, 50, 50);
-                padding: 0 20px;
-
-                grid-row-start: 1;
-                grid-row-end: 2;
-                grid-column-start: 1;
-                grid-column-end: 4;
-                
-                overflow: hidden;
-            }
-            img#logo {
-                vertical-align: middle;
-                height: 90%;
-                padding: 5px;
-            }
-            p#header {
-                display: inline-block;
-                margin-left: 50px;
-                vertical-align: middle;
-
-                font-family: 'Courier New';
-                font-size: 25px;
-                letter-spacing: 2px;
-            }
-            nav {
-                border-right: 5px solid rgb(50, 50, 50);
-                padding: 5px;
-
-                grid-row-start: 2;
-                grid-row-end: 3;
-                grid-column-start: 1;
-                grid-column-end: 2;
-            }
-            nav ul {
-                position: sticky;
-                top: 20px;
-            }
-            nav li {
-                padding: 5px;
-            }
-            nav a {
-                text-decoration: none;
-                color: white;
-            }
-            section {
-                border-right: 5px solid rgb(50, 50, 50);
-                padding: 20px;
-
-                grid-row-start: 2;
-                grid-row-end: 3;
-                grid-column-start: 2;
-                grid-column-end: 3;
-            }
-            article {
-                margin: 30px;
-            }
-            article p {
-                text-indent: 25px;
-            }
-            hr {
-                border-style: solid none none none;
-                border-top: 3px solid white;
-            }
-            footer {
-                border-top: 5px solid rgb(50, 50, 50);
-                padding: 30px;
-
-                grid-row-start: 3;
-                grid-row-end: 4;
-                grid-column-start: 1;
-                grid-column-end: 4;
-            }
-        </style>
+        <link rel="stylesheet" href="styles.css"/>
     </head>
 
     <body>
@@ -111,25 +22,25 @@
                     <li><a href="#test-cases">Система тестов</a></li>
                     <li><a href="#project-history">История проекта</a></li>
                 </ul>
-                
             </nav>
 
             <section>
                 <article id="about-project">
                     <h2><a name="about-project">О проекте</a></h2>
 
-                    <p>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст
-                    </p>
+                    <p>Название проекта: <strong>EMAP</strong></p>
+
+                    <ul id="project-aims">Цель данного проекта:
+                        <li>изучение жизненного цикла разработки ПО</li>
+                        <li>изучение методологии проектирования ПО</li>
+                        <li>выполнение проектирования и разработки проекта в целом и его отдельных модулей</li>
+                        <li>внедрение и сопровождение ПО</li>
+                        <li>совершенствование своих навыков программирования</li>
+                        <li>получение опыта работы в команде</li>
+                    </ul>
+
+                    <p id="start-data">Дата начала работы над проектом: 6 декабря 2021 г.</p>
+                    <p>Дата завершения работы над проектом: -</p>
                 </article>
 
                 <hr/>
@@ -137,18 +48,41 @@
                 <article id="project-team">
                     <h2><a name="project-team">Команда проекта</a></h2>
                     
-                    <p>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст
-                    </p>
+                    <ol>
+                        <li>
+                            <ul>Лидер команды: Романчук Алексей
+                                <li>Реализовал головной модуль программы</li>
+                                <li>Реализовал конвертер чисел из двоичной системы в десятичную и наоборот</li>
+                                <li>Реализовал шифратор-дешифратор Цезаря</li>
+                                <li class="in-process">Создал сайт проекта</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul>Горощеня Владислав
+                                <li>Реализовал калькулятор для работы со строками</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul>Каребо Никита
+                                <li class="in-process">Реализовал калькулятор для работы с целыми числами</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul>Князёв Олег
+                                <li class="in-process">Реализовал вывод текущего времени</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul>Ружицкий Максим
+                                <li class="in-process">Реализовал вывод расписания на заданный день</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul>Тихомиров Илья
+                                <li class="in-process">Реализовал напоминалку "Возьми зонтик"</li>
+                            </ul>
+                        </li>
+                    </ol>
                 </article>
 
                 <hr/>
@@ -156,18 +90,81 @@
                 <article id="product-backlog">
                     <h2><a name="product-backlog">Бэклог продукта</a></h2>
                     
-                    <p>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст<br/>
-                        текст
-                    </p>
+                    <table>
+                        <tr>
+                            <th>Тема</th>
+                            <th>ID</th>
+                            <th>Пользовательская история</th>
+                        </tr>
+
+                        <tr>
+                            <td class="subject" rowspan="3">Калькулятор</td>
+                            <td class="in-process">#1-001</td>
+                            <td>Как Пользователь, я хочу использовать «калькулятор», чтобы выполнять арифметические операции над целыми числами.</td>
+                        </tr>
+                        <tr>
+                            <td class="in-process">#1-002</td>
+                            <td>Как Пользователь, я хочу использовать «калькулятор», чтобы выполнять арифметические операции над дробными числами.</td>
+                        </tr>
+                        <tr>
+                            <td class="in-process">#1-003</td>
+                            <td>Как Пользователь, я хочу использовать «калькулятор», чтобы выполнять арифметические операции над создаваемыми переменными.</td>
+                        </tr>
+
+                        <tr>
+                            <td class="subject" rowspan="5">Строковый калькулятор</td>
+                            <td class="done">#2-001</td>
+                            <td>Как Пользователь, я хочу использовать «строковый калькулятор» для сравнения строк.</td>
+                        </tr>
+                        <tr>
+                            <td class="done">#2-002</td>
+                            <td>Как Пользователь, я хочу использовать «строковый калькулятор» для поиска подстроки в строке.</td>
+                        </tr>
+                        <tr>
+                            <td class="done">#2-003</td>
+                            <td>Как Пользователь, я хочу использовать «строковый калькулятор» для замены подстроки в строке.</td>
+                        </tr>
+                        <tr>
+                            <td class="done">#2-004</td>
+                            <td>Как Пользователь, я хочу использовать «строковый калькулятор» для подсчёта гласных в строке.</td>
+                        </tr>
+                        <tr>
+                            <td class="in-process">#2-005</td>
+                            <td>Как Пользователь, я хочу использовать «строковый калькулятор» для подсчёта согласных в строке.</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="subject">Расписание заятий</td>
+                            <td class="in-process">#3-001</td>
+                            <td>Как Пользователь, я хочу использовать «расписание занятий», чтобы посмотреть расписание занятий на заданный день.</td>
+                        </tr>
+
+                        <tr>
+                            <td class="subject" rowspan="2">Конвертер BIN/DEC</td>
+                            <td class="done">#4-001</td>
+                            <td>Как Пользователь, я хочу использовать «конвертер двоичных чисел в десятичные и наоборот», чтобы перевести число из двоичной системы счисления в десятичную.</td>
+                        </tr>
+                        <tr>
+                            <td class="done">#4-002</td>
+                            <td>Как Пользователь, я хочу использовать «конвертер двоичных чисел в десятичные и наоборот», чтобы перевести число из десятичной системы счисления в двоичную.</td>
+                        </tr>
+
+                        <tr>
+                            <td class="subject">Напоминалка «Возьми зонтик»</td>
+                            <td class="in-process">#5-001</td>
+                            <td>Как Пользователь, я хочу использовать «напоминалку "Возьми зонтик"», чтобы не забыть взять зонтик.</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="subject" rowspan="2">(Де-)шифратор Цезаря</td>
+                            <td class="done">#6-001</td>
+                            <td>Как Пользователь, я хочу использовать «шифратор-дешифратор Цезаря», чтобы зашифровать текст при помощи шифра Цезаря.</td>
+                        </tr>
+                        <tr>
+                            <td class="done">#6-002</td>
+                            <td>Как Пользователь, я хочу использовать «шифратор-дешифратор Цезаря», чтобы дешифровать текст при помощи шифра Цезаря.</td>
+                        </tr>
+                    </table>
                 </article>
                 
                 <hr/>
@@ -188,6 +185,7 @@
                         текст
                     </p>
                 </article>
+                
                 <hr/>
 
                 <article id="test-cases">

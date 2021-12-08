@@ -58,7 +58,7 @@ int main()
                 break;
             case '9': testFunc2();  // Пример, в релизе не будет
                 break;
-            case 'A': ShellExecuteA(NULL, NULL, "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
+            case 'A': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
                 break;
             case 'X':
                 break;
