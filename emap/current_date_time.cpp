@@ -1,14 +1,35 @@
 #include "current_date_time.h"
-#include <ctime>
-#include <cstdio>
+#include <windows.h>
 #include <iostream>
+#include <iomanip>
 
 void currentDateTime()
 {
-    std::cout << "\n Текущая дата и время:\n\n";
+    using std::cout;
 
-    time_t output = time(NULL);
-    char str[30];
-    ctime_s(str, sizeof str, &output);
-    printf(" %s", str);
+    system("CLS");
+
+    cout << "\n Часы: вывод текущего времени.\n";
+    cout << " Для выхода в главное меню нажмите Esc\n";
+    cout << "\n Текущая дата и время:\n";
+
+    struct tm timeinfo;
+    time_t now;
+
+    while (!GetAsyncKeyState(VK_ESCAPE))
+    {
+        now = time(NULL);
+        localtime_s(&timeinfo, &now);
+
+        cout << ("\r                      \r");
+        cout << " " << timeinfo.tm_year + 1900;
+        cout << "." << std::setw(2) << std::setfill('0') << timeinfo.tm_mon + 1;
+        cout << "." << std::setw(2) << std::setfill('0') << timeinfo.tm_mday;
+        cout << " " << std::setw(2) << std::setfill('0') << timeinfo.tm_hour;
+        cout << ":" << std::setw(2) << std::setfill('0') << timeinfo.tm_min;
+        cout << ":" << std::setw(2) << std::setfill('0') << timeinfo.tm_sec;
+
+        Sleep(250);
+    }
+    cout << '\n';
 }

@@ -5,6 +5,9 @@ using namespace std;
 
 void stringCalculator()
 {
+	system("CLS");
+	cout << "\n Строковый калькулятор.\n";
+
 	char answer;
 	do
 	{

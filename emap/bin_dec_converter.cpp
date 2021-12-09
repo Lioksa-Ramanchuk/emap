@@ -5,9 +5,13 @@ using namespace std;
 
 void binDecConverter()
 {
+    system("CLS");
+    cout << "\n Конвертер двоичных чисел в десятичные и наоборот.\n";
+
     char answer;
     do
     {
+
         cout << "\n Выберите:\n";
         cout << "  (B)IN to DEC —> перевести число из двоичной системы счисления в десятичную\n";
         cout << "  (D)EC to BIN —> перевести число из десятичной системы счисления в двоичную\n";

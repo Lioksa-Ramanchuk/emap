@@ -8,6 +8,10 @@ using namespace std;
 // ========================================
 void caesarCipher()
 {
+    system("CLS");
+
+    cout << "\n Шифратор-дешифратор Цезаря.\n";
+
     const char* pALPHABET;
     string strText, strNewText;
     eCipherMode cipherMode;
