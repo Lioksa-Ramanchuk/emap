@@ -8,10 +8,11 @@ body {
 }
 #container {
     display: grid;
-    grid-template-columns: 300px auto 10%;
+    grid-template-columns: 300px auto 5%;
     grid-template-rows: 80px auto auto;
     align-self: center;
 }
+
 header {
     position: sticky;
     top: 0;
@@ -42,6 +43,7 @@ p#header {
     font-size: 25px;
     letter-spacing: 2px;
 }
+
 nav {
     margin-left: 20px;
     border-right: 5px solid #222222;
@@ -67,6 +69,7 @@ nav a:hover {
     color: lightskyblue;
     text-decoration: underline;
 }
+
 #about-project,
 #project-team,
 #product-backlog,
@@ -90,6 +93,11 @@ article {
 article p {
     text-indent: 25px;
 }
+hr {
+    border-style: solid none none none;
+    border-top: 3px solid #666666;
+}
+
 #project-aims {
     margin-left: -15px;
     list-style-position: outside;
@@ -102,6 +110,7 @@ article p {
 p#start-data {
     margin-bottom: -15px;
 }
+
 #project-team ol {
     list-style-position: outside;
 }
@@ -128,6 +137,7 @@ p#start-data {
     border-left-color: orange;
     color: orange;
 }
+
 #product-backlog table {
     border-collapse: collapse;
     margin-bottom: 50px;
@@ -152,10 +162,76 @@ p#start-data {
 #product-backlog td.in-process {
     background-color: darkorange;
 }
-hr {
-    border-style: solid none none none;
-    border-top: 3px solid #666666;
+
+#diagrams figure {
+    display: inline-block;
+    width: fit-content;
+    vertical-align: top;
 }
+#diagrams figcaption {
+    text-align: center;
+    font-size: larger;
+    font-style: italic;
+    color: lightblue;
+}
+#diagrams img {
+    max-width: 900px;
+    margin: 10px 0;
+}
+#diagrams #main-diagram {
+    display: block;
+}
+#num-calc-diagram img,
+#bin-dec-converter-diagram img,
+#caesar-cipher-diagram img {
+    width: 300px;
+}
+#str-calc-diagram img {
+    width: 500px;
+}
+#clock-diagram img,
+#timetable-diagram img,
+#reminder-diagram img {
+    width: 300px;
+}
+
+#project-history table {
+    border-collapse: collapse;
+    margin-bottom: 50px;
+}
+#project-history th, td {
+    border: 2px solid white;
+    padding: 20px;
+}
+#project-history th {
+    background-color: cornflowerblue;
+    color: lightyellow;
+}
+
+#test-cases table {
+    border-collapse: collapse;
+    margin-bottom: 50px;    
+    font-size: large;
+}
+#test-cases th, td {
+    border: 2px solid white;
+    padding: 20px;
+}
+#test-cases th {
+    background-color: cornflowerblue;
+    color: lightyellow;
+}
+#test-cases tr:first-child th {
+    background-color:darkslategray;
+    color: white;
+}
+#test-cases td {
+    vertical-align: top;
+}
+#test-cases td:last-child {
+    text-align: center;
+}
+
 footer {
     border-top: 5px solid #222222;
     padding: 20px;

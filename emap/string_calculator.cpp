@@ -32,15 +32,15 @@ void stringCalculator()
 			case 'V': countVowels();
 				break;
 			case 'M':
-				break;
+				return;
 			case 'X':
 				exit(0);
 			default:
 				cout << " Некорректный ввод. Введите ещё раз:\n";
 				break;
 			}
-		} while ((answer != 'C') && (answer != 'F') && (answer != 'R') && (answer != 'V') && (answer != 'M') && (answer != 'X'));
-	} while (answer != 'M');
+		} while ((answer != 'C') && (answer != 'F') && (answer != 'R') && (answer != 'V'));
+	} while (true);
 }
 
 void compareStrings()

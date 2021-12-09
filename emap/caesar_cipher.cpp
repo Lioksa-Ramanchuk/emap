@@ -15,21 +15,11 @@ void caesarCipher()
     char answer;
     do
     {
-        strText.clear();
-        strNewText.clear();
-
-        pALPHABET = chooseAlphabet();
-        if (getText(strText))
-        {
-            cipherMode = chooseMode();
-            encodeDecodeWithCaesar(strText, strNewText, pALPHABET, cipherMode);
-            putText(strNewText);
-        }
-
         cout << "\n Выберите:\n";
-        cout << "  (C)IPHER —> зашифровать/дешифровать текст\n";
-        cout << "  (M)ENU ———> перейти в главное меню\n";
-        cout << "  E(X)IT ———> выйти из программы\n";
+        cout << "  (E)NCRYPT —> зашифровать текст при помощи шифра Цезаря\n";
+        cout << "  (D)ECRYPT —> дешифровать текст при помощи шифра Цезаря\n";
+        cout << "  (M)ENU ————> перейти в главное меню\n";
+        cout << "  E(X)IT ————> выйти из программы\n";
 
         do {
             cin >> answer;
@@ -38,18 +28,32 @@ void caesarCipher()
 
             switch (answer)
             {
-            case 'C':
+            case 'E':
+                cipherMode = ENCRYPT_MODE;
+                break;
+            case 'D':
+                cipherMode = DECRYPT_MODE;
                 break;
             case 'M':
-                break;
+                return;
             case 'X':
                 exit(0);
             default:
                 cout << " Некорректный ввод. Введите ещё раз:\n";
                 break;
             }
-        } while ((answer != 'C') && (answer != 'M') && (answer != 'X'));
-    } while (answer != 'M');
+        } while ((answer != 'E') && (answer != 'D'));
+
+        strText.clear();
+        strNewText.clear();
+
+        pALPHABET = chooseAlphabet();
+        if (getText(strText))
+        {
+            encodeDecodeWithCaesar(strText, strNewText, pALPHABET, cipherMode);
+            putText(strNewText, cipherMode);
+        }
+    } while (true);
 }
 
 // ========================================
@@ -57,7 +61,7 @@ void caesarCipher()
 // ========================================
 const char* chooseAlphabet()
 {
-    cout << "\n Выберите язык текста для (де-)шифрования:\n";
+    cout << "\n Выберите язык текста:\n";
     cout << "  (E)NGLISH —> английский\n";
     cout << "  (R)USSIAN —> русский\n";
 
@@ -74,35 +78,6 @@ const char* chooseAlphabet()
             return ENGLISH_ALPHABET;
         case 'R':
             return RUSSIAN_ALPHABET;
-        default:
-            cout << " Некорректный ввод. Введите ещё раз:\n";
-            break;
-        }
-    } while (true);
-}
-
-// ========================================
-// eCipherMode chooseMode
-// ========================================
-eCipherMode chooseMode()
-{
-    cout << "\n Выберите режим работы:\n";
-    cout << "  (E)NCRYPT —> шифрование\n";
-    cout << "  (D)ECRYPT —> дешифрование\n";
-
-    char answer;
-    do
-    {
-        cin >> answer;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        answer = toupper(answer);
-
-        switch (answer)
-        {
-        case 'E':
-            return ENCRYPT_MODE;
-        case 'D':
-            return DECRYPT_MODE;
         default:
             cout << " Некорректный ввод. Введите ещё раз:\n";
             break;
@@ -179,7 +154,7 @@ bool getTextFromFile(string& strText)
                     cout << " Некорректный ввод. Введите ещё раз:\n";
                     break;
                 }
-            } while ((answer != 'N') && (answer != 'M') && (answer != 'X'));
+            } while (answer != 'N');
         }
         else
         {
@@ -197,9 +172,9 @@ bool getTextFromFile(string& strText)
 // ========================================
 // void putText
 // ========================================
-void putText(string& strNewText)
+void putText(string& strNewText, const eCipherMode& CIPHER_MODE)
 {
-    cout << "\n Текст после (де-)шифрования\n";
+    cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования\n";
     cout << "  (C)ONSOLE —> вывести на консоль\n";
     cout << "  (F)ILE ————> записать в файл\n";
     cout << "  (B)OTH ————> вывести на консоль и записать в файл\n";
@@ -214,14 +189,16 @@ void putText(string& strNewText)
         switch (answer)
         {
         case 'C':
-            cout << "\n Текст после (де-)шифрования:\n" << strNewText << endl;
+            cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
+            cout << strNewText << endl;
             return;
         case 'F':
-            putTextInFile(strNewText);
+            putTextInFile(strNewText, CIPHER_MODE);
             return;
         case 'B':
-            cout << "\n Текст после (де-)шифрования:\n" << strNewText << endl;
-            putTextInFile(strNewText);
+            cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
+            cout << strNewText << endl;
+            putTextInFile(strNewText, CIPHER_MODE);
             return;
         default:
             cout << " Некорректный ввод. Введите ещё раз:\n";
@@ -233,7 +210,7 @@ void putText(string& strNewText)
 // ========================================
 // void putTextInFile
 // ========================================
-void putTextInFile(string& strNewText)
+void putTextInFile(string& strNewText, const eCipherMode& CIPHER_MODE)
 {
     ofstream out;
     string path;
@@ -268,14 +245,14 @@ void putTextInFile(string& strNewText)
                     cout << " Некорректный ввод. Введите ещё раз:\n";
                     break;
                 }
-            } while ((answer != 'N') && (answer != 'M') && (answer != 'X'));
+            } while (answer != 'N');
         }
         else
         {
             out << strNewText;
             out.close();
 
-            cout << "\n Текст после (де-)шифрования был успешно записан в файл.\n";
+            cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования был успешно записан в файл.\n";
             break;
         }
     } while (true);

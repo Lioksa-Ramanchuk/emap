@@ -26,15 +26,15 @@ void binDecConverter()
             case 'D': convertDecToBin();
                 break;
             case 'M':
-                break;
+                return;
             case 'X':
                 exit(0);
             default:
                 cout << " Некорректный ввод. Введите ещё раз:\n";
                 break;
             }
-        } while ((answer != 'B') && (answer != 'D') && (answer != 'M') && (answer != 'X'));
-    } while (answer != 'M');
+        } while ((answer != 'B') && (answer != 'D'));
+    } while (true);
 }
 
 void convertBinToDec()
