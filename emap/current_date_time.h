@@ -1,4 +1,6 @@
-#include <time.h>
-#include <stdio.h>
+#ifndef CURRENT_DATE_TIME_H
+#define CURRENT_DATE_TIME_H
 
-int current_date_time(void);
+void currentDateTime();
+
+#endif

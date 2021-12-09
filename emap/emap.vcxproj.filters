@@ -33,6 +33,9 @@
     <ClCompile Include="caesar_cipher.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="current_date_time.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="string_calculator.h">
@@ -48,6 +51,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="caesar_cipher.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="current_date_time.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
