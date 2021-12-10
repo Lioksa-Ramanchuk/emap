@@ -35,10 +35,10 @@ void caesarCipher()
             switch (answer)
             {
             case 'E':
-                cipherMode = ENCRYPT_MODE;
+                cipherMode = eCipherMode::ENCRYPT_MODE;
                 break;
             case 'D':
-                cipherMode = DECRYPT_MODE;
+                cipherMode = eCipherMode::DECRYPT_MODE;
                 break;
             case 'M':
                 return;
@@ -183,7 +183,7 @@ bool getTextFromFile(string& strText)
 // ========================================
 void putText(string& strNewText, const eCipherMode& CIPHER_MODE)
 {
-    cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования\n";
+    cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования\n";
     cout << "  (C)ONSOLE —> вывести на консоль\n";
     cout << "  (F)ILE ————> записать в файл\n";
     cout << "  (B)OTH ————> вывести на консоль и записать в файл\n";
@@ -198,14 +198,14 @@ void putText(string& strNewText, const eCipherMode& CIPHER_MODE)
         switch (answer)
         {
         case 'C':
-            cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
+            cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
             cout << strNewText << endl;
             return;
         case 'F':
             putTextInFile(strNewText, CIPHER_MODE);
             return;
         case 'B':
-            cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
+            cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
             cout << strNewText << endl;
             putTextInFile(strNewText, CIPHER_MODE);
             return;
@@ -261,7 +261,7 @@ void putTextInFile(string& strNewText, const eCipherMode& CIPHER_MODE)
             out << strNewText;
             out.close();
 
-            cout << "\n Текст после" << ((CIPHER_MODE == DECRYPT_MODE) ? " де" : " ") << "шифрования был успешно записан в файл.\n";
+            cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования был успешно записан в файл.\n";
             break;
         }
     } while (true);
@@ -290,7 +290,7 @@ void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pAL
         }
     } while (true);
 
-    if (CIPHER_MODE == DECRYPT_MODE) {     // При дешифровании сдвиг осуществляется в другую сторону
+    if (CIPHER_MODE == eCipherMode::DECRYPT_MODE) {     // При дешифровании сдвиг осуществляется в другую сторону
         delta *= -1;
     }
 
