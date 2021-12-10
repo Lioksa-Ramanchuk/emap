@@ -6,18 +6,19 @@ using namespace std;
 void stringCalculator()
 {
 	system("CLS");
+
 	cout << "\n Строковый калькулятор.\n";
 
 	char answer;
 	do
 	{
 		cout << "\n Выберите:\n";
-		cout << "  (C)OMPARE ——————> сравнить две строки\n";
-		cout << "  (F)IND SUBSTR ——> определить позицию подстроки в строке\n";
-		cout << "  (R)EPLACE ——————> заменить подстроку в строке\n";
-		cout << "  COUNT (V)OWELS —> определить количество гласных и согласных в строке\n";
-		cout << "  (M)ENU —————————> перейти в главное меню\n";
-		cout << "  E(X)IT —————————> выйти из программы\n";
+		cout << "  (C)OMPARE ———————> сравнить две строки\n";
+		cout << "  (F)IND SUBSTR ———> определить позицию подстроки в строке\n";
+		cout << "  (R)EPLACE ———————> заменить подстроку в строке\n";
+		cout << "  COUNT (L)ETTERS —> определить количество гласных и согласных в строке\n";
+		cout << "  (M)ENU ——————————> перейти в главное меню\n";
+		cout << "  E(X)IT ——————————> выйти из программы\n";
 
 		do {
 			cin >> answer;
@@ -32,7 +33,7 @@ void stringCalculator()
 				break;
 			case 'R': replaceSubstr();
 				break;
-			case 'V': countVowels();
+			case 'L': countLetters();
 				break;
 			case 'M':
 				return;
@@ -42,7 +43,7 @@ void stringCalculator()
 				cout << " Некорректный ввод. Введите ещё раз:\n";
 				break;
 			}
-		} while ((answer != 'C') && (answer != 'F') && (answer != 'R') && (answer != 'V'));
+		} while ((answer != 'C') && (answer != 'F') && (answer != 'R') && (answer != 'L'));
 	} while (true);
 }
 
@@ -145,7 +146,7 @@ void replaceSubstr()
 	cout << str << endl;
 }
 
-void countVowels()
+void countLetters()
 {
 	string str;
 

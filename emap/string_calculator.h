@@ -5,6 +5,6 @@ void stringCalculator();	//  алькул€тор дл€ работы со строками
 void compareStrings();		// —равнение двух строк
 void findSubstr();			// ќпределение позиции подстроки в строке
 void replaceSubstr();		// «амена подстроки в строке
-void countVowels();			// ќпределение количества гласных в строке
+void countLetters();		// ќпределение количества гласных и согласных в строке
 
 #endif

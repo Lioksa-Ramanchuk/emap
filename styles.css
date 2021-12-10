@@ -184,13 +184,13 @@ p#start-data {
 #num-calc-diagram img,
 #str-calc-diagram img,
 #clock-diagram img,
-#timetable-diagram img {
+#timetable-diagram img,
+#reminder-diagram img {
     width: 425px;
 }
 #bin-dec-converter-diagram img,
-#caesar-cipher-diagram img,
-#reminder-diagram img {
-    width: 250px;
+#caesar-cipher-diagram img {
+    width: 300px;
 }
 
 #project-history table {
