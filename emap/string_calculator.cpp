@@ -15,7 +15,7 @@ void stringCalculator()
 		cout << "  (C)OMPARE ——————> сравнить две строки\n";
 		cout << "  (F)IND SUBSTR ——> определить позицию подстроки в строке\n";
 		cout << "  (R)EPLACE ——————> заменить подстроку в строке\n";
-		cout << "  COUNT (V)OWELS —> определить количество гласных в строке\n";
+		cout << "  COUNT (V)OWELS —> определить количество гласных и согласных в строке\n";
 		cout << "  (M)ENU —————————> перейти в главное меню\n";
 		cout << "  E(X)IT —————————> выйти из программы\n";
 
@@ -149,12 +149,12 @@ void countVowels()
 {
 	string str;
 
-	cout << "\n Введите строку, в которой нужно посчитать гласные:\n";
+	cout << "\n Введите строку, в которой нужно посчитать гласные и согласные:\n";
 	getline(cin, str);
 	int strLength = str.length();
 
 	int nVowels = 0;
-
+	int nConsonants = 0;
 	for (char letter : str)
 	{
 		if (
@@ -163,12 +163,31 @@ void countVowels()
 			(letter == 'А') || (letter == 'Е') || (letter == 'Ё') || (letter == 'И') || (letter == 'О') ||
 			(letter == 'У') || (letter == 'Ы') || (letter == 'Э') || (letter == 'Ю') || (letter == 'Я') ||
 			(letter == 'а') || (letter == 'е') || (letter == 'ё') || (letter == 'и') || (letter == 'о') ||
-			(letter == 'у') || (letter == 'ы') || (letter == 'э') || (letter == 'ю') || (letter == 'я')
+			(letter == 'у') || (letter == 'ы') || (letter == 'э') || (letter == 'ю') || (letter == 'я') || (letter == 'і') || (letter == 'І')
 			)
 		{
 			nVowels++;
 		}
+		else {
+			if ((letter == 'B') || (letter == 'C') || (letter == 'D') || (letter == 'F') || (letter == 'G') || (letter == 'H') ||
+				(letter == 'J') || (letter == 'K') || (letter == 'L') || (letter == 'M') || (letter == 'N') || (letter == 'P') || (letter == 'Q') || (letter == 'R') || (letter == 'S') || (letter == 'T') || (letter == 'V') || (letter == 'W') ||
+				(letter == 'X') || (letter == 'Z') || (letter == 'b') || (letter == 'c') || (letter == 'd') || (letter == 'f') || (letter == 'g') || (letter == 'h') || (letter == 'j') || (letter == 'k') || (letter == 'l') || (letter == 'm') ||
+				(letter == 'n') || (letter == 'p') || (letter == 'q') || (letter == 'r') || (letter == 's') || (letter == 't') || (letter == 'v') || (letter == 'w') || (letter == 'x') || (letter == 'z') ||
+				(letter == 'б') || (letter == 'в') || (letter == 'г') || (letter == 'д') || (letter == 'ж') ||
+				(letter == 'з') || (letter == 'й') || (letter == 'к') || (letter == 'л') || (letter == 'м') ||
+				(letter == 'н') || (letter == 'п') || (letter == 'р') || (letter == 'с') || (letter == 'т') || (letter == 'ў') ||
+				(letter == 'ф') || (letter == 'х') || (letter == 'ч') || (letter == 'ш') || (letter == 'щ')||
+				(letter == 'Б') || (letter == 'В') || (letter == 'Г') || (letter == 'Д') || (letter == 'Ж') ||
+				(letter == 'З') || (letter == 'Й') || (letter == 'К') || (letter == 'Л') || (letter == 'М') ||
+				(letter == 'Н') || (letter == 'П') || (letter == 'Р') || (letter == 'С') || (letter == 'Т') ||
+				(letter == 'Ф') || (letter == 'Х') || (letter == 'Ч') || (letter == 'Ш') || (letter == 'Щ')
+				) 
+			{
+				nConsonants++;
+			}
+		}
 	}
 
 	cout << "\n Количество гласных в строке: " << nVowels << endl;
+	cout << "\n Количество согласных в строке: " << nConsonants << endl;
 }
