@@ -170,7 +170,7 @@ p#start-data {
 }
 #diagrams figcaption {
     text-align: center;
-    font-size: larger;
+    font-size: 25px;
     font-style: italic;
     color: lightblue;
 }
@@ -182,17 +182,15 @@ p#start-data {
     display: block;
 }
 #num-calc-diagram img,
-#bin-dec-converter-diagram img,
-#caesar-cipher-diagram img {
-    width: 300px;
-}
-#str-calc-diagram img {
-    width: 500px;
-}
+#str-calc-diagram img,
 #clock-diagram img,
-#timetable-diagram img,
+#timetable-diagram img {
+    width: 425px;
+}
+#bin-dec-converter-diagram img,
+#caesar-cipher-diagram img,
 #reminder-diagram img {
-    width: 300px;
+    width: 250px;
 }
 
 #project-history table {

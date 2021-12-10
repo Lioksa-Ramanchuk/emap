@@ -4,6 +4,8 @@ using namespace std;
 
 void testFunc2()
 {
+    system("CLS");
+
     char answer;
     do
     {

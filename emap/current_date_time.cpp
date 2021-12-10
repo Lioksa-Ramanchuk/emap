@@ -13,8 +13,8 @@ void currentDateTime()
     cout << " Для выхода в главное меню нажмите Esc\n";
     cout << "\n Текущая дата и время:\n";
 
-    struct tm timeinfo;
     time_t now;
+    struct tm timeinfo;
 
     while (!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -22,14 +22,14 @@ void currentDateTime()
         localtime_s(&timeinfo, &now);
 
         cout << ("\r                      \r");
-        cout << " " << timeinfo.tm_year + 1900;
+        cout << " " << std::setw(2) << std::setfill('0') << timeinfo.tm_mday;
         cout << "." << std::setw(2) << std::setfill('0') << timeinfo.tm_mon + 1;
-        cout << "." << std::setw(2) << std::setfill('0') << timeinfo.tm_mday;
+        cout << "." << timeinfo.tm_year + 1900;
         cout << " " << std::setw(2) << std::setfill('0') << timeinfo.tm_hour;
         cout << ":" << std::setw(2) << std::setfill('0') << timeinfo.tm_min;
         cout << ":" << std::setw(2) << std::setfill('0') << timeinfo.tm_sec;
 
-        Sleep(250);
+        Sleep(1000);
     }
     cout << '\n';
 }
