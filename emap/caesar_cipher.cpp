@@ -11,6 +11,8 @@ void caesarCipher()
     system("CLS");
 
     cout << "\n Шифратор-дешифратор Цезаря.\n";
+    cout << " Позволяет зашифровать и дешифровать текст на английском, белорусском и русском языках.\n";
+    cout << " Поддерживает чтение текста из выбранного файла и запись в выбранный файл.\n";
 
     const char* pALPHABET;
     string strText, strNewText;
@@ -66,8 +68,9 @@ void caesarCipher()
 const char* chooseAlphabet()
 {
     cout << "\n Выберите язык текста:\n";
-    cout << "  (E)NGLISH —> английский\n";
-    cout << "  (R)USSIAN —> русский\n";
+    cout << "  (E)NGLISH ————> английский\n";
+    cout << "  (B)ELARUSIAN —> белорусский\n";
+    cout << "  (R)USSIAN ————> русский\n";
 
     char answer;
     do
@@ -80,6 +83,8 @@ const char* chooseAlphabet()
         {
         case 'E':
             return ENGLISH_ALPHABET;
+        case 'B':
+            return BELARUSIAN_ALPHABET;
         case 'R':
             return RUSSIAN_ALPHABET;
         default:
@@ -332,6 +337,12 @@ char charToUpper(const char& LETTER)            // Конвертация в ВЕРХНИЙ РЕГИСТР
     }
     else if (LETTER == 'ё') {
         return 'Ё';
+    }
+    else if (LETTER == 'і') {
+        return 'І';
+    }
+    else if (LETTER == 'ў') {
+        return 'Ў';
     }
     else {
         return LETTER;
