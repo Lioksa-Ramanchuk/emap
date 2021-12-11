@@ -4,8 +4,6 @@
 #include "timetable.h"          // Расписание занятий на заданный день                                  | by Максим Ружицкий
 #include "bin_dec_converter.h"  // Перевод числа из двоичной системы счисления в десятичную и наоборот  | by Алексей Романчук
 #include "caesar_cipher.h"      // Шифратор-дешифратор Цезаря                                           | by Алексей Романчук
-#include "test_func1.h"         // пример функции (в релизе не будет)
-#include "test_func2.h"         // пример функции (в релизе не будет)
 
 #include <iostream>
 #define NOMINMAX
@@ -34,8 +32,6 @@ int main()
         cout << "  5 ———————> конвертер чисел из двоичной системы счисления в десятичную и наоборот\n";
         cout << "  6 ———————> напоминалка\n";
         cout << "  7 ———————> шифратор-дешифратор Цезаря\n";             // Дополнительное задание
-        cout << "  8 ———————> func1 (пример, в релизе не будет)\n";      // В релизе этого варианта не будет
-        cout << "  9 ———————> func2 (пример, в релизе не будет)\n";      // В релизе этого варианта не будет
         cout << "  (A)BOUT —> открыть сайт проекта с документацией\n";
         cout << "  E(X)IT ——> выйти из программы\n";
 
@@ -61,10 +57,6 @@ int main()
                 break;
             case '7': caesarCipher(); //                                   - АЛЕКСЕЙ РОМАНЧУК
                 break;
-            case '8': testFunc1();  // Пример, в релизе не будет
-                break;
-            case '9': testFunc2();  // Пример, в релизе не будет
-                break;
             case 'A': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
                 break;
             case 'X':
@@ -73,8 +65,7 @@ int main()
                 cout << " Некорректный ввод. Введите ещё раз.\n";
                 break;
             }
-                                 // (answer > '7'), когда уберём варианты примеров
-        } while (((answer < '1') || (answer > '9')) && (answer != 'A') && (answer != 'X'));
+        } while (((answer < '1') || (answer > '7')) && (answer != 'A') && (answer != 'X'));
     } while (answer != 'X');
 
     return 0;

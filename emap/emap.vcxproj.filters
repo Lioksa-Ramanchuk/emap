@@ -24,12 +24,6 @@
     <ClCompile Include="string_calculator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="test_func1.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="test_func2.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="caesar_cipher.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -45,12 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="string_calculator.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="test_func1.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="test_func2.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="bin_dec_converter.h">

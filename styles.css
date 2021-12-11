@@ -143,20 +143,23 @@ p#start-data {
 #product-backlog table {
     border-collapse: collapse;
     margin-bottom: 50px;
+    font-size: large;
+}
+#product-backlog .subject {
+    max-width: 120px;
+    text-align: center;
+}
+#product-backlog #ID {
+    min-width: 80px;
+    text-align: center;
 }
 #product-backlog th, td {
     border: 2px solid white;
-    padding: 20px;
+    padding: 25px;
 }
 #product-backlog th {
     background-color: cornflowerblue;
     color: lightyellow;
-}
-#product-backlog td.subject {
-    writing-mode: vertical-lr;
-    transform: rotate(180deg);
-    text-align: center;
-    font-size: large;
 }
 #product-backlog td.done {
     background-color: darkgreen;
@@ -165,10 +168,8 @@ p#start-data {
     background-color: darkorange;
 }
 
-#diagrams figure {
-    display: inline-block;
-    width: fit-content;
-    vertical-align: top;
+#diagrams td {
+    border-style: none;
 }
 #diagrams figcaption {
     text-align: center;
@@ -177,22 +178,12 @@ p#start-data {
     color: lightblue;
 }
 #diagrams img {
-    max-width: 900px;
+    width: 425px;
     margin: 10px 0;
 }
-#diagrams #main-diagram {
-    display: block;
-}
-#num-calc-diagram img,
-#str-calc-diagram img,
-#clock-diagram img,
-#timetable-diagram img,
-#reminder-diagram img {
-    width: 425px;
-}
-#bin-dec-converter-diagram img,
-#caesar-cipher-diagram img {
-    width: 300px;
+#diagrams #main-diagram img {
+    width: 900px;
+    margin-bottom: -50px;
 }
 
 #project-history table {
@@ -215,7 +206,8 @@ p#start-data {
 }
 #test-cases th, td {
     border: 2px solid white;
-    padding: 20px;
+    padding: 15px;
+    line-height: 25px;
 }
 #test-cases th {
     background-color: cornflowerblue;
@@ -228,17 +220,11 @@ p#start-data {
 #test-cases td {
     vertical-align: top;
 }
-#test-cases td:last-child {
-    text-align: center;
-}
 #test-cases td.good-test {
     background-color: darkgreen;
 }
 #test-cases td.bad-test {
     background-color: darkred;
-}
-#test-cases .ID {
-    min-width: 80px;
 }
 
 footer {
