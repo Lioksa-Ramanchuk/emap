@@ -79,7 +79,7 @@ void findSubstr()
 	getline(cin, str);
 	int firstStringLength = str.length();
 
-	cout << "\n Введите подстроку:\n";
+	cout << "\n Введите подстроку, которую нужно найти в строке:\n";
 	getline(cin, subString);
 	int secondStringLength = subString.length();
 
@@ -161,27 +161,36 @@ void countLetters()
 		if (
 			(letter == 'A') || (letter == 'E') || (letter == 'I') || (letter == 'O') || (letter == 'U') || (letter == 'Y') ||
 			(letter == 'a') || (letter == 'e') || (letter == 'i') || (letter == 'o') || (letter == 'u') || (letter == 'y') ||
-			(letter == 'А') || (letter == 'Е') || (letter == 'Ё') || (letter == 'И') || (letter == 'О') ||
+
+			(letter == 'А') || (letter == 'Е') || (letter == 'Ё') || (letter == 'И') || (letter == 'І') || (letter == 'О') ||
 			(letter == 'У') || (letter == 'Ы') || (letter == 'Э') || (letter == 'Ю') || (letter == 'Я') ||
-			(letter == 'а') || (letter == 'е') || (letter == 'ё') || (letter == 'и') || (letter == 'о') ||
-			(letter == 'у') || (letter == 'ы') || (letter == 'э') || (letter == 'ю') || (letter == 'я') || (letter == 'і') || (letter == 'І')
+			(letter == 'а') || (letter == 'е') || (letter == 'ё') || (letter == 'и') || (letter == 'і') || (letter == 'о') ||
+			(letter == 'у') || (letter == 'ы') || (letter == 'э') || (letter == 'ю') || (letter == 'я')
 			)
 		{
 			nVowels++;
 		}
 		else {
-			if ((letter == 'B') || (letter == 'C') || (letter == 'D') || (letter == 'F') || (letter == 'G') || (letter == 'H') ||
-				(letter == 'J') || (letter == 'K') || (letter == 'L') || (letter == 'M') || (letter == 'N') || (letter == 'P') || (letter == 'Q') || (letter == 'R') || (letter == 'S') || (letter == 'T') || (letter == 'V') || (letter == 'W') ||
-				(letter == 'X') || (letter == 'Z') || (letter == 'b') || (letter == 'c') || (letter == 'd') || (letter == 'f') || (letter == 'g') || (letter == 'h') || (letter == 'j') || (letter == 'k') || (letter == 'l') || (letter == 'm') ||
-				(letter == 'n') || (letter == 'p') || (letter == 'q') || (letter == 'r') || (letter == 's') || (letter == 't') || (letter == 'v') || (letter == 'w') || (letter == 'x') || (letter == 'z') ||
-				(letter == 'б') || (letter == 'в') || (letter == 'г') || (letter == 'д') || (letter == 'ж') ||
-				(letter == 'з') || (letter == 'й') || (letter == 'к') || (letter == 'л') || (letter == 'м') ||
-				(letter == 'н') || (letter == 'п') || (letter == 'р') || (letter == 'с') || (letter == 'т') || (letter == 'ў') ||
-				(letter == 'ф') || (letter == 'х') || (letter == 'ч') || (letter == 'ш') || (letter == 'щ')||
-				(letter == 'Б') || (letter == 'В') || (letter == 'Г') || (letter == 'Д') || (letter == 'Ж') ||
-				(letter == 'З') || (letter == 'Й') || (letter == 'К') || (letter == 'Л') || (letter == 'М') ||
-				(letter == 'Н') || (letter == 'П') || (letter == 'Р') || (letter == 'С') || (letter == 'Т') ||
-				(letter == 'Ф') || (letter == 'Х') || (letter == 'Ч') || (letter == 'Ш') || (letter == 'Щ')
+			if (
+				(letter == 'B') || (letter == 'C') || (letter == 'D') || (letter == 'F') || (letter == 'G') || (letter == 'H') ||
+				(letter == 'J') || (letter == 'K') || (letter == 'L') || (letter == 'M') || (letter == 'N') || (letter == 'P') ||
+				(letter == 'Q') || (letter == 'R') || (letter == 'S') || (letter == 'T') || (letter == 'V') || (letter == 'W') ||
+				(letter == 'X') || (letter == 'Z')				
+				||				
+				(letter == 'b') || (letter == 'c') || (letter == 'd') || (letter == 'f') || (letter == 'g') || (letter == 'h') ||
+				(letter == 'j') || (letter == 'k') || (letter == 'l') || (letter == 'm') || (letter == 'n') || (letter == 'p') ||
+				(letter == 'q') || (letter == 'r') || (letter == 's') || (letter == 't') || (letter == 'v') || (letter == 'w') ||
+				(letter == 'x') || (letter == 'z')
+				||
+				(letter == 'Б') || (letter == 'В') || (letter == 'Г') || (letter == 'Д') || (letter == 'Ж') || (letter == 'З') ||
+				(letter == 'Й') || (letter == 'К') || (letter == 'Л') || (letter == 'М') || (letter == 'Н') || (letter == 'П') ||
+				(letter == 'Р') || (letter == 'С') || (letter == 'Т') || (letter == 'Ў') || (letter == 'Ф') || (letter == 'Х') ||
+				(letter == 'Ч') || (letter == 'Ш') || (letter == 'Щ') || (letter == 'Ъ') || (letter == 'ь')
+				||
+				(letter == 'б') || (letter == 'в') || (letter == 'г') || (letter == 'д') || (letter == 'ж') || (letter == 'з') ||
+				(letter == 'й') || (letter == 'к') || (letter == 'л') || (letter == 'м') || (letter == 'н') || (letter == 'п') ||
+				(letter == 'р') || (letter == 'с') || (letter == 'т') || (letter == 'ў') || (letter == 'ф') || (letter == 'х') ||
+				(letter == 'ч') || (letter == 'ш') || (letter == 'щ') || (letter == 'ъ') || (letter == 'ь')
 				) 
 			{
 				nConsonants++;
