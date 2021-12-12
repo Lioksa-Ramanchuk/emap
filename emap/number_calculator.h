@@ -4,9 +4,9 @@
 #include <string>
 
 enum class eTokenValue {
-    NAME, NUMBER, END,
+    ERR_SYMBOL, NUMBER, PRINT,
     PLUS = '+', MINUS = '-', MUL = '*', DIV = '/',
-    PRINT = ';', ASSIGN = '=', LP = '(', RP = ')'
+    LP = '(', RP = ')'
 };
 
 void numberCalculator();
@@ -14,6 +14,5 @@ double expr(bool get);
 double term(bool get);
 double prim(bool get);
 eTokenValue getToken();
-int error(const std::string& s);
 
 #endif
