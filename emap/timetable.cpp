@@ -13,20 +13,19 @@ void timetable()
     do
     {
         cout << "\n ¬ыберите, на какой день недели вывести расписание зан€тий:\n";
-        cout << "  1 ЧЧЧЧЧЧ> понедельник\n";
-        cout << "  2 ЧЧЧЧЧЧ> вторник\n";
-        cout << "  3 ЧЧЧЧЧЧ> среда\n";
-        cout << "  4 ЧЧЧЧЧЧ> четверг\n";
-        cout << "  5 ЧЧЧЧЧЧ> п€тница\n";
-        cout << "  6 ЧЧЧЧЧЧ> суббота\n";
-        cout << "  7 ЧЧЧЧЧЧ> на всю неделю\n";
-        cout << "  (M)ENU Ч> перейти в главное меню\n";
-        cout << "  E(X)IT Ч> выйти из программы\n";
+        cout << "  1 ЧЧ> понедельник\n";
+        cout << "  2 ЧЧ> вторник\n";
+        cout << "  3 ЧЧ> среда\n";
+        cout << "  4 ЧЧ> четверг\n";
+        cout << "  5 ЧЧ> п€тница\n";
+        cout << "  6 ЧЧ> суббота\n";
+        cout << "  7 ЧЧ> на всю неделю\n";
+        cout << "  8 ЧЧ> перейти в главное меню\n";
+        cout << "  9 ЧЧ> выйти из программы\n";
 
         do {
             cin >> answer;
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            answer = toupper(answer);
 
             switch (answer)
             {
@@ -39,15 +38,15 @@ void timetable()
             case '7':
                 showTimetable(answer - '0' - 1);
                 break;
-            case 'M':
+            case '8':
                 return;
-            case 'X':
+            case '9':
                 exit(0);
             default:
                 cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
                 break;
             }
-        } while ((answer < '1')||(answer > '7'));
+        } while ((answer < '1')||(answer > '9'));
     } while (true);
 }
 

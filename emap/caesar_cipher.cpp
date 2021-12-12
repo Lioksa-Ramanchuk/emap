@@ -20,33 +20,32 @@ void caesarCipher()
     do
     {
         cout << "\n ¬ыберите:\n";
-        cout << "  (E)NCRYPT Ч> зашифровать текст при помощи шифра ÷езар€\n";
-        cout << "  (D)ECRYPT Ч> дешифровать текст при помощи шифра ÷езар€\n";
-        cout << "  (M)ENU ЧЧЧЧ> перейти в главное меню\n";
-        cout << "  E(X)IT ЧЧЧЧ> выйти из программы\n";
+        cout << "  1 ЧЧ> зашифровать текст при помощи шифра ÷езар€\n";
+        cout << "  2 ЧЧ> дешифровать текст при помощи шифра ÷езар€\n";
+        cout << "  3 ЧЧ> перейти в главное меню\n";
+        cout << "  4 ЧЧ> выйти из программы\n";
 
         do {
             cin >> answer;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            answer = toupper(answer);
 
             switch (answer)
             {
-            case 'E':
+            case '1':
                 cipherMode = eCipherMode::ENCRYPT_MODE;
                 break;
-            case 'D':
+            case '2':
                 cipherMode = eCipherMode::DECRYPT_MODE;
                 break;
-            case 'M':
+            case '3':
                 return;
-            case 'X':
+            case '4':
                 exit(0);
             default:
                 cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
                 break;
             }
-        } while ((answer != 'E') && (answer != 'D'));
+        } while ((answer < '1') || (answer > '4'));
 
         strText.clear();
         strNewText.clear();
@@ -63,24 +62,23 @@ void caesarCipher()
 const char* chooseAlphabet()
 {
     cout << "\n ¬ыберите €зык текста:\n";
-    cout << "  (E)NGLISH ЧЧЧЧ> английский\n";
-    cout << "  (B)ELARUSIAN Ч> белорусский\n";
-    cout << "  (R)USSIAN ЧЧЧЧ> русский\n";
+    cout << "  1 ЧЧ> английский\n";
+    cout << "  2 ЧЧ> белорусский\n";
+    cout << "  3 ЧЧ> русский\n";
 
     char answer;
     do
     {
         cin >> answer;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        answer = toupper(answer);
 
         switch (answer)
         {
-        case 'E':
+        case '1':
             return ENGLISH_ALPHABET;
-        case 'B':
+        case '2':
             return BELARUSIAN_ALPHABET;
-        case 'R':
+        case '3':
             return RUSSIAN_ALPHABET;
         default:
             cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
@@ -92,23 +90,22 @@ const char* chooseAlphabet()
 bool getText(string& strText)
 {
     cout << "\n ¬ыберите:\n";
-    cout << "  (K)EYBOARD Ч> ввести текст при помощи клавиатуры\n";
-    cout << "  (F)ILE ЧЧЧЧЧ> считать текст из файла\n";
+    cout << "  1 ЧЧ> ввести текст при помощи клавиатуры\n";
+    cout << "  2 ЧЧ> считать текст из файла\n";
 
     char answer;
     do
     {
         cin >> answer;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        answer = toupper(answer);
 
         switch (answer)
         {
-        case 'K':
+        case '1':
             cout << "\n ¬ведите текст:\n";
             getline(cin, strText);
             return true;
-        case 'F':
+        case '2':
             return getTextFromFile(strText);
         default:
             cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
@@ -130,29 +127,28 @@ bool getTextFromFile(string& strText)
 
         if (!in) {
             cout << "\n Ќе удаЄтс€ открыть файл. ¬ыберите:\n";
-            cout << "  (N)EW PATH Ч> ввести другой путь к файлу\n";
-            cout << "  (M)ENU ЧЧЧЧЧ> перейти в меню (де-)шифратора\n";
-            cout << "  E(X)IT ЧЧЧЧЧ> выйти из программы\n";
+            cout << "  1 ЧЧ> ввести другой путь к файлу\n";
+            cout << "  2 ЧЧ> перейти в меню (де-)шифратора\n";
+            cout << "  3 ЧЧ> выйти из программы\n";
 
             char answer;
             do {
                 cin >> answer;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                answer = toupper(answer);
 
                 switch (answer)
                 {
-                case 'N':
+                case '1':
                     break;
-                case 'M':
+                case '2':
                     return false;
-                case 'X':
+                case '3':
                     exit(0);
                 default:
                     cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
                     break;
                 }
-            } while (answer != 'N');
+            } while ((answer < '1') || (answer > '3'));
         }
         else
         {
@@ -170,27 +166,26 @@ bool getTextFromFile(string& strText)
 void putText(string& strNewText, const eCipherMode& CIPHER_MODE)
 {
     cout << "\n “екст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифровани€\n";
-    cout << "  (C)ONSOLE Ч> вывести на консоль\n";
-    cout << "  (F)ILE ЧЧЧЧ> записать в файл\n";
-    cout << "  (B)OTH ЧЧЧЧ> вывести на консоль и записать в файл\n";
+    cout << "  1 ЧЧ> вывести на консоль\n";
+    cout << "  2 ЧЧ> записать в файл\n";
+    cout << "  3 ЧЧ> вывести на консоль и записать в файл\n";
 
     char answer;
     do
     {
         cin >> answer;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        answer = toupper(answer);
 
         switch (answer)
         {
-        case 'C':
+        case '1':
             cout << "\n “екст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифровани€:\n";
             cout << strNewText << endl;
             return;
-        case 'F':
+        case '2':
             putTextInFile(strNewText, CIPHER_MODE);
             return;
-        case 'B':
+        case '3':
             cout << "\n “екст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифровани€:\n";
             cout << strNewText << endl;
             putTextInFile(strNewText, CIPHER_MODE);
@@ -215,29 +210,28 @@ void putTextInFile(string& strNewText, const eCipherMode& CIPHER_MODE)
 
         if (!out) {
             cout << "\n Ќе удаЄтс€ открыть файл. ¬ыберите:\n";
-            cout << "  (N)EW PATH Ч> ввести другой путь к файлу\n";
-            cout << "  (M)ENU ЧЧЧЧЧ> перейти в меню (де-)шифратора\n";
-            cout << "  E(X)IT ЧЧЧЧЧ> выйти из программы\n";
+            cout << "  1 ЧЧ> ввести другой путь к файлу\n";
+            cout << "  2 ЧЧ> перейти в меню (де-)шифратора\n";
+            cout << "  3 ЧЧ> выйти из программы\n";
 
             char answer;
             do {
                 cin >> answer;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                answer = toupper(answer);
 
                 switch (answer)
                 {
-                case 'N':
+                case '1':
                     break;
-                case 'M':
+                case '2':
                     return;
-                case 'X':
+                case '3':
                     exit(0);
                 default:
                     cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
                     break;
                 }
-            } while (answer != 'N');
+            } while ((answer < '1') || (answer > '3'));
         }
         else
         {

@@ -13,37 +13,36 @@ void stringCalculator()
 	do
 	{
 		cout << "\n ¬ыберите:\n";
-		cout << "  (C)OMPARE ЧЧЧЧЧЧЧ> сравнить две строки\n";
-		cout << "  (F)IND SUBSTR ЧЧЧ> определить позицию подстроки в строке\n";
-		cout << "  (R)EPLACE ЧЧЧЧЧЧЧ> заменить подстроку в строке\n";
-		cout << "  COUNT (L)ETTERS Ч> определить количество гласных и согласных в строке\n";
-		cout << "  (M)ENU ЧЧЧЧЧЧЧЧЧЧ> перейти в главное меню\n";
-		cout << "  E(X)IT ЧЧЧЧЧЧЧЧЧЧ> выйти из программы\n";
+		cout << "  1 ЧЧ> сравнить две строки\n";
+		cout << "  2 ЧЧ> определить позицию подстроки в строке\n";
+		cout << "  3 ЧЧ> заменить подстроку в строке\n";
+		cout << "  4 ЧЧ> определить количество гласных и согласных в строке\n";
+		cout << "  5 ЧЧ> перейти в главное меню\n";
+		cout << "  6 ЧЧ> выйти из программы\n";
 
 		do {
 			cin >> answer;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			answer = toupper(answer);
 
 			switch (answer)
 			{
-			case 'C': compareStrings();
+			case '1': compareStrings();
 				break;
-			case 'F': findSubstr();
+			case '2': findSubstr();
 				break;
-			case 'R': replaceSubstr();
+			case '3': replaceSubstr();
 				break;
-			case 'L': countLetters();
+			case '4': countLetters();
 				break;
-			case 'M':
+			case '5':
 				return;
-			case 'X':
+			case '6':
 				exit(0);
 			default:
 				cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
 				break;
 			}
-		} while ((answer != 'C') && (answer != 'F') && (answer != 'R') && (answer != 'L'));
+		} while ((answer < '1')||(answer > '6'));
 	} while (true);
 }
 
@@ -112,28 +111,27 @@ void replaceSubstr()
 		if (pos == string::npos)
 		{
 			cout << "\n —трока не содержит данную подстроку. ¬ыберите:\n";
-			cout << "  (N)EW SUBSTR Ч> ввести новую подстроку\n";
-			cout << "  (M)ENU ЧЧЧЧЧЧЧ> перейти в меню калькул€тора дл€ строк\n";
-			cout << "  E(X)IT ЧЧЧЧЧЧЧ> выйти из программы\n";
+			cout << "  1 ЧЧ> ввести новую подстроку\n";
+			cout << "  2 ЧЧ> перейти в меню калькул€тора дл€ строк\n";
+			cout << "  3 ЧЧ> выйти из программы\n";
 
 			do {
 				cin >> answer;
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				answer = toupper(answer);
 
 				switch (answer)
 				{
-				case 'N':
+				case '1':
 					break;
-				case 'M':
+				case '2':
 					return;
-				case 'X':
+				case '3':
 					exit(0);
 				default:
 					cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
 					break;
 				}
-			} while (answer != 'N');
+			} while ((answer < '1') || (answer > '3'));
 		}
 	} while (pos == string::npos);
 
