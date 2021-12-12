@@ -1,11 +1,14 @@
 #include "number_calculator.h"
 #include <iostream>
-#include <map>
+#include <sstream>
 #include <string>
 using namespace std;
 
-static eTokenValue curr_tok = eTokenValue::PRINT;
-static map<string, double> table;
+static bool exprIsOK = true;
+static stringstream expression;
+static eTokenValue curr_tok;
+static double numberValue;
+static int bracketsCount;
 
 void numberCalculator()
 {
@@ -14,16 +17,11 @@ void numberCalculator()
     cout << "\n Числовой калькулятор.\n";
     cout << " Вычисляет значение введённого арифметического выражения.\n";
     cout << " Поддерживает использование в выражении операторов + , -, *, / , () с корректным порядком вычислений.\n";
-    cout << " Поддерживает использование в выражении констант pi и e.\n";
     cout << " Пример:\n";
     cout << "         выражение: 2.5 + (3 - 4 * 5)/17\n";
     cout << "         результат: 1.5\n";
 
-    table["pi"] = 3.14159265358;
-    table["e"] = 2.7182818284;
-
     char answer;
-    string expression;
     do
     {
         cout << "\n Выберите:\n";
@@ -40,18 +38,22 @@ void numberCalculator()
             case '1':
             {
                 cout << "\n Введите арифметическое выражение:\n";
-                /*while (cin)
-                {
-                    getToken();
-                    if (curr_tok == eTokenValue::END) {
-                        break;
-                    }
-                    if (curr_tok == eTokenValue::PRINT) {
-                        continue;
-                    }
-                    cout << "\n Значение выражения: " << expr(false) << '\n';
-                    break;
-                }*/
+                string exp;
+                getline(cin, exp);
+
+                expression.clear();
+                exprIsOK = true;
+                numberValue = 0;
+                bracketsCount = 0;
+
+                expression << exp;
+
+                getToken();
+                exp = to_string(expr(false));
+
+                if (exprIsOK) {
+                    cout << "\n Значение выражения: " << exp << '\n';
+                }
                 break;
             }
             case '2':
@@ -72,16 +74,22 @@ double expr(bool get)
 
     while(true)
     {
-        switch (curr_tok)
+        if (exprIsOK)
         {
-        case eTokenValue::PLUS:
-            left +=term (true);
-            break;
-        case eTokenValue::MINUS:
-            left -= term(true);
-            break;
-        default:
-            return left;
+            switch (curr_tok)
+            {
+            case eTokenValue::PLUS:
+                left += term(true);
+                break;
+            case eTokenValue::MINUS:
+                left -= term(true);
+                break;
+            default:
+                return left;
+            }
+        }
+        else {
+            return 1;
         }
     }
 }
@@ -89,109 +97,124 @@ double expr(bool get)
 double term(bool get)
 {
     double left = prim(get);
-    while(true)
+    while (true)
     {
-        switch (curr_tok)
+        if (exprIsOK)
         {
-        case eTokenValue::MUL:
-            left *= prim(true);
-            break;
-        case eTokenValue::DIV:
-            if (double d = prim(true)) {
-                left /= prim(true);
+            switch (curr_tok)
+            {
+            case eTokenValue::MUL:
+                left *= prim(true);
                 break;
+            case eTokenValue::DIV:
+                if (double d = prim(true)) {
+                    left /= d;
+                    break;
+                }
+                else {
+                    exprIsOK = false;
+                    cerr << "\n Ошибка: деление на 0\n";
+                    return 1;
+                }
+            case eTokenValue::RP:
+                bracketsCount--;
+                if (bracketsCount < 0)
+                {
+                    exprIsOK = false;
+                    cerr << "\n Ошибка: встречен неожиданный оператор )\n";
+                    return 1;
+                }
+                else {
+                    return left;
+                }
+            case eTokenValue::NUMBER:
+                exprIsOK = false;
+                cerr << "\n Ошибка: встречена неожиданная десятичная точка\n";
+                return 1;
+            default:
+                return left;
             }
-            else {
-                return error("деление на 0");
-            }
-        default:
-            return left;
+        }
+        else {
+            return 1;
         }
     }
 }
 
-static double numberValue;
-static string stringValue;
 
 double prim(bool get)
 {
     if (get) {
         getToken();
     }
-
-    switch (curr_tok)
+    if (exprIsOK)
     {
-    case eTokenValue::NUMBER:
-    {
-        double v = numberValue;
-        getToken();
-        return v;
-    }
-    case eTokenValue::NAME:
-    {
-        double& v = table[stringValue];
-        if (getToken() == eTokenValue::ASSIGN) {
-            v = expr(true);
+        switch (curr_tok)
+        {
+        case eTokenValue::NUMBER:
+        {
+            double v = numberValue;
+            getToken();
+            return v;
         }
-        return v;
-    }
-    case eTokenValue::MINUS:
-        return -prim(true);
-    case eTokenValue::LP:
-    {
-        double e = expr(true);
-        if (curr_tok != eTokenValue::RP) {
-            return error("ожидалась )");
+        case eTokenValue::MINUS:
+            return -prim(true);
+        case eTokenValue::LP:
+        {
+            bracketsCount++;
+            double e = expr(true);
+            if ((exprIsOK) && (curr_tok != eTokenValue::RP))
+            {
+                exprIsOK = false;
+                cerr << "\n Ошибка: ожидалась )\n";
+                return 1;
+            }
+            getToken();
+            return e;
         }
-        getToken();
-        return e;
+        default:
+            exprIsOK = false;
+            cerr << "\n Ошибка: ожидалось первичное выражение\n";
+            return 1;
+        }
     }
-    default:
-        return error("ожидалось первичное выражение");
+    else {
+        return 1;
     }
 }
 
 eTokenValue getToken()
 {
-    char ch = 0;
-    cin >> ch;
+    char ch;
+
+    do
+    {
+        if (!expression.get(ch)) {
+            return curr_tok = eTokenValue::PRINT;
+        }
+    } while (ch != '\n' && isspace(ch));
 
     switch (ch)
     {
+    case '\n':
     case 0:
-        return curr_tok = eTokenValue::END;
-    case ';':
+        return curr_tok = eTokenValue::PRINT;
     case '*':
     case '/':
     case '+':
     case '-':
     case '(':
     case ')':
-    case '=':
-        return curr_tok = eTokenValue(ch);
+        return curr_tok = (eTokenValue)ch;
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
     case '.':
-        cin.putback(ch);
-        cin >> numberValue;
+        expression.putback(ch);
+        expression >> numberValue;
         return curr_tok = eTokenValue::NUMBER;
     default:
-        if (isalpha(ch))
-        {
-            cin.putback(ch);
-            cin >> stringValue;
-            return curr_tok = eTokenValue::NAME;
-        }
-        error("неправельная лексема");
-        return curr_tok = eTokenValue::PRINT;
+        exprIsOK = false;
+        cerr << "\n Ошибка: встречен неизвестный символ " << ch << "\n";
+        return curr_tok = eTokenValue::ERR_SYMBOL;
     }
-}
-
-int no_of_errors;
-
-int error(const string& s)
-{
-    no_of_errors++;
-    cerr << "ошибка: " << s << '\n';
-    return 1;
 }
