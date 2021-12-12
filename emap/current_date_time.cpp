@@ -1,8 +1,8 @@
 #include "current_date_time.h"
-#include <windows.h>
 #include <conio.h>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
+#include <windows.h>
 
 void currentDateTime()
 {

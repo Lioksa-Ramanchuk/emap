@@ -11,12 +11,10 @@
 
 int main()
 {
-    using std::cout;
     using std::cin;
+    using std::cout;
 
     system("chcp 1251 > nul");  // дКЪ ОНДДЕПФЙХ Windows-1251
-
-    // цКЮБМНЕ ЛЕМЧ
 
     char answer;
     do
@@ -43,19 +41,19 @@ int main()
 
             switch (answer)
             {
-            case '1': numberCalculator();   //                             - мхйхрю йюпеан
+            case '1': numberCalculator();   //          - мхйхрю йюпеан
                 break;
-            case '2': stringCalculator(); //                               - бкюд цнпныемъ
+            case '2': stringCalculator();   //          - бкюд цнпныемъ
                 break;
-            case '3': currentDateTime(); //                                - нкец рнвхкн
+            case '3': currentDateTime();    //          - нкец рнвхкн
                 break;
-            case '4': timetable();  //                                     - люйяхл псфхжйхи
+            case '4': timetable();          //          - люйяхл псфхжйхи
                 break;
-            case '5': binDecConverter(); //                                - юкейяеи пнлюмвсй
+            case '5': binDecConverter();    //          - юкейяеи пнлюмвсй
                 break;
-            case '6':; // ТСМЙЖХЪ: МЮОНЛХМЮКЙЮ                             - хкэъ рхунлхпнб
+            case '6':; // ТСМЙЖХЪ: МЮОНЛХМЮКЙЮ          - хкэъ рхунлхпнб
                 break;
-            case '7': caesarCipher(); //                                   - юкейяеи пнлюмвсй
+            case '7': caesarCipher();        //         - юкейяеи пнлюмвсй
                 break;
             case 'A': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
                 break;

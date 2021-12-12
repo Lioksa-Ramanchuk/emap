@@ -1,7 +1,6 @@
 #include "timetable.h"
 #include <iostream>
-using std::cin;
-using std::cout;
+using namespace std;
 
 void timetable()
 {
@@ -25,7 +24,7 @@ void timetable()
 
         do {
             cin >> answer;
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             answer = toupper(answer);
 
             switch (answer)
@@ -68,12 +67,12 @@ void showTimetable(unsigned day)
     
     for (; iDay < iDaysCount; iDay++)
     {
-        cout << "\n  " << WORKING_DAYS[iDay] << "\n";
-        cout << " +=================+=============================================================================================+\n";
-        cout << " |                 |                                           Занятие                                           |\n";
-        cout << " |      Часы       +----------------------------------------------+----------------------------------------------+\n";
-        cout << " |                 |                 подгруппа 1                  |                 подгруппа 2                  |\n";
-        cout << " +=================+==============================================+==============================================+\n";
+        cout << "\n  " << WORKING_DAYS[iDay] << '\n';
+        cout << " +-----------------+---------------------------------------+\n";
+        cout << " |                 |                Занятие                |\n";
+        cout << " |      Часы       +-------------------+-------------------+\n";
+        cout << " |                 |    подгруппа 1    |    подгруппа 2    |\n";
+        cout << " +-----------------+-------------------+-------------------+\n";
 
         cout << TIMETABLES_FOR_DAYS[iDay];
     }

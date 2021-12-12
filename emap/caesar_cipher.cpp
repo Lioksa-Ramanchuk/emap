@@ -1,11 +1,9 @@
 #include "caesar_cipher.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
-// ========================================
-// void caesarCipher
-// ========================================
 void caesarCipher()
 {
     system("CLS");
@@ -62,9 +60,6 @@ void caesarCipher()
     } while (true);
 }
 
-// ========================================
-// const char* chooseAlphabet
-// ========================================
 const char* chooseAlphabet()
 {
     cout << "\n Выберите язык текста:\n";
@@ -94,9 +89,6 @@ const char* chooseAlphabet()
     } while (true);
 }
 
-// ========================================
-// bool getText
-// ========================================
 bool getText(string& strText)
 {
     cout << "\n Выберите:\n";
@@ -125,9 +117,6 @@ bool getText(string& strText)
     } while (true);
 }
 
-// ========================================
-// bool getTextFromFile
-// ========================================
 bool getTextFromFile(string& strText)
 {
     ifstream in;
@@ -178,9 +167,6 @@ bool getTextFromFile(string& strText)
     return true;
 }
 
-// ========================================
-// void putText
-// ========================================
 void putText(string& strNewText, const eCipherMode& CIPHER_MODE)
 {
     cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования\n";
@@ -216,9 +202,6 @@ void putText(string& strNewText, const eCipherMode& CIPHER_MODE)
     } while (true);
 }
 
-// ========================================
-// void putTextInFile
-// ========================================
 void putTextInFile(string& strNewText, const eCipherMode& CIPHER_MODE)
 {
     ofstream out;
@@ -267,9 +250,6 @@ void putTextInFile(string& strNewText, const eCipherMode& CIPHER_MODE)
     } while (true);
 }
 
-// ========================================
-// void encodeDecodeWithCaesar
-// ========================================
 void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pALPHABET, eCipherMode& CIPHER_MODE)
 {
 
@@ -324,10 +304,8 @@ void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pAL
     }
 }
 
-// ========================================
-// char charToUpper
-// ========================================
-char charToUpper(const char& LETTER)            // Конвертация в ВЕРХНИЙ РЕГИСТР для латиницы и кириллицы
+
+char charToUpper(const char& LETTER)
 {
     if (('a' <= LETTER) && (LETTER <= 'z')) {
         return LETTER + 'A' - 'a';
