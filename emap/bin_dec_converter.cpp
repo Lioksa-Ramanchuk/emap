@@ -13,31 +13,30 @@ void binDecConverter()
     do
     {
         cout << "\n ¬ыберите:\n";
-        cout << "  (B)IN to DEC Ч> перевести число из двоичной системы счислени€ в дес€тичную\n";
-        cout << "  (D)EC to BIN Ч> перевести число из дес€тичной системы счислени€ в двоичную\n";
-        cout << "  (M)ENU ЧЧЧЧЧЧЧ> перейти в главное меню\n";
-        cout << "  E(X)IT ЧЧЧЧЧЧЧ> выйти из программы\n";
+        cout << "  1 ЧЧ> перевести число из двоичной системы счислени€ в дес€тичную\n";
+        cout << "  2 ЧЧ> перевести число из дес€тичной системы счислени€ в двоичную\n";
+        cout << "  3 ЧЧ> перейти в главное меню\n";
+        cout << "  4 ЧЧ> выйти из программы\n";
 
         do {
             cin >> answer;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            answer = toupper(answer);
 
             switch (answer)
             {
-            case 'B': convertBinToDec();
+            case '1': convertBinToDec();
                 break;
-            case 'D': convertDecToBin();
+            case '2': convertDecToBin();
                 break;
-            case 'M':
+            case '3':
                 return;
-            case 'X':
+            case '4':
                 exit(0);
             default:
                 cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
                 break;
             }
-        } while ((answer != 'B') && (answer != 'D'));
+        } while ((answer < '1') || (answer > '4'));
     } while (true);
 }
 

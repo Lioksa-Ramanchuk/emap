@@ -27,18 +27,17 @@ void numberCalculator(int argc,char* argv[])
     do
     {
         cout << "\n ¬ыберите:\n";
-        cout << "  (C)ALCULATE Ч> вычислить значение арифметического выражени€\n";
-        cout << "  (M)ENU ЧЧЧЧЧЧ> перейти в главное меню\n";
-        cout << "  E(X)IT ЧЧЧЧЧЧ> выйти из программы\n";
+        cout << "  1 ЧЧ> вычислить значение арифметического выражени€\n";
+        cout << "  2 ЧЧ> перейти в главное меню\n";
+        cout << "  3 ЧЧ> выйти из программы\n";
 
         do {
             cin >> answer;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            answer = toupper(answer);
 
             switch (answer)
             {
-            case 'C':
+            case '1':
                 cout << "\n ¬ведите арифметическое выражение:\n";
                 
                 while(input) {
@@ -51,15 +50,15 @@ void numberCalculator(int argc,char* argv[])
                 return no_of_errors;
 
                 break;
-            case 'M':
+            case '2':
                 return;
-            case 'X':
+            case '3':
                 exit(0);
             default:
                 cout << " Ќекорректный ввод. ¬ведите ещЄ раз:\n";
                 break;
             }
-        } while (answer != 'C');
+        } while ((answer < '1') || (answer > '3'));
     } while (true);
 }
 enum Token_value {

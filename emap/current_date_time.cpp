@@ -1,7 +1,8 @@
 #include "current_date_time.h"
-#include <windows.h>
-#include <iostream>
+#include <conio.h>
 #include <iomanip>
+#include <iostream>
+#include <windows.h>
 
 void currentDateTime()
 {
@@ -10,14 +11,14 @@ void currentDateTime()
     system("CLS");
 
     cout << "\n Часы: вывод текущего времени.\n";
-    cout << " Для выхода в главное меню нажмите Esc\n";
+    cout << " Для выхода в главное меню нажмите любую клавишу.\n";
 
     cout << "\n Текущая дата и время:\n";
 
     time_t now;
-    struct tm timeinfo;
+    tm timeinfo;
 
-    while (!GetAsyncKeyState(VK_ESCAPE))
+    while (!_kbhit())
     {
         now = time(NULL);
         localtime_s(&timeinfo, &now);
@@ -32,5 +33,6 @@ void currentDateTime()
 
         Sleep(1000);
     }
+    _getch();
     cout << '\n';
 }

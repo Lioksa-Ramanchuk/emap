@@ -4,8 +4,6 @@
 #include "timetable.h"          // Расписание занятий на заданный день                                  | by Максим Ружицкий
 #include "bin_dec_converter.h"  // Перевод числа из двоичной системы счисления в десятичную и наоборот  | by Алексей Романчук
 #include "caesar_cipher.h"      // Шифратор-дешифратор Цезаря                                           | by Алексей Романчук
-#include "test_func1.h"         // пример функции (в релизе не будет)
-#include "test_func2.h"         // пример функции (в релизе не будет)
 
 #include <iostream>
 #define NOMINMAX
@@ -13,12 +11,10 @@
 
 int main()
 {
-    using std::cout;
     using std::cin;
+    using std::cout;
 
     system("chcp 1251 > nul");  // Для поддержки Windows-1251
-
-    // Главное меню
 
     char answer;
     do
@@ -27,17 +23,15 @@ int main()
         cout << "\n Главное меню.\n";
 
         cout << "\n Выберите вариант использования программы:\n";
-        cout << "  1 ———————> калькулятор для работы с числами\n";
-        cout << "  2 ———————> калькулятор для работы со строками\n";
-        cout << "  3 ———————> часы: вывод текущего времени\n";
-        cout << "  4 ———————> расписание занятий на заданный день\n";
-        cout << "  5 ———————> конвертер чисел из двоичной системы счисления в десятичную и наоборот\n";
-        cout << "  6 ———————> напоминалка\n";
-        cout << "  7 ———————> шифратор-дешифратор Цезаря\n";             // Дополнительное задание
-        cout << "  8 ———————> func1 (пример, в релизе не будет)\n";      // В релизе этого варианта не будет
-        cout << "  9 ———————> func2 (пример, в релизе не будет)\n";      // В релизе этого варианта не будет
-        cout << "  (A)BOUT —> открыть сайт проекта с документацией\n";
-        cout << "  E(X)IT ——> выйти из программы\n";
+        cout << "  1 ——> калькулятор для работы с числами\n";
+        cout << "  2 ——> калькулятор для работы со строками\n";
+        cout << "  3 ——> часы: вывод текущего времени\n";
+        cout << "  4 ——> расписание занятий на заданный день\n";
+        cout << "  5 ——> конвертер чисел из двоичной системы счисления в десятичную и наоборот\n";
+        cout << "  6 ——> напоминалка\n";
+        cout << "  7 ——> шифратор-дешифратор Цезаря\n";             // Дополнительное задание
+        cout << "  8 ——> открыть сайт проекта с документацией\n";
+        cout << "  9 ——> выйти из программы\n";
 
         do
         {
@@ -47,35 +41,30 @@ int main()
 
             switch (answer)
             {
-            case '1': numberCalculator();   //                             - НИКИТА КАРЕБО
+            case '1': numberCalculator();   //          - НИКИТА КАРЕБО
                 break;
-            case '2': stringCalculator(); //                               - ВЛАД ГОРОЩЕНЯ
+            case '2': stringCalculator();   //          - ВЛАД ГОРОЩЕНЯ
                 break;
-            case '3': currentDateTime(); //                                - ОЛЕГ ТОЧИЛО
+            case '3': currentDateTime();    //          - ОЛЕГ ТОЧИЛО
                 break;
-            case '4': timetable();  //                                     - МАКСИМ РУЖИЦКИЙ
+            case '4': timetable();          //          - МАКСИМ РУЖИЦКИЙ
                 break;
-            case '5': binDecConverter(); //                                - АЛЕКСЕЙ РОМАНЧУК
+            case '5': binDecConverter();    //          - АЛЕКСЕЙ РОМАНЧУК
                 break;
-            case '6':; // функция: напоминалка                             - ИЛЬЯ ТИХОМИРОВ
+            case '6':; // функция: напоминалка          - ИЛЬЯ ТИХОМИРОВ
                 break;
-            case '7': caesarCipher(); //                                   - АЛЕКСЕЙ РОМАНЧУК
+            case '7': caesarCipher();        //         - АЛЕКСЕЙ РОМАНЧУК
                 break;
-            case '8': testFunc1();  // Пример, в релизе не будет
+            case '8': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
                 break;
-            case '9': testFunc2();  // Пример, в релизе не будет
-                break;
-            case 'A': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
-                break;
-            case 'X':
+            case '9':
                 break;
             default:
                 cout << " Некорректный ввод. Введите ещё раз.\n";
                 break;
             }
-                                 // (answer > '7'), когда уберём варианты примеров
-        } while (((answer < '1') || (answer > '9')) && (answer != 'A') && (answer != 'X'));
-    } while (answer != 'X');
+        } while ((answer < '1') || (answer > '9'));
+    } while (answer != '9');
 
     return 0;
 }
