@@ -1,12 +1,13 @@
 #include "number_calculator.h"
 #include <iostream>
-#include<string>
-#include<map>
-#include<cctype>
-
+#include <map>
+#include <string>
 using namespace std;
-istream* input;
-void numberCalculator(int argc,char* argv[])
+
+static eTokenValue curr_tok = eTokenValue::PRINT;
+static map<string, double> table;
+
+void numberCalculator()
 {
     system("CLS");
 
@@ -21,9 +22,8 @@ void numberCalculator(int argc,char* argv[])
     table["pi"] = 3.14159265358;
     table["e"] = 2.7182818284;
 
-    
-
     char answer;
+    string expression;
     do
     {
         cout << "\n Выберите:\n";
@@ -38,18 +38,22 @@ void numberCalculator(int argc,char* argv[])
             switch (answer)
             {
             case '1':
+            {
                 cout << "\n Введите арифметическое выражение:\n";
-                
-                while(input) {
-                    get_token();
-                    if (curr_tok == END)break;
-                    if (curr_tok == PRINT)continue;
-                    cout << expr(false) << '\n';
-                   }
-                if (input != &cin)delete input;
-                return no_of_errors;
-
+                /*while (cin)
+                {
+                    getToken();
+                    if (curr_tok == eTokenValue::END) {
+                        break;
+                    }
+                    if (curr_tok == eTokenValue::PRINT) {
+                        continue;
+                    }
+                    cout << "\n Значение выражения: " << expr(false) << '\n';
+                    break;
+                }*/
                 break;
+            }
             case '2':
                 return;
             case '3':
@@ -61,116 +65,133 @@ void numberCalculator(int argc,char* argv[])
         } while ((answer < '1') || (answer > '3'));
     } while (true);
 }
-enum Token_value {
-    NAME, NUMBER, END,
-    PLUS='+', MINUS='-', MUL='*',DIV='/',
-    PRINT=',', ASSIGN='=', LP='{', RP='}'
-};
 
-double expr(bool get) {
+double expr(bool get)
+{
     double left = term(get);
-        for(,,)
-            switch (curr_tok) {
-                case MUL
-                    left *= prim(true);
-                    break;
-                case DIV
-                    if (double d = prim(true)) {
-                        left /= d;
-                            break;
-                    }
-                return error("деление на 0");
-                default:
-                    return left;
-            }
+
+    while(true)
+    {
+        switch (curr_tok)
+        {
+        case eTokenValue::PLUS:
+            left +=term (true);
+            break;
+        case eTokenValue::MINUS:
+            left -= term(true);
+            break;
+        default:
+            return left;
+        }
+    }
 }
+
 double term(bool get)
 {
     double left = prim(get);
-    for(,,)
-        switch (curr_tok) {
-            case MUL
-                left *= prim(true);
+    while(true)
+    {
+        switch (curr_tok)
+        {
+        case eTokenValue::MUL:
+            left *= prim(true);
+            break;
+        case eTokenValue::DIV:
+            if (double d = prim(true)) {
+                left /= prim(true);
                 break;
-                case DIV
-                    if (double d = prim(true)) {
-                        left /= d;
-                        break;
-                    }
+            }
+            else {
                 return error("деление на 0");
-                default:
-                    return left;
-        
+            }
+        default:
+            return left;
         }
+    }
 }
-double number_value;
-double string_value;
+
+static double numberValue;
+static string stringValue;
+
 double prim(bool get)
 {
-    if (get) get_token();
+    if (get) {
+        getToken();
+    }
+
     switch (curr_tok)
     {
-    case NUMBER: {
-        double v = number_value;
-        get_token();
+    case eTokenValue::NUMBER:
+    {
+        double v = numberValue;
+        getToken();
         return v;
     }
-    case NAME: {
-        double& v = table[string_value];
-        if (get_token() == ASSIGN) v = expr(true);
+    case eTokenValue::NAME:
+    {
+        double& v = table[stringValue];
+        if (getToken() == eTokenValue::ASSIGN) {
+            v = expr(true);
+        }
         return v;
     }
-    case MINUS: {
+    case eTokenValue::MINUS:
         return -prim(true);
-    }
-    case LP: {
+    case eTokenValue::LP:
+    {
         double e = expr(true);
-        if (curr_tok != RP) return error("ожидалось");
-        get_token();
+        if (curr_tok != eTokenValue::RP) {
+            return error("ожидалась )");
+        }
+        getToken();
         return e;
     }
     default:
         return error("ожидалось первичное выражение");
     }
 }
-Token_value get_token()
+
+eTokenValue getToken()
 {
     char ch = 0;
     cin >> ch;
-    switch (ch) {
+
+    switch (ch)
+    {
     case 0:
-        return curr_tok = END;
+        return curr_tok = eTokenValue::END;
     case ';':
-    case'*':
-    case'/':
-    case'+':
-    case'-':
-    case'(':
-    case')':
-    case'=':
-        return curr_tok = Token_value(ch);
-    case'0':case'1':case'2':case'3':
-    case'4':case'5':case'6':case'7':
-    case'8':case'9':case'.':
+    case '*':
+    case '/':
+    case '+':
+    case '-':
+    case '(':
+    case ')':
+    case '=':
+        return curr_tok = eTokenValue(ch);
+    case '0': case '1': case '2': case '3': case '4':
+    case '5': case '6': case '7': case '8': case '9':
+    case '.':
         cin.putback(ch);
-        cin >> number_value;
-        return curr_tok = NUMBER;
+        cin >> numberValue;
+        return curr_tok = eTokenValue::NUMBER;
     default:
-        if (isalpha(ch)) {
+        if (isalpha(ch))
+        {
             cin.putback(ch);
-            cin >> string_value;
-            return curr_tok = NAME;
+            cin >> stringValue;
+            return curr_tok = eTokenValue::NAME;
         }
         error("неправельная лексема");
-        return curr_tok = PRINT;
+        return curr_tok = eTokenValue::PRINT;
     }
 }
+
 int no_of_errors;
+
 int error(const string& s)
 {
     no_of_errors++;
-    cerr << "ошибка" << s << '\n';
+    cerr << "ошибка: " << s << '\n';
     return 1;
 }
-
-// Сюда вставь реализацию всех функций

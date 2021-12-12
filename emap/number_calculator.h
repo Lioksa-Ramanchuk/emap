@@ -1,14 +1,19 @@
 #ifndef NUMBER_CALCULATOR_H
 #define NUMBER_CALCULATOR_H
 
+#include <string>
+
+enum class eTokenValue {
+    NAME, NUMBER, END,
+    PLUS = '+', MINUS = '-', MUL = '*', DIV = '/',
+    PRINT = ';', ASSIGN = '=', LP = '(', RP = ')'
+};
+
 void numberCalculator();
-enum Token_value;
 double expr(bool get);
 double term(bool get);
-double number_value;
-double string_value;
 double prim(bool get);
-Token_value get_token();
-int error(const string& s);
+eTokenValue getToken();
+int error(const std::string& s);
 
 #endif
