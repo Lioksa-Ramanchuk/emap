@@ -186,19 +186,6 @@ p#start-data {
     margin-bottom: -50px;
 }
 
-#project-history table {
-    border-collapse: collapse;
-    margin-bottom: 50px;
-}
-#project-history th, td {
-    border: 2px solid white;
-    padding: 20px;
-}
-#project-history th {
-    background-color: cornflowerblue;
-    color: lightyellow;
-}
-
 #test-cases table {
     border-collapse: collapse;
     margin-bottom: 50px;    
@@ -225,6 +212,19 @@ p#start-data {
 }
 #test-cases td.bad-test {
     background-color: darkred;
+}
+
+#project-history table {
+    border-collapse: collapse;
+    margin-bottom: 50px;
+}
+#project-history th, td {
+    border: 2px solid white;
+    padding: 20px;
+}
+#project-history th {
+    background-color: cornflowerblue;
+    color: lightyellow;
 }
 
 footer {
