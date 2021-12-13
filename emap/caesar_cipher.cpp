@@ -1,6 +1,5 @@
 #include "caesar_cipher.h"
 #include <iostream>
-#include <fstream>
 #include <string>
 using namespace std;
 
@@ -10,9 +9,8 @@ void caesarCipher()
 
     cout << "\n Шифратор-дешифратор Цезаря.\n";
     cout << " Позволяет зашифровать и дешифровать текст на английском, белорусском и русском языках.\n";
-    cout << " Поддерживает чтение текста из выбранного файла и запись в выбранный файл.\n";
 
-    const char* pALPHABET;
+    const char* pALPHABET = BELARUSIAN_ALPHABET;
     string strText, strNewText;
     eCipherMode cipherMode;
 
@@ -50,203 +48,46 @@ void caesarCipher()
         strText.clear();
         strNewText.clear();
 
-        pALPHABET = chooseAlphabet();
-        if (getText(strText))
+        cout << "\n Выберите язык текста:\n";
+        cout << "  1 ——> английский\n";
+        cout << "  2 ——> белорусский\n";
+        cout << "  3 ——> русский\n";
+
+        char answer;
+        do
         {
-            encodeDecodeWithCaesar(strText, strNewText, pALPHABET, cipherMode);
-            putText(strNewText, cipherMode);
-        }
-    } while (true);
-}
+            cin >> answer;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-const char* chooseAlphabet()
-{
-    cout << "\n Выберите язык текста:\n";
-    cout << "  1 ——> английский\n";
-    cout << "  2 ——> белорусский\n";
-    cout << "  3 ——> русский\n";
+            switch (answer)
+            {
+            case '1':
+                pALPHABET = ENGLISH_ALPHABET;
+                break;
+            case '2':
+                pALPHABET = BELARUSIAN_ALPHABET;
+                break;
+            case '3':
+                 pALPHABET = RUSSIAN_ALPHABET;
+                 break;
+            default:
+                cout << " Некорректный ввод. Введите ещё раз:\n";
+                break;
+            }
+        } while ((answer < '1') || (answer > '3'));
 
-    char answer;
-    do
-    {
-        cin >> answer;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n Введите текст:\n";
+        getline(cin, strText);
 
-        switch (answer)
-        {
-        case '1':
-            return ENGLISH_ALPHABET;
-        case '2':
-            return BELARUSIAN_ALPHABET;
-        case '3':
-            return RUSSIAN_ALPHABET;
-        default:
-            cout << " Некорректный ввод. Введите ещё раз:\n";
-            break;
-        }
-    } while (true);
-}
+        encodeDecodeWithCaesar(strText, strNewText, pALPHABET, cipherMode);
 
-bool getText(string& strText)
-{
-    cout << "\n Выберите:\n";
-    cout << "  1 ——> ввести текст при помощи клавиатуры\n";
-    cout << "  2 ——> считать текст из файла\n";
-
-    char answer;
-    do
-    {
-        cin >> answer;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-        switch (answer)
-        {
-        case '1':
-            cout << "\n Введите текст:\n";
-            getline(cin, strText);
-            return true;
-        case '2':
-            return getTextFromFile(strText);
-        default:
-            cout << " Некорректный ввод. Введите ещё раз:\n";
-            break;
-        }
-    } while (true);
-}
-
-bool getTextFromFile(string& strText)
-{
-    ifstream in;
-    string path;
-
-    do
-    {
-        cout << "\n Введите путь к файлу:\n";
-        getline(cin, path);
-        in.open(path);
-
-        if (!in) {
-            cout << "\n Не удаётся открыть файл. Выберите:\n";
-            cout << "  1 ——> ввести другой путь к файлу\n";
-            cout << "  2 ——> перейти в меню (де-)шифратора\n";
-            cout << "  3 ——> выйти из программы\n";
-
-            char answer;
-            do {
-                cin >> answer;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-                switch (answer)
-                {
-                case '1':
-                    break;
-                case '2':
-                    return false;
-                case '3':
-                    exit(0);
-                default:
-                    cout << " Некорректный ввод. Введите ещё раз:\n";
-                    break;
-                }
-            } while ((answer < '1') || (answer > '3'));
-        }
-        else
-        {
-            getline(in, strText);
-            in.close();
-
-            cout << "\n Текст был успешно считан из файла.\n";
-            break;
-        }
-    } while (true);
-
-    return true;
-}
-
-void putText(string& strNewText, const eCipherMode& CIPHER_MODE)
-{
-    cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования\n";
-    cout << "  1 ——> вывести на консоль\n";
-    cout << "  2 ——> записать в файл\n";
-    cout << "  3 ——> вывести на консоль и записать в файл\n";
-
-    char answer;
-    do
-    {
-        cin >> answer;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-        switch (answer)
-        {
-        case '1':
-            cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
-            cout << strNewText << endl;
-            return;
-        case '2':
-            putTextInFile(strNewText, CIPHER_MODE);
-            return;
-        case '3':
-            cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
-            cout << strNewText << endl;
-            putTextInFile(strNewText, CIPHER_MODE);
-            return;
-        default:
-            cout << " Некорректный ввод. Введите ещё раз:\n";
-            break;
-        }
-    } while (true);
-}
-
-void putTextInFile(string& strNewText, const eCipherMode& CIPHER_MODE)
-{
-    ofstream out;
-    string path;
-
-    do
-    {
-        cout << "\n Введите путь к файлу:\n";
-        getline(cin, path);
-        out.open(path);
-
-        if (!out) {
-            cout << "\n Не удаётся открыть файл. Выберите:\n";
-            cout << "  1 ——> ввести другой путь к файлу\n";
-            cout << "  2 ——> перейти в меню (де-)шифратора\n";
-            cout << "  3 ——> выйти из программы\n";
-
-            char answer;
-            do {
-                cin >> answer;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-                switch (answer)
-                {
-                case '1':
-                    break;
-                case '2':
-                    return;
-                case '3':
-                    exit(0);
-                default:
-                    cout << " Некорректный ввод. Введите ещё раз:\n";
-                    break;
-                }
-            } while ((answer < '1') || (answer > '3'));
-        }
-        else
-        {
-            out << strNewText;
-            out.close();
-
-            cout << "\n Текст после" << ((CIPHER_MODE == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования был успешно записан в файл.\n";
-            break;
-        }
+        cout << "\n Текст после" << ((cipherMode == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
+        cout << strNewText << endl;
     } while (true);
 }
 
 void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pALPHABET, eCipherMode& CIPHER_MODE)
 {
-
     cout << "\n Введите значение сдвига для шифра Цезаря:\n";
 
     int delta = 0;      // Значение сдвига для шифра Цезаря
@@ -297,7 +138,6 @@ void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pAL
         strNewText = strText;
     }
 }
-
 
 char charToUpper(const char& LETTER)
 {
