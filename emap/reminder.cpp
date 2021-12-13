@@ -7,51 +7,23 @@
 #include "reminder.h"
 
 using namespace std;
-void timer(int hours, int mins, int secs)
-{
-	for (;;)
-	{
-		if (hours == 0 && mins == 0 && secs == 0)
-		{
-			break;
-		}
-		if (secs == 0 && mins == 0)
-		{
-			mins = 59;
-			hours--;
-		}
-		if (secs == 0)
-		{
-			secs = 59;
-			mins--;
-		}
-		system("cls");
-		cout << "\n    +----------+";
-		cout << "\n    | " << setw(2) << setfill('0') << hours;
-		cout << ":" << setw(2) << setfill('0') << mins;
-		cout << ":" << setw(2) << setfill('0') << secs-- << " |";
-		cout << "\n    +----------+";
-
-		Sleep(1000);
-	}
-}
 
 void reminder()
 {
 	static bool callMenu = true;
-	//	static time_t remindTime;
+	static time_t remindTime;
 	static string message;
 
 	unsigned long long hours;
 	unsigned long long mins;
 	unsigned long long secs;
 
-	//	time_t now;
-	//	long long deltaTime;
+	time_t now;
+	long long deltaTime;
 
-		//auto now = zoned_time{ current_zone(), system_clock::now() }.get_local_time();
-		//auto time_now = now - floor<days>(now);//текущее время дня после полуночи
-		//для получения текущего времеми через chrono
+	//auto now = zoned_time{ current_zone(), system_clock::now() }.get_local_time();
+	//auto time_now = now - floor<days>(now);//текущее время дня после полуночи
+	//для получения текущего времеми через chrono
 
 	do
 	{
@@ -80,93 +52,75 @@ void reminder()
 				switch (answer)
 				{
 				case '1':
-					cout << "Установите время, через которое должна сработать напоминалка" << "\n"
-						<< "часы : ";
-					cin >> hours;
-					cout << "минуты:  ";
-					cin >> mins;
-					cout << "секунды: ";
-					cin >> secs;
-					cout << "Текст: ";
-					cin.ignore(32767, '\n');
-					getline(cin, message);
-
-					timer(hours, mins, secs);
-
-					for (int i = 261; ; i = i + 1) {
-						Beep(i, 1000);
-
-						cout << "\n" << message << "\n";
-					} {
-						void timer();
-						/*	cout << "\n Через сколько часов должна сработать напоминалка?\n";
-							string hmsInput;
-							bool hmsInputIsOK = true;
-							do
-							{
-								getline(cin, hmsInput);
-								try
-								{
-									hours = stoul(hmsInput);
-									if (hours > 23) {
-										throw out_of_range("число часов не может быть больше 23");
-									}
-									hmsInputIsOK = true;
-								}
-								catch (...)
-								{
-									hmsInputIsOK = false;
-									cout << " Некорректный ввод. Введите ещё раз:\n";
-								}
-							} while (!hmsInputIsOK);
-
-							cout << "\n Через сколько минут должна сработать напоминалка?\n";
-							do
-							{
-								getline(cin, hmsInput);
-								try
-								{
-									mins = stoul(hmsInput);
-									if (mins > 59) {
-										throw out_of_range("число минут не может быть больше 59");
-									}
-									hmsInputIsOK = true;
-								}
-								catch (...)
-								{
-									hmsInputIsOK = false;
-									cout << " Некорректный ввод. Введите ещё раз:\n";
-								}
-							} while (!hmsInputIsOK);
-
-							cout << "\n Через сколько секунд должна сработать напоминалка?\n";
-							do
-							{
-								getline(cin, hmsInput);
-								try
-								{
-									secs = stoul(hmsInput);
-									if (mins > 59) {
-										throw out_of_range("число минут не может быть больше 59");
-									}
-									hmsInputIsOK = true;
-								}
-								catch (...)
-								{
-									hmsInputIsOK = false;
-									cout << " Некорректный ввод. Введите ещё раз:\n";
-								}
-							} while (!hmsInputIsOK);*/
-
-						cout << "\n Введите текст напоминания:\n";
-						do
+				{
+					cout << "\n Через сколько часов должна сработать напоминалка?\n";
+					string hmsInput;
+					bool hmsInputIsOK = true;
+					do
+					{
+						getline(cin, hmsInput);
+						try
 						{
-							getline(cin, message);
-						} while (message.empty());
+							hours = stoul(hmsInput);
+							if (hours > 23) {
+								throw out_of_range("число часов не может быть больше 23");
+							}
+							hmsInputIsOK = true;
+						}
+						catch (...)
+						{
+							hmsInputIsOK = false;
+							cout << " Некорректный ввод. Введите ещё раз:\n";
+						}
+					} while (!hmsInputIsOK);
 
-						/*	remindTime = time(0) + hours * 3600 + mins * 60 + secs;
-							callMenu = false;*/
-					}
+					cout << "\n Через сколько минут должна сработать напоминалка?\n";
+					do
+					{
+						getline(cin, hmsInput);
+						try
+						{
+							mins = stoul(hmsInput);
+							if (mins > 59) {
+								throw out_of_range("число минут не может быть больше 59");
+							}
+							hmsInputIsOK = true;
+						}
+						catch (...)
+						{
+							hmsInputIsOK = false;
+							cout << " Некорректный ввод. Введите ещё раз:\n";
+						}
+					} while (!hmsInputIsOK);
+
+					cout << "\n Через сколько секунд должна сработать напоминалка?\n";
+					do
+					{
+						getline(cin, hmsInput);
+						try
+						{
+							secs = stoul(hmsInput);
+							if (mins > 59) {
+								throw out_of_range("число минут не может быть больше 59");
+							}
+							hmsInputIsOK = true;
+						}
+						catch (...)
+						{
+							hmsInputIsOK = false;
+							cout << " Некорректный ввод. Введите ещё раз:\n";
+						}
+					} while (!hmsInputIsOK);
+
+					cout << "\n Введите текст напоминалки:\n";
+					do
+					{
+						getline(cin, message);
+					} while (message.empty());
+
+					remindTime = time(0) + hours * 3600 + mins * 60 + secs;
+					callMenu = false;
+				}
 					break;
 				case '2':
 					return;
@@ -180,8 +134,8 @@ void reminder()
 		}
 		while (!_kbhit())
 		{
-			//	now = time(0);
-			//	if (remindTime <= now)
+			now = time(0);
+			if (remindTime <= now)
 			{
 				callMenu = true;
 				break;
@@ -191,7 +145,7 @@ void reminder()
 			cout << "\n Напоминалка.\n";
 			cout << " Для перехода в главное меню нажмите любую клавишу.\n";
 
-			/*deltaTime = (long long)(remindTime - now);
+			deltaTime = (long long)(remindTime - now);
 			hours = deltaTime / 3600;
 			mins = deltaTime / 60 - hours * 60;
 			secs = deltaTime - hours * 3600 - mins * 60;
@@ -201,7 +155,7 @@ void reminder()
 			cout << ":" << setw(2) << setfill('0') << secs << " |";
 			cout << "\n    +----------+";
 
-			Sleep(500);*/
+			Sleep(500);
 		}
 		if (!callMenu)
 		{
