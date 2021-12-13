@@ -3,8 +3,8 @@
 #include "current_date_time.h"  // Часы: вывод текущего времени                                         | by Олег Точило
 #include "timetable.h"          // Расписание занятий на заданный день                                  | by Максим Ружицкий
 #include "bin_dec_converter.h"  // Перевод числа из двоичной системы счисления в десятичную и наоборот  | by Алексей Романчук
+#include "reminder.h"			// Напоминалка															| by Илья Тихомиров
 #include "caesar_cipher.h"      // Шифратор-дешифратор Цезаря                                           | by Алексей Романчук
-#include "reminder.h"
 
 #include <iostream>
 #define NOMINMAX
@@ -54,7 +54,7 @@ int main()
 				break;
 			case '6': reminder();           //           - ИЛЬЯ ТИХОМИРОВ
 				break;
-			case '7': caesarCipher();        //         - АЛЕКСЕЙ РОМАНЧУК
+			case '7': caesarCipher();       //         - АЛЕКСЕЙ РОМАНЧУК
 				break;
 			case '8': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
 				break;
