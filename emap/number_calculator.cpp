@@ -116,6 +116,12 @@ double term(bool get)
                     cerr << "\n Ошибка: деление на 0\n";
                     return 1;
                 }
+            case eTokenValue::LP:
+            {
+                exprIsOK = false;
+                cerr << "\n Ошибка: встречен неожиданный оператор (\n";
+                return 1;
+            }
             case eTokenValue::RP:
                 bracketsCount--;
                 if (bracketsCount < 0)
