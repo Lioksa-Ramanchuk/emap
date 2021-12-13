@@ -145,6 +145,7 @@
     <ClCompile Include="current_date_time.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="number_calculator.cpp" />
+    <ClCompile Include="reminder.cpp" />
     <ClCompile Include="string_calculator.cpp" />
     <ClCompile Include="timetable.cpp" />
   </ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="caesar_cipher.h" />
     <ClInclude Include="current_date_time.h" />
     <ClInclude Include="number_calculator.h" />
+    <ClInclude Include="reminder.h" />
     <ClInclude Include="string_calculator.h" />
     <ClInclude Include="timetable.h" />
   </ItemGroup>
