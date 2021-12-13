@@ -130,7 +130,8 @@ void reminder()
 
 			system("CLS");
 			cout << "\n Напоминалка.\n";
-			cout << " Для перехода в главное меню нажмите любую клавишу.\n";
+			cout << " Для удаления напоминания нажмите клавишу D.\n";
+			cout << " Для перехода в главное меню нажмите любую другую клавишу.\n";
 
 			deltaTime = (long long)(remindTime - now);
 			hours = deltaTime / 3600;
@@ -138,6 +139,7 @@ void reminder()
 			secs = deltaTime - hours * 3600 - mins * 60;
 
 			cout << "\n До срабатывания напоминалки осталось:\n";
+
 			cout << "\n    +----------";
 			if (hours > 99) {
 				for (unsigned i = 2; i < to_string(hours).length(); i++) {
@@ -152,7 +154,7 @@ void reminder()
 
 			cout << "\n    +----------";
 			if (hours > 99) {
-				for (int i = 2; i < to_string(hours).length(); i++) {
+				for (unsigned i = 2; i < to_string(hours).length(); i++) {
 					cout << '-';
 				}
 			}
@@ -162,8 +164,15 @@ void reminder()
 		}
 		if (!callMenu)
 		{
-			_getch();
-			return;
+			char ch = _getch();
+			if ((ch == 'D') || (ch == 'd') || (ch == 'В') || (ch == 'в'))
+			{
+				message.clear();
+				callMenu = true;
+			}
+			else {
+				return;
+			}
 		}
 	} while (true);
 }
