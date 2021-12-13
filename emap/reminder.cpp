@@ -13,9 +13,11 @@ void reminder()
 	static bool callMenu = true;
 	static time_t remindTime;
 	static string message;
+
 	unsigned long long hours;
 	unsigned long long mins;
 	unsigned long long secs;
+
 	time_t now;
 	long long deltaTime;
 
@@ -33,6 +35,7 @@ void reminder()
 			if (!message.empty())
 			{
 				cout << "\n НАПОМИНАНИЕ: " << message << "\n";
+				Beep(440, 1500);
 				message.clear();
 			}
 
@@ -110,7 +113,10 @@ void reminder()
 					} while (!hmsInputIsOK);
 
 					cout << "\n Введите текст напоминалки:\n";
-					getline(cin, message);
+					do
+					{
+						getline(cin, message);
+					} while (message.empty());
 
 					remindTime = time(0) + hours * 3600 + mins * 60 + secs;
 					callMenu = false;
