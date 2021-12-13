@@ -41,7 +41,7 @@ void numberCalculator()
                 string exp;
                 getline(cin, exp);
 
-                expression.clear();
+                expression.str("");
                 exprIsOK = true;
                 numberValue = 0;
                 bracketsCount = 0;
