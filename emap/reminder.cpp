@@ -21,10 +21,6 @@ void reminder()
 	time_t now;
 	long long deltaTime;
 
-	//auto now = zoned_time{ current_zone(), system_clock::now() }.get_local_time();
-	//auto time_now = now - floor<days>(now);//текущее врем€ дн€ после полуночи
-	//дл€ получени€ текущего времеми через chrono
-
 	do
 	{
 		if (callMenu)
@@ -40,7 +36,7 @@ void reminder()
 			}
 
 			cout << "\n ¬ыберите:\n";
-			cout << "  1 ЧЧ> создать новую напоминалку\n";
+			cout << "  1 ЧЧ> создать новое напоминание\n";
 			cout << "  2 ЧЧ> перейти в главное меню\n";
 			cout << "  3 ЧЧ> выйти из программы\n";
 
@@ -62,9 +58,6 @@ void reminder()
 						try
 						{
 							hours = stoul(hmsInput);
-							if (hours > 23) {
-								throw out_of_range("число часов не может быть больше 23");
-							}
 							hmsInputIsOK = true;
 						}
 						catch (...)
@@ -81,9 +74,6 @@ void reminder()
 						try
 						{
 							mins = stoul(hmsInput);
-							if (mins > 59) {
-								throw out_of_range("число минут не может быть больше 59");
-							}
 							hmsInputIsOK = true;
 						}
 						catch (...)
@@ -100,9 +90,6 @@ void reminder()
 						try
 						{
 							secs = stoul(hmsInput);
-							if (mins > 59) {
-								throw out_of_range("число минут не может быть больше 59");
-							}
 							hmsInputIsOK = true;
 						}
 						catch (...)
@@ -112,7 +99,7 @@ void reminder()
 						}
 					} while (!hmsInputIsOK);
 
-					cout << "\n ¬ведите текст напоминалки:\n";
+					cout << "\n ¬ведите текст напоминани€:\n";
 					do
 					{
 						getline(cin, message);
@@ -149,11 +136,27 @@ void reminder()
 			hours = deltaTime / 3600;
 			mins = deltaTime / 60 - hours * 60;
 			secs = deltaTime - hours * 3600 - mins * 60;
-			cout << "\n    +----------+";
+
+			cout << "\n ƒо срабатывани€ напоминалки осталось:\n";
+			cout << "\n    +----------";
+			if (hours > 99) {
+				for (unsigned i = 2; i < to_string(hours).length(); i++) {
+					cout << '-';
+				}
+			}
+			cout << '+';
+
 			cout << "\n    | " << setw(2) << setfill('0') << hours;
 			cout << ":" << setw(2) << setfill('0') << mins;
 			cout << ":" << setw(2) << setfill('0') << secs << " |";
-			cout << "\n    +----------+";
+
+			cout << "\n    +----------";
+			if (hours > 99) {
+				for (int i = 2; i < to_string(hours).length(); i++) {
+					cout << '-';
+				}
+			}
+			cout << '+';
 
 			Sleep(500);
 		}
