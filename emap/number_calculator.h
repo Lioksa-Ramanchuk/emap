@@ -26,7 +26,6 @@ public:
 void numberCalculator();
 double expr(bool get);
 double term(bool get);
-double power(bool get);
 double prim(bool get);
 eTokenValue getToken();
 

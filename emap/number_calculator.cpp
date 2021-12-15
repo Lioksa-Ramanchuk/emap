@@ -6,7 +6,6 @@ using namespace std;
 
 const static unsigned MAX_NESTING_VALUE = 100;
 
-static bool g_exprIsOK = true;
 static stringstream g_expression;
 static eTokenValue g_currentToken = eTokenValue::PRINT;
 static double g_numberValue = 0;
@@ -46,7 +45,6 @@ void numberCalculator()
 
                 g_expression.str("");
                 g_expression.clear();
-                g_exprIsOK = true;
                 g_numberValue = 0;
                 g_bracketsCount = 0;
                 g_nestingChecker = 0;
@@ -55,24 +53,19 @@ void numberCalculator()
 
                 getToken();
 
-                try {
-                    exp = to_string(expr(false));
-                }
-                catch (CalcException& err)
+                try
                 {
-                    g_exprIsOK = false;
+                    exp = to_string(expr(false));
+                    cout << "\n Значэнне выразу: " << exp << '\n';
+                }
+                catch (CalcException& err) {
                     cerr << "\n Памылка: " << err.what() << '\n';
                 }
                 catch (...) {
-                    g_exprIsOK = false;
                     cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
                 }
-
-                if (g_exprIsOK) {
-                    cout << "\n Значэнне выразу: " << exp << '\n';
-                }
-                break;
             }
+                break;
             case '2':
                 return;
             case '3':
@@ -95,22 +88,16 @@ double expr(bool get)
 
     while (true)
     {
-        if (g_exprIsOK)
+        switch (g_currentToken)
         {
-            switch (g_currentToken)
-            {
-            case eTokenValue::PLUS:
-                left += term(true);
-                break;
-            case eTokenValue::MINUS:
-                left -= term(true);
-                break;
-            default:
-                return left;
-            }
-        }
-        else {
-            return 1;
+        case eTokenValue::PLUS:
+            left += term(true);
+            break;
+        case eTokenValue::MINUS:
+            left -= term(true);
+            break;
+        default:
+            return left;
         }
     }
 }
@@ -121,72 +108,34 @@ double term(bool get)
         throw CalcException("надта складаны выраз");
     }
 
-    double left = power(get);
-    while (true)
-    {
-        if (g_exprIsOK)
-        {
-            switch (g_currentToken)
-            {
-            case eTokenValue::MUL:
-                left *= power(true);
-                break;
-            case eTokenValue::DIV:
-                if (double d = power(true)) {
-                    left /= d;
-                    break;
-                }
-                else {
-                    throw CalcException("дзяленне на 0");
-                }
-            case eTokenValue::LP:
-                throw CalcException("сустрэты нечаканы аператар (");
-            case eTokenValue::RP:
-                g_bracketsCount--;
-                if (g_bracketsCount < 0) {
-                    throw CalcException("сустрэты нечаканы аператар )");
-                }
-                return left;
-            case eTokenValue::NUMBER:
-                throw CalcException("сустрэта нечаканая дзесятковая кропка");
-            default:
-                return left;
-            }
-        }
-        else {
-            return 1;
-        }
-    }
-}
-
-double power(bool get)
-{
-    if (++g_nestingChecker > MAX_NESTING_VALUE) {
-        throw CalcException("надта складаны выраз");
-    }
-
     double left = prim(get);
     while (true)
     {
-        if (g_exprIsOK)
+        switch (g_currentToken)
         {
-            switch (g_currentToken)
-            {
-            case eTokenValue::POW:
-            {
-                double powerValue = power(true);
-                if ((left == 0) && (powerValue == 0)) {
-                    throw CalcException("узвядзенне 0 у ступень 0");
-                }
-                left = pow(left, powerValue);
-            }
+        case eTokenValue::MUL:
+            left *= prim(true);
             break;
-            default:
-                return left;
+        case eTokenValue::DIV:
+            if (double d = prim(true)) {
+                left /= d;
+                break;
             }
-        }
-        else {
-            return 1;
+            else {
+                throw CalcException("дзяленне на 0");
+            }
+        case eTokenValue::LP:
+            throw CalcException("сустрэты нечаканы аператар (");
+        case eTokenValue::RP:
+            g_bracketsCount--;
+            if (g_bracketsCount < 0) {
+                throw CalcException("сустрэты нечаканы аператар )");
+            }
+            return left;
+        case eTokenValue::NUMBER:
+            throw CalcException("сустрэта нечаканая дзесятковая кропка");
+        default:
+            return left;
         }
     }
 }
@@ -197,39 +146,54 @@ double prim(bool get)
         throw CalcException("надта складаны выраз");
     }
 
+    double value = 0;
+
     if (get) {
         getToken();
     }
-    if (g_exprIsOK)
+    switch (g_currentToken)
+    {
+    case eTokenValue::NUMBER:
+    {
+        value = g_numberValue;
+        getToken();
+        break;
+    }
+    case eTokenValue::PLUS:
+        value = prim(true);
+        break;
+    case eTokenValue::MINUS:
+        value = -prim(true);
+        break;
+    case eTokenValue::LP:
+    {
+        g_bracketsCount++;
+        value = expr(true);
+        if (g_currentToken != eTokenValue::RP) {
+            throw CalcException("чакалася )");
+        }
+        getToken();
+        break;
+    }
+    default:
+        throw CalcException("чакаўся першасны выраз");
+    }
+
+    while (true)
     {
         switch (g_currentToken)
         {
-        case eTokenValue::NUMBER:
+        case eTokenValue::POW:
         {
-            double v = g_numberValue;
-            getToken();
-            return v;
-        }
-        case eTokenValue::PLUS:
-            return prim(true);
-        case eTokenValue::MINUS:
-            return -prim(true);
-        case eTokenValue::LP:
-        {
-            g_bracketsCount++;
-            double e = expr(true);
-            if ((g_exprIsOK) && (g_currentToken != eTokenValue::RP)) {
-                throw CalcException("чакалася )");
+            double powerValue = prim(true);
+            if ((value == 0) && (powerValue == 0)) {
+                throw CalcException("узвядзенне 0 у ступень 0");
             }
-            getToken();
-            return e;
+            return pow(value, powerValue);
         }
         default:
-            throw CalcException("чакаўся першасны выраз");
+            return value;
         }
-    }
-    else {
-        return 1;
     }
 }
 
