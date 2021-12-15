@@ -6,7 +6,7 @@ using namespace std;
 
 static bool exprIsOK = true;
 static stringstream expression;
-static eTokenValue curr_tok;
+static eTokenValue currentToken;
 static double numberValue;
 static int bracketsCount;
 
@@ -77,7 +77,7 @@ double expr(bool get)
     {
         if (exprIsOK)
         {
-            switch (curr_tok)
+            switch (currentToken)
             {
             case eTokenValue::PLUS:
                 left += term(true);
@@ -97,18 +97,18 @@ double expr(bool get)
 
 double term(bool get)
 {
-    double left = prim(get);
+    double left = power(get);
     while (true)
     {
         if (exprIsOK)
         {
-            switch (curr_tok)
+            switch (currentToken)
             {
             case eTokenValue::MUL:
-                left *= prim(true);
+                left *= power(true);
                 break;
             case eTokenValue::DIV:
-                if (double d = prim(true)) {
+                if (double d = power(true)) {
                     left /= d;
                     break;
                 }
@@ -148,6 +148,27 @@ double term(bool get)
     }
 }
 
+double power(bool get)
+{
+    double left = prim(get);
+    while (true)
+    {
+        if (exprIsOK)
+        {
+            switch (currentToken)
+            {
+            case eTokenValue::POW:
+                left = pow(left, power(true));
+                break;
+            default:
+                return left;
+            }
+        }
+        else {
+            return 1;
+        }
+    }
+}
 
 double prim(bool get)
 {
@@ -156,7 +177,7 @@ double prim(bool get)
     }
     if (exprIsOK)
     {
-        switch (curr_tok)
+        switch (currentToken)
         {
         case eTokenValue::NUMBER:
         {
@@ -172,7 +193,7 @@ double prim(bool get)
         {
             bracketsCount++;
             double e = expr(true);
-            if ((exprIsOK) && (curr_tok != eTokenValue::RP))
+            if ((exprIsOK) && (currentToken != eTokenValue::RP))
             {
                 exprIsOK = false;
                 cerr << "\n Ошибка: ожидалась )\n";
@@ -199,7 +220,7 @@ eTokenValue getToken()
     do
     {
         if (!expression.get(ch)) {
-            return curr_tok = eTokenValue::PRINT;
+            return currentToken = eTokenValue::PRINT;
         }
     } while (ch != '\n' && isspace((unsigned char)ch));
 
@@ -207,23 +228,24 @@ eTokenValue getToken()
     {
     case '\n':
     case 0:
-        return curr_tok = eTokenValue::PRINT;
+        return currentToken = eTokenValue::PRINT;
+    case '^':
     case '*':
     case '/':
     case '+':
     case '-':
     case '(':
     case ')':
-        return curr_tok = (eTokenValue)ch;
+        return currentToken = (eTokenValue)ch;
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
     case '.':
         expression.putback(ch);
         expression >> numberValue;
-        return curr_tok = eTokenValue::NUMBER;
+        return currentToken = eTokenValue::NUMBER;
     default:
         exprIsOK = false;
         cerr << "\n Ошибка: встречен неизвестный символ " << ch << "\n";
-        return curr_tok = eTokenValue::ERR_SYMBOL;
+        return currentToken = eTokenValue::ERR_SYMBOL;
     }
 }
