@@ -42,6 +42,7 @@ void numberCalculator()
                 getline(cin, exp);
 
                 expression.str("");
+                expression.clear();
                 exprIsOK = true;
                 numberValue = 0;
                 bracketsCount = 0;
@@ -163,6 +164,8 @@ double prim(bool get)
             getToken();
             return v;
         }
+        case eTokenValue::PLUS:
+            return prim(true);
         case eTokenValue::MINUS:
             return -prim(true);
         case eTokenValue::LP:
