@@ -1,10 +1,10 @@
 #ifndef STRING_CALCULATOR_H
 #define STRING_CALCULATOR_H
 
-void stringCalculator();	// Калькулятор для работы со строками
-void compareStrings();		// Сравнение двух строк
-void findSubstr();			// Определение позиции подстроки в строке
-void replaceSubstr();		// Замена подстроки в строке
-void countLetters();		// Определение количества гласных и согласных в строке
+void stringCalculator();
+void compareStrings();
+void findSubstr();
+void replaceSubstr();
+void countLetters();
 
 #endif

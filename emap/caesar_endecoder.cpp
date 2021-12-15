@@ -1,14 +1,14 @@
-#include "caesar_cipher.h"
+#include "caesar_endecoder.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
-void caesarCipher()
+void caesarEnDecoder()
 {
     system("CLS");
 
-    cout << "\n Шифратор-дешифратор Цезаря.\n";
-    cout << " Позволяет зашифровать и дешифровать текст на английском, белорусском и русском языках.\n";
+    cout << "\n Шыфратар-дэшыфратар Цэзара.\n";
+    cout << "Дазваляе зашыфраваць і дэшыфраваць тэкст на ангельскай, беларускай і расейскай мовах.\n";
 
     const char* pALPHABET = BELARUSIAN_ALPHABET;
     string strText, strNewText;
@@ -17,11 +17,11 @@ void caesarCipher()
     char answer;
     do
     {
-        cout << "\n Выберите:\n";
-        cout << "  1 ——> зашифровать текст при помощи шифра Цезаря\n";
-        cout << "  2 ——> дешифровать текст при помощи шифра Цезаря\n";
-        cout << "  3 ——> перейти в главное меню\n";
-        cout << "  4 ——> выйти из программы\n";
+        cout << "\n Абярыце:\n";
+        cout << "  1 ——> зашыфраваць тэкст пры дапамозе шыфра Цэзара\n";
+        cout << "  2 ——> дешыфраваць тэкст пры дапамозе шыфра Цэзара\n";
+        cout << "  3 ——> перайсці ў галоўнае меню\n";
+        cout << "  4 ——> выйсці з праграмы\n";
 
         do {
             cin >> answer;
@@ -40,7 +40,7 @@ void caesarCipher()
             case '4':
                 exit(0);
             default:
-                cout << " Некорректный ввод. Введите ещё раз:\n";
+                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
                 break;
             }
         } while ((answer < '1') || (answer > '4'));
@@ -48,10 +48,10 @@ void caesarCipher()
         strText.clear();
         strNewText.clear();
 
-        cout << "\n Выберите язык текста:\n";
-        cout << "  1 ——> английский\n";
-        cout << "  2 ——> белорусский\n";
-        cout << "  3 ——> русский\n";
+        cout << "\n Абярыце мову тэкста:\n";
+        cout << "  1 ——> ангельская\n";
+        cout << "  2 ——> беларуская\n";
+        cout << "  3 ——> расейская\n";
 
         char answer;
         do
@@ -71,26 +71,26 @@ void caesarCipher()
                  pALPHABET = RUSSIAN_ALPHABET;
                  break;
             default:
-                cout << " Некорректный ввод. Введите ещё раз:\n";
+                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
                 break;
             }
         } while ((answer < '1') || (answer > '3'));
 
-        cout << "\n Введите текст:\n";
+        cout << "\n Увядзіце тэкст:\n";
         getline(cin, strText);
 
-        encodeDecodeWithCaesar(strText, strNewText, pALPHABET, cipherMode);
+        cipherWithCaesar(strText, strNewText, pALPHABET, cipherMode);
 
-        cout << "\n Текст после" << ((cipherMode == eCipherMode::DECRYPT_MODE) ? " де" : " ") << "шифрования:\n";
+        cout << "\n Тэкст пасля" << ((cipherMode == eCipherMode::DECRYPT_MODE) ? " дэ" : " ") << "шыфравання:\n";
         cout << strNewText << endl;
     } while (true);
 }
 
-void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pALPHABET, eCipherMode& CIPHER_MODE)
+void cipherWithCaesar(string& strText, string& strNewText, const char* pALPHABET, eCipherMode& CIPHER_MODE)
 {
-    cout << "\n Введите значение сдвига для шифра Цезаря:\n";
+    cout << "\n Увядзіце значэнне зруху для шыфра Цэара:\n";
 
-    int delta = 0;      // Значение сдвига для шифра Цезаря
+    int delta = 0;
     string deltaInput;
     do
     {
@@ -101,17 +101,17 @@ void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pAL
             break;
         }
         catch (...) {
-            cout << " Некорректный ввод. Введите ещё раз:\n";
+            cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
         }
     } while (true);
 
-    if (CIPHER_MODE == eCipherMode::DECRYPT_MODE) {     // При дешифровании сдвиг осуществляется в другую сторону
+    if (CIPHER_MODE == eCipherMode::DECRYPT_MODE) {
         delta *= -1;
     }
 
     const int ALPHABET_LENGTH = strlen(pALPHABET);
 
-    delta %= ALPHABET_LENGTH;   // Делаем сдвиг неотрицательным, меньше длины алфавита
+    delta %= ALPHABET_LENGTH;
     if (delta < 0) {
         delta += ALPHABET_LENGTH;
     }
@@ -125,16 +125,16 @@ void encodeDecodeWithCaesar(string& strText, string& strNewText, const char* pAL
         {
             pLETTER = strchr(pALPHABET, charToUpper(strText[i]));
             if (pLETTER) {
-                pLETTER = pALPHABET + ((pLETTER - pALPHABET + delta) % ALPHABET_LENGTH);    // Сдвиг, если буква в алфавите
+                pLETTER = pALPHABET + ((pLETTER - pALPHABET + delta) % ALPHABET_LENGTH);
             }
             else {
-                pLETTER = &strText[i];  // Копирование символа не из алфавита
+                pLETTER = &strText[i];
             }
 
             strNewText += *pLETTER;
         }
     }
-    else {                      // Для нулевого сдвига текст не преобразуется
+    else {
         strNewText = strText;
     }
 }

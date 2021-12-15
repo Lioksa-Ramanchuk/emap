@@ -6,17 +6,17 @@ using namespace std;
 void binDecConverter()
 {
     system("CLS");
-    cout << "\n Конвертер двоичных чисел в десятичные и наоборот.\n";
-    cout << " Поддерживает целые, дробные, положительные, отрицательные числа.\n";
+    cout << "\n Канвертар двайковых лікаў у дзесятковыя і наадварот.\n";
+    cout << " Канвертуе дадатныя, адмоўныя, цэлыя, дробныя лікі.\n";
 
     char answer;
     do
     {
-        cout << "\n Выберите:\n";
-        cout << "  1 ——> перевести число из двоичной системы счисления в десятичную\n";
-        cout << "  2 ——> перевести число из десятичной системы счисления в двоичную\n";
-        cout << "  3 ——> перейти в главное меню\n";
-        cout << "  4 ——> выйти из программы\n";
+        cout << "\n Абярыце:\n";
+        cout << "  1 ——> перавесці лік з двайковай сістэмы лічэння ў дзесятковую\n";
+        cout << "  2 ——> перавесці лік з дзесятковай сістэмы лічэння ў двайковую\n";
+        cout << "  3 ——> перайсці ў галоўнае меню\n";
+        cout << "  4 ——> выйсці з праграмы\n";
 
         do {
             cin >> answer;
@@ -33,7 +33,7 @@ void binDecConverter()
             case '4':
                 exit(0);
             default:
-                cout << " Некорректный ввод. Введите ещё раз:\n";
+                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
                 break;
             }
         } while ((answer < '1') || (answer > '4'));
@@ -46,12 +46,12 @@ void convertBinToDec()
     double decNumber = 0.0;
 
     int binNumberInputLength = 0;
-    int dotPos = 0;                     // Позиция точки/запятой в числе
+    int dotPos = 0;
     bool binNumberIsPositive = true;
     bool binNumberHasDots = false;
     bool inputIsOK = true;
 
-    cout << "\n Введите число в двоичной системе счисления:\n";
+    cout << "\n Увядзіце лік у двайковай сістэме лічэння:\n";
 
     do
     {
@@ -60,13 +60,13 @@ void convertBinToDec()
         binNumberIsPositive = true;
         inputIsOK = true;
 
-        if (binNumberInput[0] == '-')                       // Если двоичное число отрицательное
+        if (binNumberInput[0] == '-')
         {
             binNumberIsPositive = false;
             binNumberInput.erase(binNumberInput.begin());
             binNumberInputLength--;
         }
-        else if (binNumberInput[0] == '+')                  // Если двоичное число явно положительное
+        else if (binNumberInput[0] == '+')
         {
             binNumberInput.erase(binNumberInput.begin());
             binNumberInputLength--;
@@ -97,20 +97,18 @@ void convertBinToDec()
         }
 
         if (!inputIsOK) {
-            cout << " Некорректный ввод. Введите ещё раз:\n";
+            cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
         }
     } while (!inputIsOK);
 
     try
     {
-        // Перевод целой части числа
         for (int i = 0; i < dotPos; i++)
         {
             if (binNumberInput[i] == '1') {
                 decNumber += pow(2, dotPos - 1 - i);
             }
         }
-        // Перевод дробной части числа
         for (int i = dotPos + 1; i < binNumberInputLength; i++)
         {
             if (binNumberInput[i] == '1') {
@@ -121,12 +119,12 @@ void convertBinToDec()
             decNumber *= -1;
         }
 
-        cout << " Число в десятичной системе счисления: " << decNumber << endl;
+        cout << "\n Лік у дзесятковай сістэме лічэння: " << decNumber << endl;
     }
     catch (const exception& err)
     {
-        cerr << " Что-то пошло не так.\n";
-        cerr << " Ошибка: " << typeid(err).name() << ": " << err.what() << '\n';
+        cerr << " Штосьці пайшло не так.  :/\n";
+        cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
     }
 }
 
@@ -137,8 +135,8 @@ void convertDecToBin()
 
     int decNumberInputLength = 0;
     int dotPos = 0;
-    double integerPartOfDec = 0;        // Целая часть числа (тип double для большего диапазона значений)
-    double fractionPartOfDec = 0;       // Дробная часть числа
+    double integerPartOfDec = 0;
+    double fractionPartOfDec = 0;
     bool decNumberIsPositive = true;
     bool decNumberHasDots = false;
     bool inputIsOK = true;
@@ -152,13 +150,13 @@ void convertDecToBin()
         decNumberIsPositive = true;
         inputIsOK = true;
 
-        if (decNumberInput[0] == '-')                       // Если число отрицательное
+        if (decNumberInput[0] == '-')
         {
             decNumberIsPositive = false;
             decNumberInput.erase(decNumberInput.begin());
             decNumberInputLength--;
         }
-        else if (decNumberInput[0] == '+')                  // Если число явно положительное
+        else if (decNumberInput[0] == '+')
         {
             decNumberInput.erase(decNumberInput.begin());
             decNumberInputLength--;
@@ -166,10 +164,10 @@ void convertDecToBin()
         decNumberHasDots = false;
         dotPos = decNumberInputLength;
 
-        if ((decNumberInput[decNumberInputLength - 1] == '.') ||    // Если в конце стоит точка/запятая без дробной части
+        if ((decNumberInput[decNumberInputLength - 1] == '.') ||
             (decNumberInput[decNumberInputLength - 1] == ','))
         {
-            decNumberInput += '0';      // Дополнение числа нулём для корректного разбиения на целую и дробную части
+            decNumberInput += '0';
             decNumberInputLength++;
         }
 
@@ -198,7 +196,7 @@ void convertDecToBin()
             }
         }
         if (!inputIsOK) {
-            cout << " Некорректный ввод. Введите ещё раз:\n";
+            cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
         }
         else
         {
@@ -208,7 +206,7 @@ void convertDecToBin()
             }
             catch (out_of_range)
             {
-                cerr << " Число слишком большое. Введите другое число:\n";
+                cerr << " Лік надта вялікі. Увядзіце іншы лік:\n";
                 inputIsOK = false;
             }
         }
@@ -221,7 +219,7 @@ void convertDecToBin()
         }
         else
         {
-            while (integerPartOfDec > 0)    // Перевод целой части числа
+            while (integerPartOfDec > 0)
             {
                 binNumber = to_string(int(fmod(integerPartOfDec, 2))) + binNumber;
                 integerPartOfDec = floor(integerPartOfDec / 2);
@@ -232,11 +230,11 @@ void convertDecToBin()
             binNumber = '-' + binNumber;
         }
 
-        if (decNumberHasDots)   // Если число имеет дробную часть
+        if (decNumberHasDots)
         {
             binNumber += '.';
-            const int NUMBER_OF_FRACTION_DIGITS = 15;               // Максимальное число отображаемых знаков после точки/запятой
-            for (int i = 0; i < NUMBER_OF_FRACTION_DIGITS; i++)     // Перевод дробной части числа
+            const int NUMBER_OF_FRACTION_DIGITS = 15;
+            for (int i = 0; i < NUMBER_OF_FRACTION_DIGITS; i++)
             {
                 fractionPartOfDec *= 2;
                 if (fractionPartOfDec >= 1.0)
@@ -254,11 +252,11 @@ void convertDecToBin()
             }
         }
 
-        cout << " Число в двоичной системе счисления: " << binNumber << endl;
+        cout << " Лік у двайковай сістэме лічэння: " << binNumber << endl;
     }
     catch (const exception& err)
     {
-        cerr << " Что-то пошло не так.\n";
-        cerr << " Ошибка: " << typeid(err).name() << ": " << err.what() << '\n';
+        cerr << " Штосьці пайшло не так.  :/\n";
+        cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
     }
 }

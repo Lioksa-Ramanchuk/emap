@@ -9,11 +9,10 @@ const char RUSSIAN_ALPHABET[] = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 
 enum class eCipherMode { DECRYPT_MODE, ENCRYPT_MODE };
 
-void caesarCipher();	// Шифратор-дешифратор Цезаря
+void caesarEnDecoder();
 
-// Функция (де-)шифрования при помощи шифра Цезаря
-void encodeDecodeWithCaesar(std::string& strText, std::string& strNewText, const char* pALPHABET, eCipherMode& CIPHER_MODE);
+void cipherWithCaesar(std::string& strText, std::string& strNewText, const char* pALPHABET, eCipherMode& CIPHER_MODE);
 
-char charToUpper(const char& LETTER);    // Конвертация символа в верхний регистр
+char charToUpper(const char& LETTER);
 
 #endif

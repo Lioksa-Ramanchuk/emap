@@ -26,19 +26,19 @@ void reminder()
 		if (callMenu)
 		{
 			system("CLS");
-			cout << "\n Напоминалка.\n";
+			cout << "\n Напамінальнік.\n";
 
 			if (!message.empty())
 			{
-				cout << "\n НАПОМИНАНИЕ: " << message << "\n";
+				cout << "\n НАПАМІН: " << message << "\n";
 				Beep(440, 1500);
 				message.clear();
 			}
 
-			cout << "\n Выберите:\n";
-			cout << "  1 ——> создать новое напоминание\n";
-			cout << "  2 ——> перейти в главное меню\n";
-			cout << "  3 ——> выйти из программы\n";
+			cout << "\n Абярыце:\n";
+			cout << "  1 ——> стварыць новы напамін\n";
+			cout << "  2 ——> перайсці ў галоўнае меню\n";
+			cout << "  3 ——> выйсці з праграмы\n";
 
 			char answer;
 			do {
@@ -49,7 +49,7 @@ void reminder()
 				{
 				case '1':
 				{
-					cout << "\n Через сколько часов должна сработать напоминалка?\n";
+					cout << "\n Праз колькі гадзін павінен спрацаваць напамінальнік?\n";
 					string hmsInput;
 					bool hmsInputIsOK = true;
 					do
@@ -63,11 +63,11 @@ void reminder()
 						catch (...)
 						{
 							hmsInputIsOK = false;
-							cout << " Некорректный ввод. Введите ещё раз:\n";
+							cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 						}
 					} while (!hmsInputIsOK);
 
-					cout << "\n Через сколько минут должна сработать напоминалка?\n";
+					cout << "\n Праз колькі хвілін павінен спрацаваць напамінальнік?\n";
 					do
 					{
 						getline(cin, hmsInput);
@@ -79,11 +79,11 @@ void reminder()
 						catch (...)
 						{
 							hmsInputIsOK = false;
-							cout << " Некорректный ввод. Введите ещё раз:\n";
+							cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 						}
 					} while (!hmsInputIsOK);
 
-					cout << "\n Через сколько секунд должна сработать напоминалка?\n";
+					cout << "\n Праз колькі секунд павінен спрацаваць напамінальнік?\n";
 					do
 					{
 						getline(cin, hmsInput);
@@ -95,11 +95,11 @@ void reminder()
 						catch (...)
 						{
 							hmsInputIsOK = false;
-							cout << " Некорректный ввод. Введите ещё раз:\n";
+							cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 						}
 					} while (!hmsInputIsOK);
 
-					cout << "\n Введите текст напоминания:\n";
+					cout << "\n Увядзіце тэкст напаміну:\n";
 					do
 					{
 						getline(cin, message);
@@ -114,7 +114,7 @@ void reminder()
 				case '3':
 					exit(0);
 				default:
-					cout << " Некорректный ввод. Введите ещё раз:\n";
+					cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 					break;
 				}
 			} while ((answer < '1') || (answer > '3'));
@@ -129,16 +129,16 @@ void reminder()
 			}
 
 			system("CLS");
-			cout << "\n Напоминалка.\n";
-			cout << " Для удаления напоминания нажмите клавишу D.\n";
-			cout << " Для перехода в главное меню нажмите любую другую клавишу.\n";
+			cout << "\n Напамінальнік.\n";
+			cout << " Для выдалення напамінальніка націсніце клавишу D.\n";
+			cout << " Для пераходу ў галоўнае меню націсніце любую іншую клавішу.\n";
 
 			deltaTime = (long long)(remindTime - now);
 			hours = deltaTime / 3600;
 			mins = deltaTime / 60 - hours * 60;
 			secs = deltaTime - hours * 3600 - mins * 60;
 
-			cout << "\n До срабатывания напоминалки осталось:\n";
+			cout << "\n Да спрацоўвання напамінальніка засталося:\n";
 
 			cout << "\n    +----------";
 			if (hours > 99) {

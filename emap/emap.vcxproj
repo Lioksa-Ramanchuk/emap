@@ -141,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bin_dec_converter.cpp" />
-    <ClCompile Include="caesar_cipher.cpp" />
+    <ClCompile Include="caesar_endecoder.cpp" />
     <ClCompile Include="current_date_time.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="number_calculator.cpp" />
@@ -151,7 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bin_dec_converter.h" />
-    <ClInclude Include="caesar_cipher.h" />
+    <ClInclude Include="caesar_endecoder.h" />
     <ClInclude Include="current_date_time.h" />
     <ClInclude Include="number_calculator.h" />
     <ClInclude Include="reminder.h" />

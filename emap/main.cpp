@@ -1,10 +1,10 @@
-#include "number_calculator.h"  // Калькулятор для работы с числами                                     | by Никита Каребо
-#include "string_calculator.h"  // Калькулятор для работы со строками                                   | by Владислав Горощеня
-#include "current_date_time.h"  // Часы: вывод текущего времени                                         | by Олег Точило
-#include "timetable.h"          // Расписание занятий на заданный день                                  | by Максим Ружицкий
-#include "bin_dec_converter.h"  // Перевод числа из двоичной системы счисления в десятичную и наоборот  | by Алексей Романчук
-#include "reminder.h"			// Напоминалка															| by Илья Тихомиров
-#include "caesar_cipher.h"      // Шифратор-дешифратор Цезаря                                           | by Алексей Романчук
+#include "number_calculator.h"  // Лікавы калькулятар
+#include "string_calculator.h"  // Радковы калькулятар
+#include "current_date_time.h"  // Гадзіннік
+#include "timetable.h"          // Расклад заняткаў
+#include "bin_dec_converter.h"  // BIN/DEC канвертар
+#include "reminder.h"			// Напамінальнік
+#include "caesar_endecoder.h"	// Шыфратар-дэшыфратар Цэзара
 
 #include <iostream>
 #define NOMINMAX
@@ -15,24 +15,24 @@ int main()
 	using std::cin;
 	using std::cout;
 
-	system("chcp 1251 > nul");  // Для поддержки Windows-1251
+	system("chcp 1251 > nul");  // Windows-1251
 
 	char answer;
 	do
 	{
 		system("CLS");
-		cout << "\n Главное меню.\n";
+		cout << "\n Галоўнае меню.\n";
 
-		cout << "\n Выберите вариант использования программы:\n";
-		cout << "  1 ——> калькулятор для работы с числами\n";
-		cout << "  2 ——> калькулятор для работы со строками\n";
-		cout << "  3 ——> часы: вывод текущего времени\n";
-		cout << "  4 ——> расписание занятий на заданный день\n";
-		cout << "  5 ——> конвертер чисел из двоичной системы счисления в десятичную и наоборот\n";
-		cout << "  6 ——> напоминалка\n";
-		cout << "  7 ——> шифратор-дешифратор Цезаря\n";             // Дополнительное задание
-		cout << "  8 ——> открыть сайт проекта с документацией\n";
-		cout << "  9 ——> выйти из программы\n";
+		cout << "\n Абярыце варыянт выкарыстання праграмы:\n";
+		cout << "  1 ——> лікавы калькулятар\n";
+		cout << "  2 ——> радковы калькулятар\n";
+		cout << "  3 ——> гадзіннік\n";
+		cout << "  4 ——> расклад заняткаў\n";
+		cout << "  5 ——> BIN/DEC канвертар\n";
+		cout << "  6 ——> напамінальнік\n";
+		cout << "  7 ——> шыфратар-дэшыфратар Цэзара\n";
+		cout << "  8 ——> адкрыць сайт з недакументацыяй\n";
+		cout << "  9 ——> выйсці з праграмы\n";
 
 		do
 		{
@@ -42,26 +42,26 @@ int main()
 
 			switch (answer)
 			{
-			case '1': numberCalculator();   //          - НИКИТА КАРЕБО
+			case '1': numberCalculator();
 				break;
-			case '2': stringCalculator();   //          - ВЛАД ГОРОЩЕНЯ
+			case '2': stringCalculator();
 				break;
-			case '3': currentDateTime();    //          - ОЛЕГ ТОЧИЛО
+			case '3': currentDateTime();
 				break;
-			case '4': timetable();          //          - МАКСИМ РУЖИЦКИЙ
+			case '4': timetable();
 				break;
-			case '5': binDecConverter();    //          - АЛЕКСЕЙ РОМАНЧУК
+			case '5': binDecConverter();
 				break;
-			case '6': reminder();           //           - ИЛЬЯ ТИХОМИРОВ
+			case '6': reminder();
 				break;
-			case '7': caesarCipher();       //         - АЛЕКСЕЙ РОМАНЧУК
+			case '7': caesarEnDecoder();
 				break;
 			case '8': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
 				break;
 			case '9':
 				break;
 			default:
-				cout << " Некорректный ввод. Введите ещё раз.\n";
+				cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 				break;
 			}
 		} while ((answer < '1') || (answer > '9'));
@@ -69,3 +69,7 @@ int main()
 
 	return 0;
 }
+
+
+
+// Тут былі А. Раманчук, У. Гарашчэня, М. Карэба,  М. Ружыцкі, А. Тачыла, І. Ціхаміраў. 

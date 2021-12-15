@@ -4,9 +4,23 @@
 #include <string>
 
 enum class eTokenValue {
-    ERR_SYMBOL, NUMBER, PRINT,
+    NUMBER, PRINT,
     PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^',
     LP = '(', RP = ')'
+};
+
+class CalcException
+{
+private:
+    std::string exceptionMessage;
+    
+public:
+    CalcException(std::string calcError)
+        : exceptionMessage(calcError)
+    {
+    }
+
+    const char* what() { return exceptionMessage.c_str(); }
 };
 
 void numberCalculator();

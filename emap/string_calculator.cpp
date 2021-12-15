@@ -7,18 +7,18 @@ void stringCalculator()
 {
 	system("CLS");
 
-	cout << "\n Строковый калькулятор.\n";
+	cout << "\n Радковы калькулятар.\n";
 
 	char answer;
 	do
 	{
-		cout << "\n Выберите:\n";
-		cout << "  1 ——> сравнить две строки\n";
-		cout << "  2 ——> определить позицию подстроки в строке\n";
-		cout << "  3 ——> заменить подстроку в строке\n";
-		cout << "  4 ——> определить количество гласных и согласных в строке\n";
-		cout << "  5 ——> перейти в главное меню\n";
-		cout << "  6 ——> выйти из программы\n";
+		cout << "\n Абярыце:\n";
+		cout << "  1 ——> параўнаць два радкі\n";
+		cout << "  2 ——> вызначыць пазіцыю падрадка ў радку\n";
+		cout << "  3 ——> замяніць падрадок у радку\n";
+		cout << "  4 ——> вызначыць колькасць галосных і зычных у радку\n";
+		cout << "  5 ——> перайсці ў галоўнае меню\n";
+		cout << "  6 ——> выйсці з праграмы\n";
 
 		do {
 			cin >> answer;
@@ -39,7 +39,7 @@ void stringCalculator()
 			case '6':
 				exit(0);
 			default:
-				cout << " Некорректный ввод. Введите ещё раз:\n";
+				cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 				break;
 			}
 		} while ((answer < '1')||(answer > '6'));
@@ -50,22 +50,22 @@ void compareStrings()
 {
 	string firstString, secondString;
 
-	cout << "\n Введите первую строку:\n";
+	cout << "\n Увядзіце першы радок:\n";
 	getline(cin, firstString);
 
-	cout << "\n Введите вторую строку:\n";
+	cout << "\n Увядзіце другі радок:\n";
 	getline(cin, secondString);
 
 	if (firstString == secondString) {
-		cout << "\n Строки равны.\n";
+		cout << "\n Радкі роўныя.\n";
 	}
 	else
 	{
 		if (firstString > secondString) {
-			cout << "\n Первая строка больше второй.\n";
+			cout << "\n Першы радок большы за другі.\n";
 		}
 		else {
-			cout << "\n Первая строка меньше второй.\n";
+			cout << "\n Першы радок меншы за здругі.\n";
 		}
 	}
 }
@@ -74,21 +74,21 @@ void findSubstr()
 {
 	string str, subString;
 
-	cout << "\n Введите строку, в которой будет осуществляться поиск подстроки:\n";
+	cout << "\n Увядзіце радок, у якім трэба знайсці падрадок:\n";
 	getline(cin, str);
 	int firstStringLength = str.length();
 
-	cout << "\n Введите подстроку, которую нужно найти в строке:\n";
+	cout << "\n Увядзіце падрадок, які трэба знайсці ў радку:\n";
 	getline(cin, subString);
 	int secondStringLength = subString.length();
 
 	int pos = str.find(subString);
 
 	if (pos == string::npos) {
-		cout << "\n Строка не содержит данную подстроку.\n";
+		cout << "\n Радок не ўтрымлівае дадзены падрадок.\n";
 	}
 	else {
-		cout << "\n Позиция подстроки в строке: " << pos << endl;
+		cout << "\n Пазіцыя падрадка ў радку: " << pos << endl;
 	}
 }
 
@@ -97,23 +97,23 @@ void replaceSubstr()
 	string str, subStrToReplace, subStrToReplaceWith;
 	int pos = 0;
 
-	cout << "\n Введите строку, в которой нужно заменить подстроку:\n";
+	cout << "\n Увядзіце радок, у якім трэба замяніць падрадок:\n";
 	getline(cin, str);
 
 	char answer;
 	do
 	{
-		cout << "\n Введите подстроку, которую нужно заменить:\n";
+		cout << "\n Увядзіце падрадок, які трэба замяніць:\n";
 		getline(cin, subStrToReplace);
 
 		pos = str.find(subStrToReplace);
 
 		if (pos == string::npos)
 		{
-			cout << "\n Строка не содержит данную подстроку. Выберите:\n";
-			cout << "  1 ——> ввести новую подстроку\n";
-			cout << "  2 ——> перейти в меню калькулятора для строк\n";
-			cout << "  3 ——> выйти из программы\n";
+			cout << "\n Радок не ўтрымлівае дадзены падрадок. Абярыце:\n";
+			cout << "  1 ——> увесці іншы падрадок\n";
+			cout << "  2 ——> перайсці ў меню радковага калькулятора\n";
+			cout << "  3 ——> выйсці з праграмы\n";
 
 			do {
 				cin >> answer;
@@ -128,19 +128,19 @@ void replaceSubstr()
 				case '3':
 					exit(0);
 				default:
-					cout << " Некорректный ввод. Введите ещё раз:\n";
+					cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 					break;
 				}
 			} while ((answer < '1') || (answer > '3'));
 		}
 	} while (pos == string::npos);
 
-	cout << "\n Введите подстроку, на которую нужно заменить:\n";
+	cout << "\n Увядзіце падрадок, на які трэба замяніць:\n";
 	getline(cin, subStrToReplaceWith);
 
 	str.replace(pos, subStrToReplace.length(), subStrToReplaceWith);
 
-	cout << "\n Строка после замены подстроки:\n";
+	cout << "\n Радок пасля замены падрадка:\n";
 	cout << str << endl;
 }
 
@@ -148,7 +148,7 @@ void countLetters()
 {
 	string str;
 
-	cout << "\n Введите строку, в которой нужно посчитать гласные и согласные:\n";
+	cout << "\n Увядзіце радок, у якім трэба падлічыць галосныя и зычныя:\n";
 	getline(cin, str);
 	int strLength = str.length();
 
@@ -196,6 +196,6 @@ void countLetters()
 		}
 	}
 
-	cout << "\n Количество гласных в строке: " << nVowels << endl;
-	cout << "\n Количество согласных в строке: " << nConsonants << endl;
+	cout << "\n Колькасць галосных у радку: " << nVowels << endl;
+	cout << "\n Колькасць зычных у радку: " << nConsonants << endl;
 }
