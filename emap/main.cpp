@@ -42,7 +42,7 @@ int main()
 
 			switch (answer)
 			{
-			case '1': numberCalculator();   //          - мхйхрю йюпеан
+			case '1': //numberCalculator();   //          - мхйхрю йюпеан
 				break;
 			case '2': stringCalculator();   //          - бкюд цнпныемъ
 				break;
