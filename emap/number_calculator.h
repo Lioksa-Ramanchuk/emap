@@ -4,7 +4,7 @@
 #include <string>
 
 enum class eTokenValue {
-    NUMBER, PRINT,
+    NUMBER, WORD, PRINT,
     PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^',
     LP = '(', RP = ')'
 };
@@ -13,7 +13,7 @@ class CalcException
 {
 private:
     std::string exceptionMessage;
-    
+
 public:
     CalcException(std::string calcError)
         : exceptionMessage(calcError)
