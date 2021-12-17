@@ -9,6 +9,7 @@ const static unsigned MAX_NESTING_VALUE = 100;
 static stringstream g_expression;
 static eTokenValue g_currentToken = eTokenValue::PRINT;
 static double g_numberValue = 0;
+static string g_stringValue = "";
 static int g_bracketsCount = 0;
 static unsigned g_nestingChecker = 0;
 
@@ -19,9 +20,10 @@ void numberCalculator()
     cout << "\n Лікавы калькулятар.\n";
     cout << " Вылічвае значэнне уведзенага выразу.\n";
     cout << " Падтрымлівае выкарыстанне ў выразе аператараў +, -, *, /, ^, () з карэктным парадкам вылічэнняў.\n";
+    cout << " Падтрымлівае выкарыстанне sin(), cos(), tan(), cot().\n";
     cout << " Прыклад:\n";
-    cout << "         выраз: 2.5 + (3^2 - 4 * 5)/11\n";
-    cout << "         вынік: 1.5\n";
+    cout << "         выраз: 2.5 + (3^2 - 4 * 5)/11 + cos(0)\n";
+    cout << "         вынік: 2.500000\n";
 
     char answer;
     do
@@ -65,7 +67,7 @@ void numberCalculator()
                     cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
                 }
             }
-                break;
+            break;
             case '2':
                 return;
             case '3':
@@ -173,8 +175,53 @@ double prim(bool get)
             throw CalcException("чакалася )");
         }
         getToken();
-        break;
     }
+    break;
+    case eTokenValue::WORD:
+    {
+        if ((g_stringValue == "sin") ||
+            (g_stringValue == "cos") ||
+            (g_stringValue == "tan") ||
+            (g_stringValue == "cot"))
+        {
+            getToken();
+            if (g_currentToken == eTokenValue::LP)
+            {
+                g_expression.putback('(');
+                value = prim(true);
+
+                if (g_stringValue == "sin") {
+                    value = sin(value);
+                }
+                else if (g_stringValue == "cos") {
+                    value = cos(value);
+                }
+                else if (g_stringValue == "tan") {
+                    if (abs(cos(value)) > 0.00000000001) {
+                        value = sin(value) / cos(value);
+                    }
+                    else {
+                        throw CalcException((string)"нельга вылічыць тангенс pi/2");
+                    }
+                }
+                else if (g_stringValue == "cot") {
+                    if (abs(sin(value)) > 0.00000000001) {
+                        value = cos(value) / sin(value);
+                    }
+                    else {
+                        throw CalcException((string)"нельга вылічыць катангенс 0");
+                    }
+                }
+            }
+            else {
+                throw CalcException("чакалася (");
+            }
+        }
+        else {
+            throw CalcException((string)"сустрэты невядомы сімвал " + g_stringValue[0]);
+        }
+    }
+    break;
     default:
         throw CalcException("чакаўся першасны выраз");
     }
@@ -227,7 +274,17 @@ eTokenValue getToken()
         g_expression.putback(ch);
         g_expression >> g_numberValue;
         return g_currentToken = eTokenValue::NUMBER;
+
     default:
+        if (isalpha(ch))
+        {
+            g_stringValue = ch;
+            while (g_expression.get(ch) && isalpha(ch)) {
+                g_stringValue.push_back(ch);
+            }
+            g_expression.putback(ch);
+            return g_currentToken = eTokenValue::WORD;
+        }
         throw CalcException((string)"сустрэты невядомы сімвал " + ch);
     }
 }
