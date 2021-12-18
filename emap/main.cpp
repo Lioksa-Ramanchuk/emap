@@ -7,6 +7,7 @@
 #include "caesar_endecoder.h"	// Шыфратар-дэшыфратар Цэзара
 
 #include <iostream>
+#include <thread>
 #define NOMINMAX
 #include <Windows.h>
 
@@ -16,6 +17,9 @@ int main()
 	using std::cout;
 
 	system("chcp 1251 > nul");  // Windows-1251
+
+	std::thread th(checkRem);
+	th.detach();
 
 	char answer;
 	do
