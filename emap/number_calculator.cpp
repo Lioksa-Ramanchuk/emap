@@ -184,39 +184,34 @@ double prim(bool get)
             (g_stringValue == "tan") ||
             (g_stringValue == "cot"))
         {
-            getToken();
-            if (g_currentToken == eTokenValue::LP)
-            {
-                g_expression.putback('(');
-                value = prim(true);
+            value = prim(true);
 
-                if (g_stringValue == "sin") {
-                    value = sin(value);
+            if (g_stringValue == "sin") {
+                value = sin(value);
+            }
+            else if (g_stringValue == "cos") {
+                value = cos(value);
+            }
+            else if (g_stringValue == "tan") {
+                if (abs(cos(value)) > 0.00000000001) {
+                    value = sin(value) / cos(value);
                 }
-                else if (g_stringValue == "cos") {
-                    value = cos(value);
-                }
-                else if (g_stringValue == "tan") {
-                    if (abs(cos(value)) > 0.00000000001) {
-                        value = sin(value) / cos(value);
-                    }
-                    else {
-                        throw CalcException((string)"нельга вылічыць тангенс pi/2");
-                    }
-                }
-                else if (g_stringValue == "cot") {
-                    if (abs(sin(value)) > 0.00000000001) {
-                        value = cos(value) / sin(value);
-                    }
-                    else {
-                        throw CalcException((string)"нельга вылічыць катангенс 0");
-                    }
+                else {
+                    throw CalcException((string)"нельга вылічыць тангенс pi/2");
                 }
             }
-            else {
-                throw CalcException("чакалася (");
+            else if (g_stringValue == "cot") {
+                if (abs(sin(value)) > 0.00000000001) {
+                    value = cos(value) / sin(value);
+                }
+                else {
+                    throw CalcException((string)"нельга вылічыць катангенс 0");
+                }
             }
         }
+        /*else if (g_stringValue == "log") {
+
+        }*/
         else {
             throw CalcException((string)"сустрэты невядомы сімвал " + g_stringValue[0]);
         }
