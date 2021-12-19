@@ -80,7 +80,7 @@ void numberCalculator()
                 cout << "  root[n], root[n]()    корань n-й ступені     root[3]8, root[3](8)     2\n";
                 cout << "  lg, lg()              дзесятковы лагарыфм    lg10, lg(10)             1\n";
                 cout << "  log, log()            дзесятковы лагарыфм    log100, log(100)         2\n";
-                cout << "  ln, ln()              натуральны лагарыфм    ln7.389056, ln(e)        2\n";
+                cout << "  ln, ln()              натуральны лагарыфм    ln7.389056, ln(e^2)        2\n";
                 cout << "  log[n], log[n]()      лагарыфм па аснове n   log[2]8, log[2](8)       3\n";
                 cout << "  sin, sin()            сінус                  sin0, sin(pi)            0\n";
                 cout << "  cos, cos()            косінус                cos0, cos(pi/2)          1\n";
