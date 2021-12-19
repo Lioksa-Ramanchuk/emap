@@ -5,8 +5,8 @@
 
 enum class eTokenValue {
     NUMBER, WORD, PRINT,
-    PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^',
-    LP = '(', RP = ')'
+    PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^', FACT = '!',
+    LP = '(', RP = ')', LSP = '[', RSP = ']'
 };
 
 class CalcException
@@ -28,5 +28,7 @@ double expr(bool get);
 double term(bool get);
 double prim(bool get);
 eTokenValue getToken();
+
+long double factorial(unsigned long long value);
 
 #endif

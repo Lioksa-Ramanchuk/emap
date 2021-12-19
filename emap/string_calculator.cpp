@@ -76,11 +76,11 @@ void findSubstr()
 
 	cout << "\n Увядзіце радок, у якім трэба знайсці падрадок:\n";
 	getline(cin, str);
-	int firstStringLength = str.length();
+	unsigned firstStringLength = str.length();
 
 	cout << "\n Увядзіце падрадок, які трэба знайсці ў радку:\n";
 	getline(cin, subString);
-	int secondStringLength = subString.length();
+	unsigned secondStringLength = subString.length();
 
 	int pos = str.find(subString);
 
@@ -150,10 +150,10 @@ void countLetters()
 
 	cout << "\n Увядзіце радок, у якім трэба падлічыць галосныя и зычныя:\n";
 	getline(cin, str);
-	int strLength = str.length();
+	unsigned strLength = str.length();
 
-	int nVowels = 0;
-	int nConsonants = 0;
+	unsigned nVowels = 0;
+	unsigned nConsonants = 0;
 	for (char letter : str)
 	{
 		if (

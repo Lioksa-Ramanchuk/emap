@@ -5,12 +5,13 @@
 using namespace std;
 
 const static unsigned MAX_NESTING_VALUE = 100;
+const static double MIN_POS_VALUE = 0.00000000001;
 
 static stringstream g_expression;
 static eTokenValue g_currentToken = eTokenValue::PRINT;
 static double g_numberValue = 0;
 static string g_stringValue = "";
-static int g_bracketsCount = 0;
+static int g_parenthesesCount = 0;
 static unsigned g_nestingChecker = 0;
 
 void numberCalculator()
@@ -48,7 +49,7 @@ void numberCalculator()
                 g_expression.str("");
                 g_expression.clear();
                 g_numberValue = 0;
-                g_bracketsCount = 0;
+                g_parenthesesCount = 0;
                 g_nestingChecker = 0;
 
                 g_expression << exp;
@@ -129,8 +130,8 @@ double term(bool get)
         case eTokenValue::LP:
             throw CalcException("сустрэты нечаканы аператар (");
         case eTokenValue::RP:
-            g_bracketsCount--;
-            if (g_bracketsCount < 0) {
+            g_parenthesesCount--;
+            if (g_parenthesesCount < 0) {
                 throw CalcException("сустрэты нечаканы аператар )");
             }
             return left;
@@ -148,7 +149,7 @@ double prim(bool get)
         throw CalcException("надта складаны выраз");
     }
 
-    double value = 0;
+    double value = 0.0;
 
     if (get) {
         getToken();
@@ -169,7 +170,7 @@ double prim(bool get)
         break;
     case eTokenValue::LP:
     {
-        g_bracketsCount++;
+        g_parenthesesCount++;
         value = expr(true);
         if (g_currentToken != eTokenValue::RP) {
             throw CalcException("чакалася )");
@@ -193,7 +194,7 @@ double prim(bool get)
                 value = cos(value);
             }
             else if (g_stringValue == "tan") {
-                if (abs(cos(value)) > 0.00000000001) {
+                if (std::abs(cos(value)) > MIN_POS_VALUE) {
                     value = sin(value) / cos(value);
                 }
                 else {
@@ -201,7 +202,7 @@ double prim(bool get)
                 }
             }
             else if (g_stringValue == "cot") {
-                if (abs(sin(value)) > 0.00000000001) {
+                if (std::abs(sin(value)) > MIN_POS_VALUE) {
                     value = cos(value) / sin(value);
                 }
                 else {
@@ -209,33 +210,68 @@ double prim(bool get)
                 }
             }
         }
-        /*else if (g_stringValue == "log") {
-
-        }*/
+        else if (g_stringValue == "log") {
+            double base = 10.0;
+            getToken();
+            if (g_currentToken == eTokenValue::LSP)
+            {
+                base = expr(true);
+                if (base < MIN_POS_VALUE) {
+                    throw CalcException("аснова лагарыфма павінна быць дадатным лікам");
+                }
+                if (std::abs(base - 1.0) < MIN_POS_VALUE) {
+                    throw CalcException("аснова лагарыфма не можа быць роўная 1");
+                }
+                if (g_currentToken != eTokenValue::RSP) {
+                    throw CalcException("чакалася ]");
+                }
+            }
+            value = prim(false);
+            if (value < MIN_POS_VALUE) {
+                throw CalcException("нельга вылічыць лагарыфм адмоўнага ліка ці нуля");
+            }
+            value = log(value) / log(base);
+        }
+        else if (g_stringValue == "ln") {
+            value = prim(true);
+            if (value < MIN_POS_VALUE) {
+                throw CalcException("нельга вылічыць лагарыфм адмоўнага ліка ці нуля");
+            }
+            value = log(value);
+        }
         else {
             throw CalcException((string)"сустрэты невядомы сімвал " + g_stringValue[0]);
         }
     }
-    break;
+        break;
     default:
         throw CalcException("чакаўся першасны выраз");
     }
 
-    while (true)
+    switch (g_currentToken)
     {
-        switch (g_currentToken)
-        {
-        case eTokenValue::POW:
-        {
-            double powerValue = prim(true);
-            if ((value == 0) && (powerValue == 0)) {
-                throw CalcException("узвядзенне 0 у ступень 0");
-            }
-            return pow(value, powerValue);
+    case eTokenValue::POW:
+    {
+        double powerValue = prim(true);
+        if ((abs(value) < MIN_POS_VALUE) && (powerValue <= MIN_POS_VALUE)) {
+            throw CalcException("0 можна ўзводзіць толькі ў дадатную ступень");
         }
-        default:
-            return value;
+
+        double intPart = 0.0;
+        double fracPartOfPower = modf(powerValue, &intPart);
+        if (abs(fracPartOfPower) < MIN_POS_VALUE)
+        {
+            fracPartOfPower = 0.0;
+            powerValue = intPart;
         }
+        if ((value < 0.0) && (fracPartOfPower)) {
+            throw CalcException("нельга ўзводзіць адмоўныя лікі ў дробавую ступень");
+        }
+
+        return pow(value, powerValue);
+    }
+    default:
+        return value;
     }
 }
 
@@ -255,6 +291,7 @@ eTokenValue getToken()
     case '\n':
     case 0:
         return g_currentToken = eTokenValue::PRINT;
+    case '!':
     case '^':
     case '*':
     case '/':
@@ -262,13 +299,22 @@ eTokenValue getToken()
     case '-':
     case '(':
     case ')':
+    case '[':
+    case ']':
         return g_currentToken = (eTokenValue)ch;
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
     case '.':
+    {
         g_expression.putback(ch);
         g_expression >> g_numberValue;
+        double intPartOfNumber;
+        double fracPartOfNumber = modf(g_numberValue, &intPartOfNumber);
+        if (abs(fracPartOfNumber) < MIN_POS_VALUE) {
+            g_numberValue = intPartOfNumber;
+        }
         return g_currentToken = eTokenValue::NUMBER;
+    }
 
     default:
         if (isalpha(ch))
@@ -282,4 +328,14 @@ eTokenValue getToken()
         }
         throw CalcException((string)"сустрэты невядомы сімвал " + ch);
     }
+}
+
+long double factorial(unsigned long long value)
+{
+    long double result = 1;
+    for (unsigned long long i = 2; i <= value; i++) {
+        result *= i;
+    }
+
+    return result;
 }
