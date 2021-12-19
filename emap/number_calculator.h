@@ -2,6 +2,13 @@
 #define NUMBER_CALCULATOR_H
 
 #include <string>
+#include <map>
+
+const std::map<std::string, double> CONSTANTS
+{
+    { (std::string)"pi" , 3.141592653589793 },
+    { (std::string)"e", 2.718281828459045 }
+};
 
 enum class eTokenValue {
     NUMBER, WORD, PRINT,

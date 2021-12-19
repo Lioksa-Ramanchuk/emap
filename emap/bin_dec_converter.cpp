@@ -200,7 +200,6 @@ void convertDecToBin()
         }
         else
         {
-            // ѕопытка разбиени€ числа на целую и дробную части
             try {
                 fractionPartOfDec = modf(stod(decNumberInput), &integerPartOfDec);
             }

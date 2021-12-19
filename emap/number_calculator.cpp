@@ -1,5 +1,6 @@
 #include "number_calculator.h"
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
 using namespace std;
@@ -20,19 +21,15 @@ void numberCalculator()
 
     cout << "\n Лікавы калькулятар.\n";
     cout << " Вылічвае значэнне уведзенага выразу.\n";
-    cout << " Падтрымлівае выкарыстанне ў выразе аператараў +, -, *, /, ^, () з карэктным парадкам вылічэнняў.\n";
-    cout << " Падтрымлівае выкарыстанне sin(), cos(), tan(), cot().\n";
-    cout << " Прыклад:\n";
-    cout << "         выраз: 2.5 + (3^2 - 4 * 5)/11 + cos(0)\n";
-    cout << "         вынік: 2.500000\n";
 
     char answer;
     do
     {
         cout << "\n Абярыце:\n";
         cout << "  1 ——> вылічыць значэнне арыфметычнага выразу\n";
-        cout << "  2 ——> перайсці ў галоўнае меню\n";
-        cout << "  3 ——> выйсці з праграмы\n";
+        cout << "  2 ——> спіс дазволеных аперацый\n";
+        cout << "  3 ——> перайсці ў галоўнае меню\n";
+        cout << "  4 ——> выйсці з праграмы\n";
 
         do {
             cin >> answer;
@@ -42,7 +39,7 @@ void numberCalculator()
             {
             case '1':
             {
-                cout << "\n Увядзіце арыфметычны выраз:\n";
+                cout << "\n Увядзіце выраз:\n";
                 string exp;
                 getline(cin, exp);
 
@@ -68,16 +65,37 @@ void numberCalculator()
                     cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
                 }
             }
-            break;
+                break;
             case '2':
-                return;
+                cout << "\n Спіс дазволеных аперацый:                   Прыклад выразу:          Вынік:\n";
+                cout << "  +                     складанне              2+3                      5\n";
+                cout << "  -                     адніманне              4-5                      -1\n";
+                cout << "  *                     множанне               4*2                      8\n";
+                cout << "  /                     дзяленне               7/2                      3.5\n";
+                cout << "  ( )                   дужкі                  4+(2*3)                  10\n";
+                cout << "  ^                     ступеняванне           3^2                      9\n";
+                cout << "  !                     фактарыял              4!                       24\n";
+                cout << "  sqrt, sqrt()          квадратны корань       sqrt4, sqrt(4)           2\n";
+                cout << "  root, root()          квадратны корань       root9, root(9)           3\n";
+                cout << "  root[n], root[n]()    корань n-й ступені     root[3]8, root[3](8)     2\n";
+                cout << "  lg, lg()              дзесятковы лагарыфм    lg10, lg(10)             1\n";
+                cout << "  log, log()            дзесятковы лагарыфм    log100, log(100)         2\n";
+                cout << "  ln, ln()              натуральны лагарыфм    ln7.389056, ln(e)        2\n";
+                cout << "  log[n], log[n]()      лагарыфм па аснове n   log[2]8, log[2](8)       3\n";
+                cout << "  sin, sin()            сінус                  sin0, sin(pi)            0\n";
+                cout << "  cos, cos()            косінус                cos0, cos(pi/2)          1\n";
+                cout << "  tan, tan()            тангенс                tan0, tan(pi)            0\n";
+                cout << "  cot, cot()            катангенс              cot1.570796, cot(pi/2)   0\n";
+                break;
             case '3':
+                return;
+            case '4':
                 exit(0);
             default:
                 cout << " Некарэктны ўвод. Увядзіце яшчэ раз:\n";
                 break;
             }
-        } while ((answer < '1') || (answer > '3'));
+        } while ((answer < '1') || (answer > '4'));
     } while (true);
 }
 
@@ -181,23 +199,25 @@ double prim(bool get)
         }
         getToken();
     }
-    break;
+        break;
     case eTokenValue::WORD:
     {
-        if ((g_stringValue == "sin") ||
-            (g_stringValue == "cos") ||
-            (g_stringValue == "tan") ||
-            (g_stringValue == "cot"))
+        string stringValue = g_stringValue;
+
+        if ((stringValue == "sin") ||
+            (stringValue == "cos") ||
+            (stringValue == "tan") ||
+            (stringValue == "cot"))
         {
             value = prim(true);
 
-            if (g_stringValue == "sin") {
+            if (stringValue == "sin") {
                 value = sin(value);
             }
-            else if (g_stringValue == "cos") {
+            else if (stringValue == "cos") {
                 value = cos(value);
             }
-            else if (g_stringValue == "tan") {
+            else if (stringValue == "tan") {
                 if (std::abs(cos(value)) > MIN_POS_VALUE) {
                     value = sin(value) / cos(value);
                 }
@@ -205,7 +225,7 @@ double prim(bool get)
                     throw CalcException((string)"нельга вылічыць тангенс pi/2");
                 }
             }
-            else if (g_stringValue == "cot") {
+            else if (stringValue == "cot") {
                 if (std::abs(sin(value)) > MIN_POS_VALUE) {
                     value = cos(value) / sin(value);
                 }
@@ -214,7 +234,7 @@ double prim(bool get)
                 }
             }
         }
-        else if (g_stringValue == "log") {
+        else if (stringValue == "log") {
             double base = 10.0;
             getToken();
             if (g_currentToken == eTokenValue::LSP)
@@ -237,15 +257,71 @@ double prim(bool get)
             }
             value = log(value) / log(base);
         }
-        else if (g_stringValue == "ln") {
+        else if (stringValue == "lg") {
+            value = prim(true);
+            if (value < MIN_POS_VALUE) {
+                throw CalcException("нельга вылічыць лагарыфм адмоўнага ліка ці нуля");
+            }
+            value = log(value) / log(10.0);
+        }
+        else if (stringValue == "ln") {
             value = prim(true);
             if (value < MIN_POS_VALUE) {
                 throw CalcException("нельга вылічыць лагарыфм адмоўнага ліка ці нуля");
             }
             value = log(value);
         }
+        else if (stringValue == "sqrt") {
+            value = prim(true);
+            if (value < 0.0) {
+                throw CalcException("нельга вылічыць квадратны корань з адмоўнага ліка");
+            }
+            value = sqrt(abs(value));
+        }
+        else if (stringValue == "root")
+        {
+            double rootDegree = 2.0;
+
+            getToken();
+            if (g_currentToken == eTokenValue::LSP)
+            {
+                rootDegree = expr(true);
+
+                if (rootDegree < MIN_POS_VALUE) {
+                    throw CalcException("паказчык кораня павінен быць натуральным лікам");
+                }
+
+                double intPartOfRootDegree = 0.0;
+                double fracPartOfRootDegree = modf(rootDegree, &intPartOfRootDegree);
+
+                if ((fracPartOfRootDegree < MIN_POS_VALUE) && (intPartOfRootDegree >= 1.0)) {
+                    rootDegree = intPartOfRootDegree;
+                }
+                else {
+                    throw CalcException("паказчык кораня павінен быць натуральным лікам");
+                }
+
+                if (g_currentToken != eTokenValue::RSP) {
+                    throw CalcException("чакалася ]");
+                }
+
+                getToken();
+            }
+            
+            value = prim(false);
+            bool negValueFlag = (value < 0.0);
+
+            if (negValueFlag && !(fmod(rootDegree, 2))) {
+                throw CalcException("нельга вылічыць корань цотнай ступені з адмоўнага ліка");
+            }
+
+            value = pow(abs(value), 1.0 / rootDegree);
+            if (negValueFlag) {
+                value *= -1;
+            }
+        }
         else {
-            throw CalcException((string)"сустрэты невядомы сімвал " + g_stringValue[0]);
+            throw CalcException((string)"сустрэты невядомы сімвал " + stringValue[0]);
         }
     }
         break;
@@ -264,12 +340,12 @@ double prim(bool get)
                 throw CalcException("0 можна ўзводзіць толькі ў дадатную ступень");
             }
 
-            double intPart = 0.0;
-            double fracPartOfPower = modf(powerValue, &intPart);
+            double intPartOfPower = 0.0;
+            double fracPartOfPower = modf(powerValue, &intPartOfPower);
             if (abs(fracPartOfPower) < MIN_POS_VALUE)
             {
                 fracPartOfPower = 0.0;
-                powerValue = intPart;
+                powerValue = intPartOfPower;
             }
             if ((value < 0.0) && (fracPartOfPower)) {
                 throw CalcException("нельга ўзводзіць адмоўныя лікі ў дробавую ступень");
@@ -279,7 +355,6 @@ double prim(bool get)
             break;
         case eTokenValue::FACT:
         {
-
             if (value < 0.0) {
                 throw CalcException("нельга вылічыць фактарыял адмоўнага ліка");
             }
@@ -356,9 +431,19 @@ eTokenValue getToken()
                 g_stringValue.push_back(ch);
             }
             g_expression.putback(ch);
-            return g_currentToken = eTokenValue::WORD;
+
+            if (CONSTANTS.find(g_stringValue) != CONSTANTS.end())
+            {
+                g_numberValue = CONSTANTS.at(g_stringValue);
+                return g_currentToken = eTokenValue::NUMBER;
+            }
+            else {
+                return g_currentToken = eTokenValue::WORD;
+            }
         }
-        throw CalcException((string)"сустрэты невядомы сімвал " + ch);
+        else {
+            throw CalcException((string)"сустрэты невядомы сімвал " + ch);
+        }
     }
 }
 
