@@ -1,4 +1,5 @@
 #include "number_calculator.h"
+#include <iomanip>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -7,6 +8,8 @@ using namespace std;
 
 const static unsigned MAX_NESTING_VALUE = 100;
 const static double MIN_POS_VALUE = 0.00000000001;
+const static double MAX_VALUE_FOR_FACTORIAL = 150.0;
+const static double MAX_VALUE_FOR_EXPONENT = 600.0;
 
 static stringstream g_expression;
 static eTokenValue g_currentToken = eTokenValue::PRINT;
@@ -40,8 +43,8 @@ void numberCalculator()
             case '1':
             {
                 cout << "\n Увядзіце выраз:\n";
-                string exp;
-                getline(cin, exp);
+                string expressionString;
+                getline(cin, expressionString);
 
                 g_expression.str("");
                 g_expression.clear();
@@ -49,14 +52,14 @@ void numberCalculator()
                 g_parenthesesCount = 0;
                 g_nestingChecker = 0;
 
-                g_expression << exp;
+                g_expression << expressionString;
 
                 getToken();
 
                 try
                 {
-                    exp = to_string(expr(false));
-                    cout << "\n Значэнне выразу: " << exp << '\n';
+                    double expressionResult = expr(false);
+                    cout << "\n Значэнне выразу: " << setprecision(10) << expressionResult << '\n';
                 }
                 catch (CalcException& err) {
                     cerr << "\n Памылка: " << err.what() << '\n';
@@ -75,13 +78,15 @@ void numberCalculator()
                 cout << "  ( )                   дужкі                  4*(2+3)                  20\n";
                 cout << "  ^                     ступеняванне           3^2                      9\n";
                 cout << "  !                     фактарыял              4!                       24\n";
+                cout << "  abs, abs()            модуль                 abs-4, abs(-4)           4\n";
                 cout << "  sqrt, sqrt()          квадратны корань       sqrt4, sqrt(4)           2\n";
                 cout << "  root, root()          квадратны корань       root9, root(9)           3\n";
                 cout << "  root[n], root[n]()    корань n-й ступені     root[3]8, root[3](8)     2\n";
                 cout << "  lg, lg()              дзесятковы лагарыфм    lg10, lg(10)             1\n";
                 cout << "  log, log()            дзесятковы лагарыфм    log100, log(100)         2\n";
-                cout << "  ln, ln()              натуральны лагарыфм    ln7.389056, ln(e^2)      2\n";
+                cout << "  ln, ln()              натуральны лагарыфм    ln7.389056099, ln(e^2)   2\n";
                 cout << "  log[n], log[n]()      лагарыфм па аснове n   log[2]8, log[2](8)       3\n";
+                cout << "  exp, exp()            экспанента             exp2, exp(2)             7.389056099\n";
                 cout << "  sin, sin()            сінус                  sin0, sin(pi)            0\n";
                 cout << "  cos, cos()            косінус                cos0, cos(pi/2)          1\n";
                 cout << "  tan, tan()            тангенс                tan0, tan(pi)            0\n";
@@ -217,7 +222,8 @@ double prim(bool get)
             else if (stringValue == "cos") {
                 value = cos(value);
             }
-            else if (stringValue == "tan") {
+            else if (stringValue == "tan")
+            {
                 if (std::abs(cos(value)) > MIN_POS_VALUE) {
                     value = sin(value) / cos(value);
                 }
@@ -225,7 +231,8 @@ double prim(bool get)
                     throw CalcException((string)"нельга вылічыць тангенс pi/2");
                 }
             }
-            else if (stringValue == "cot") {
+            else if (stringValue == "cot")
+            {
                 if (std::abs(sin(value)) > MIN_POS_VALUE) {
                     value = cos(value) / sin(value);
                 }
@@ -257,21 +264,24 @@ double prim(bool get)
             }
             value = log(value) / log(base);
         }
-        else if (stringValue == "lg") {
+        else if (stringValue == "lg")
+        {
             value = prim(true);
             if (value < MIN_POS_VALUE) {
                 throw CalcException("нельга вылічыць лагарыфм адмоўнага ліка ці нуля");
             }
             value = log(value) / log(10.0);
         }
-        else if (stringValue == "ln") {
+        else if (stringValue == "ln")
+        {
             value = prim(true);
             if (value < MIN_POS_VALUE) {
                 throw CalcException("нельга вылічыць лагарыфм адмоўнага ліка ці нуля");
             }
             value = log(value);
         }
-        else if (stringValue == "sqrt") {
+        else if (stringValue == "sqrt")
+        {
             value = prim(true);
             if (value < 0.0) {
                 throw CalcException("нельга вылічыць квадратны корань з адмоўнага ліка");
@@ -320,6 +330,17 @@ double prim(bool get)
                 value *= -1;
             }
         }
+        else if (stringValue == "exp")
+        {
+            value = prim(true);
+            if (value > MAX_VALUE_FOR_EXPONENT) {
+                throw CalcException("надта вялікае значэнне экспаненты");
+            }
+            value = exp(value);
+        }
+        else if (stringValue == "abs") {
+            value = abs(prim(true));
+        }
         else {
             throw CalcException((string)"сустрэты невядомы сімвал " + stringValue[0]);
         }
@@ -358,7 +379,7 @@ double prim(bool get)
             if (value < 0.0) {
                 throw CalcException("нельга вылічыць фактарыял адмоўнага ліка");
             }
-            if (value > 150.0) {
+            if (value > MAX_VALUE_FOR_FACTORIAL) {
                 throw CalcException("надта вялікае значэнне фактарыяла");
             }
 
