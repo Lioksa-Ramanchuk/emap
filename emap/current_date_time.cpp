@@ -33,6 +33,6 @@ void currentDateTime()
 
         Sleep(1000);
     }
-    _getch();
+    std::ignore = _getch();
     cout << '\n';
 }

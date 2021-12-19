@@ -100,6 +100,7 @@ double expr(bool get)
             left -= term(true);
             break;
         default:
+            g_nestingChecker--;
             return left;
         }
     }
@@ -128,16 +129,19 @@ double term(bool get)
                 throw CalcException("дз€ленне на 0");
             }
         case eTokenValue::LP:
-            throw CalcException("сустрэты нечаканы аператар (");
+            left *= prim(false);
+            break;
         case eTokenValue::RP:
             g_parenthesesCount--;
             if (g_parenthesesCount < 0) {
                 throw CalcException("сустрэты нечаканы аператар )");
             }
+            g_nestingChecker--;
             return left;
         case eTokenValue::NUMBER:
-            throw CalcException("сустрэта нечакана€ дзес€ткова€ кропка");
+            throw CalcException("сустрэты нечаканы л≥к " + to_string(g_numberValue));
         default:
+            g_nestingChecker--;
             return left;
         }
     }
@@ -225,6 +229,7 @@ double prim(bool get)
                 if (g_currentToken != eTokenValue::RSP) {
                     throw CalcException("чакалас€ ]");
                 }
+                getToken();
             }
             value = prim(false);
             if (value < MIN_POS_VALUE) {
@@ -248,30 +253,57 @@ double prim(bool get)
         throw CalcException("чакаҐс€ першасны выраз");
     }
 
-    switch (g_currentToken)
+    while (true)
     {
-    case eTokenValue::POW:
-    {
-        double powerValue = prim(true);
-        if ((abs(value) < MIN_POS_VALUE) && (powerValue <= MIN_POS_VALUE)) {
-            throw CalcException("0 можна Ґзводз≥ць тольк≥ Ґ дадатную ступень");
-        }
-
-        double intPart = 0.0;
-        double fracPartOfPower = modf(powerValue, &intPart);
-        if (abs(fracPartOfPower) < MIN_POS_VALUE)
+        switch (g_currentToken)
         {
-            fracPartOfPower = 0.0;
-            powerValue = intPart;
-        }
-        if ((value < 0.0) && (fracPartOfPower)) {
-            throw CalcException("нельга Ґзводз≥ць адмоҐны€ л≥к≥ Ґ дробавую ступень");
-        }
+        case eTokenValue::POW:
+        {
+            double powerValue = prim(true);
+            if ((abs(value) < MIN_POS_VALUE) && (powerValue <= MIN_POS_VALUE)) {
+                throw CalcException("0 можна Ґзводз≥ць тольк≥ Ґ дадатную ступень");
+            }
 
-        return pow(value, powerValue);
-    }
-    default:
-        return value;
+            double intPart = 0.0;
+            double fracPartOfPower = modf(powerValue, &intPart);
+            if (abs(fracPartOfPower) < MIN_POS_VALUE)
+            {
+                fracPartOfPower = 0.0;
+                powerValue = intPart;
+            }
+            if ((value < 0.0) && (fracPartOfPower)) {
+                throw CalcException("нельга Ґзводз≥ць адмоҐны€ л≥к≥ Ґ дробавую ступень");
+            }
+            value = pow(value, powerValue);
+        }
+            break;
+        case eTokenValue::FACT:
+        {
+
+            if (value < 0.0) {
+                throw CalcException("нельга выл≥чыць фактары€л адмоҐнага л≥ка");
+            }
+            if (value > 150.0) {
+                throw CalcException("надта в€л≥кае значэнне фактары€ла");
+            }
+
+            double intPartOfValue;
+            double fracPartOfValue = modf(value, &intPartOfValue);
+
+            if (fracPartOfValue < MIN_POS_VALUE) {
+                value = factorial((unsigned long long)intPartOfValue);
+            }
+            else {
+                throw CalcException("нельга выл≥чыць фактары€л дробавага л≥ка");
+            }
+
+            getToken();
+        }
+            break;
+        default:
+            g_nestingChecker--;
+            return value;
+        }
     }
 }
 
