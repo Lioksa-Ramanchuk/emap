@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include "calc_exception.h"
 using namespace std;
 
 const static unsigned MAX_NESTING_VALUE = 100;

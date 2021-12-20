@@ -143,21 +143,25 @@
   <ItemGroup>
     <ClCompile Include="bin_dec_converter.cpp" />
     <ClCompile Include="caesar_endecoder.cpp" />
+    <ClCompile Include="calc_exception.cpp" />
     <ClCompile Include="current_date_time.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="number_calculator.cpp" />
     <ClCompile Include="reminder.cpp" />
     <ClCompile Include="string_calculator.cpp" />
     <ClCompile Include="timetable.cpp" />
+    <ClCompile Include="universal_expr_type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bin_dec_converter.h" />
     <ClInclude Include="caesar_endecoder.h" />
+    <ClInclude Include="calc_exception.h" />
     <ClInclude Include="current_date_time.h" />
     <ClInclude Include="number_calculator.h" />
     <ClInclude Include="reminder.h" />
     <ClInclude Include="string_calculator.h" />
     <ClInclude Include="timetable.h" />
+    <ClInclude Include="universal_expr_type.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
