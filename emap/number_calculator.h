@@ -13,15 +13,15 @@ const std::map<std::string, double> CONSTANTS
 
 enum class eTokenValue
 {
-    NUMBER, WORD, PRINT,
+    NUMBER, WORD, PRINT, COMMA = ',',
     PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^', FACT = '!',
-    LP = '(', RP = ')', LSP = '[', RSP = ']'
+    LP = '(', RP = ')', LSB = '[', RSB = ']', LB = '{', RB = '}'
 };
 
 void numberCalculator();
-double expr(bool get);
-double term(bool get);
-double prim(bool get);
+UniversalExprType expr(bool get);
+UniversalExprType term(bool get);
+UniversalExprType prim(bool get);
 eTokenValue getToken();
 
 long double factorial(unsigned long long value);

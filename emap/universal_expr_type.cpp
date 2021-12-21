@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include "calc_exception.h"
 #include "universal_expr_type.h"
@@ -13,6 +14,35 @@ UniversalExprType::UniversalExprType(double val)
 {
     exprType = eExprType::NUMBER;
     value = val;
+}
+
+
+//====================================================================
+//  ostream& operator<<(ostream& out, const UniversalExprType& EXPR)
+//====================================================================
+
+ostream& operator<<(ostream& out, const UniversalExprType& EXPR)
+{
+    if (EXPR.exprType == eExprType::NUMBER)
+    {
+        out << EXPR.value;
+    }
+    else if (EXPR.exprType == eExprType::VECTOR)
+    {
+        out << "{ ";
+        
+        const unsigned N_VALUES = EXPR.values.size();
+        if (N_VALUES)
+        {
+            for (unsigned i = 0; i < N_VALUES - 1; i++) {
+                out << EXPR.values[i] << ", ";
+            }
+            out << EXPR.values[N_VALUES - 1];
+        }
+
+        out << " }";
+    }
+    return out;
 }
 
 
@@ -49,12 +79,12 @@ UniversalExprType UniversalExprType::operator+(const UniversalExprType& RIGHT_EX
     }
     else if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
     {
+        for (const UniversalExprType& val : RIGHT_EXPR.values) {
+            values.push_back(UniversalExprType(*this) + val);
+        }
+
         value = 0.0;
         exprType = eExprType::VECTOR;
-
-        for (const UniversalExprType& val : RIGHT_EXPR.values) {
-            values.push_back(*this + val);
-        }
     }
     else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
@@ -90,12 +120,13 @@ UniversalExprType UniversalExprType::operator-(const UniversalExprType& RIGHT_EX
     }
     else if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
     {
-        value = 0.0;
-        exprType = eExprType::VECTOR;
 
         for (const UniversalExprType& val : RIGHT_EXPR.values) {
-            values.push_back(*this - val);
+            values.push_back(UniversalExprType(*this) - val);
         }
+
+        exprType = eExprType::VECTOR;
+        value = 0.0;
     }
     else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
@@ -121,7 +152,7 @@ UniversalExprType UniversalExprType::operator-(const UniversalExprType& RIGHT_EX
 
 
 //====================================================================
-//  UniversalExprType::operator-(const UniversalExprType& RIGHT_EXPR)
+//  UniversalExprType::operator*(const UniversalExprType& RIGHT_EXPR)
 //====================================================================
 
 UniversalExprType UniversalExprType::operator*(const UniversalExprType& RIGHT_EXPR)
@@ -132,12 +163,12 @@ UniversalExprType UniversalExprType::operator*(const UniversalExprType& RIGHT_EX
     }
     else if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
     {
+        for (const UniversalExprType& val : RIGHT_EXPR.values) {
+            values.push_back(UniversalExprType(*this) * val);
+        }
+
         value = 0.0;
         exprType = eExprType::VECTOR;
-
-        for (const UniversalExprType& val : RIGHT_EXPR.values) {
-            values.push_back(*this * val);
-        }
     }
     else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
@@ -162,4 +193,59 @@ UniversalExprType UniversalExprType::operator*(const UniversalExprType& RIGHT_EX
     }
 
     return *this;
+}
+
+
+//====================================================================
+//  UniversalExprType::operator/(const UniversalExprType& RIGHT_EXPR)
+//====================================================================
+
+UniversalExprType UniversalExprType::operator/(const UniversalExprType& RIGHT_EXPR)
+{
+    if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    {
+        value /= RIGHT_EXPR.value;
+    }
+    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    {
+        for (UniversalExprType& val : values) {
+            val = val / RIGHT_EXPR;
+        }
+    }
+    else {
+        throw CalcException("дзяліць можно толькі на лік");
+    }
+
+    return *this;
+}
+
+
+//====================================================================
+//  operator string()
+//====================================================================
+
+UniversalExprType::operator string()
+{
+    string str = "";
+    if (exprType == eExprType::NUMBER)
+    {
+        str = to_string(value);
+    }
+    else if (exprType == eExprType::VECTOR)
+    {
+        str += "{ ";
+
+        const unsigned N_VALUES = values.size();
+        if (N_VALUES)
+        {
+            for (unsigned i = 0; i < N_VALUES - 1; i++) {
+                str += values[i] + ',' + ' ';
+            }
+            str += values[N_VALUES - 1];
+        }
+
+        str += " }";
+    }
+
+    return str;
 }

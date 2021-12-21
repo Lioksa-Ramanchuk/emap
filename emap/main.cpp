@@ -1,4 +1,4 @@
-#include "number_calculator.h"  // Лікавы калькулятар
+#include "number_calculator.h"  // Калькулятар
 #include "string_calculator.h"  // Радковы калькулятар
 #include "current_date_time.h"  // Гадзіннік
 #include "timetable.h"          // Расклад заняткаў
@@ -28,7 +28,7 @@ int main()
 		cout << "\n Галоўнае меню.\n";
 
 		cout << "\n Абярыце варыянт выкарыстання праграмы:\n";
-		cout << "  1 ——> лікавы калькулятар\n";
+		cout << "  1 ——> калькулятар\n";
 		cout << "  2 ——> радковы калькулятар\n";
 		cout << "  3 ——> гадзіннік\n";
 		cout << "  4 ——> расклад заняткаў\n";

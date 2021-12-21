@@ -18,10 +18,15 @@ public:
     double value;
     std::vector<UniversalExprType> values;
 
+    friend std::ostream& operator<<(std::ostream& out, const UniversalExprType& EXPR);
+
     UniversalExprType operator-();
     UniversalExprType operator+(const UniversalExprType& RIGHT_EXPR);
     UniversalExprType operator-(const UniversalExprType& RIGHT_EXPR);
     UniversalExprType operator*(const UniversalExprType& RIGHT_EXPR);
+    UniversalExprType operator/(const UniversalExprType& RIGHT_EXPR);
+
+    operator std::string();
 };
 
 #endif
