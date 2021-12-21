@@ -12,10 +12,13 @@ const static double MIN_POS_VALUE = 0.00000000001;
 const static double MAX_VALUE_FOR_FACTORIAL = 150.0;
 const static double MAX_VALUE_FOR_EXPONENT = 600.0;
 
+static UniversalExprType g_prevAnswer{ 0.0 };
+
 static stringstream g_expression;
 static eTokenValue g_currentToken = eTokenValue::PRINT;
-static UniversalExprType g_numberValue{ 0 };
+static UniversalExprType g_numberValue{ 0.0 };
 static string g_stringValue = "";
+
 static int g_parenthesesCount = 0;
 static int g_bracesCount = 0;
 static unsigned g_nestingChecker = 0;
@@ -32,7 +35,7 @@ void numberCalculator()
     {
         cout << "\n Абярыце:\n";
         cout << "  1 ——> вылічыць значэнне выразу\n";
-        cout << "  2 ——> спіс дазволеных аперацый\n";
+        cout << "  2 ——> даведка па карыстанні\n";
         cout << "  3 ——> перайсці ў галоўнае меню\n";
         cout << "  4 ——> выйсці з праграмы\n";
 
@@ -59,8 +62,8 @@ void numberCalculator()
 
                 try
                 {
-                    UniversalExprType expressionResult = expr(true);
-                    cout << "\n Значэнне выразу: " << setprecision(10) << expressionResult << '\n';
+                    g_prevAnswer = expr(true);
+                    cout << "\n Значэнне выразу: " << setprecision(10) << g_prevAnswer << '\n';
                 }
                 catch (CalcException& err) {
                     cerr << "\n Памылка: " << err.what() << '\n';
@@ -71,7 +74,10 @@ void numberCalculator()
             }
                 break;
             case '2':
-                cout << "\n Спіс дазволеных аперацый для лікаў:         Прыклад выразу:            Вынік:\n";
+                cout << "\n Зарэзерваваныя канстанты:     Значэнне:\n";
+                cout << "  pi                            3.141592653589793\n";
+                cout << "  e                             2.718281828459045\n";
+                cout << "\n Спіс дазволеных аперацый для лікаў:          Прыклад выразу:            Вынік:\n";
                 cout << "  +                     складанне              2+3                        5\n";
                 cout << "  -                     адніманне              4-5                        -1\n";
                 cout << "  *                     множанне               4*2                        8\n";
@@ -92,8 +98,7 @@ void numberCalculator()
                 cout << "  cos, cos()            косінус                cos0, cos(pi/2)            1\n";
                 cout << "  tan, tan()            тангенс                tan0, tan(pi)              0\n";
                 cout << "  cot, cot()            катангенс              cot1.570796, cot(pi/2)     0\n";
-                cout << endl;
-                cout << "\n Спіс дазволеных аперацый для вектараў:      Прыклад выразу:            Вынік:\n";
+                cout << "\n Спіс дазволеных аперацый для вектараў:       Прыклад выразу:            Вынік:\n";
                 cout << "  +                     складанне              {1, 2} + {3, -1}           { 4, 1 }\n";
                 cout << "                                               {3, -1} + 4                { 7, 3 }\n";
                 cout << "  -                     адніманне              {1, 2} - {3, -1}           { -2, 3 }\n";
@@ -102,6 +107,8 @@ void numberCalculator()
                 cout << "                                               {3, -1} * 4                { 12, -4 }\n";
                 cout << "  /                     дзяленне на лік        {3, -1} / 2                { 1.5, -0.5 }\n";
                 cout << "  norm, norm()          норма (модуль)         norm{3, 4}, norm({3, 4})   5\n";
+                cout << "\n Іншае:\n";
+                cout << "  Ans                   значэнне мінулага выразу\n";
                 break;
             case '3':
                 return;
@@ -624,7 +631,12 @@ eTokenValue getToken()
             }
             g_expression.putback(ch);
 
-            if (CONSTANTS.find(g_stringValue) != CONSTANTS.end())
+            if (g_stringValue == "Ans")
+            {
+                g_numberValue = g_prevAnswer;
+                return g_currentToken = eTokenValue::NUMBER;
+            }
+            else if (CONSTANTS.find(g_stringValue) != CONSTANTS.end())
             {
                 g_numberValue = CONSTANTS.at(g_stringValue);
                 return g_currentToken = eTokenValue::NUMBER;
