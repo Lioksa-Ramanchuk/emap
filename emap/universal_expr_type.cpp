@@ -2,7 +2,8 @@
 #include <vector>
 #include "calc_exception.h"
 #include "universal_expr_type.h"
-using namespace std;
+
+using std::vector;
 
 UniversalExprType::UniversalExprType()
 {
@@ -21,7 +22,7 @@ UniversalExprType::UniversalExprType(double val)
 //  ostream& operator<<(ostream& out, const UniversalExprType& EXPR)
 //====================================================================
 
-ostream& operator<<(ostream& out, const UniversalExprType& EXPR)
+std::ostream& operator<<(std::ostream& out, const UniversalExprType& EXPR)
 {
     if (EXPR.exprType == eExprType::NUMBER)
     {
@@ -224,12 +225,12 @@ UniversalExprType UniversalExprType::operator/(const UniversalExprType& RIGHT_EX
 //  operator string()
 //====================================================================
 
-UniversalExprType::operator string()
+UniversalExprType::operator std::string()
 {
-    string str = "";
+    std::string str = "";
     if (exprType == eExprType::NUMBER)
     {
-        str = to_string(value);
+        str = std::to_string(value);
     }
     else if (exprType == eExprType::VECTOR)
     {

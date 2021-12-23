@@ -1,7 +1,10 @@
 #include "caesar_endecoder.h"
 #include <iostream>
 #include <string>
-using namespace std;
+
+using std::cin;
+using std::cout;
+using std::string;
 
 void caesarEnDecoder()
 {
@@ -25,7 +28,7 @@ void caesarEnDecoder()
 
         do {
             cin >> answer;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             switch (answer)
             {
@@ -57,7 +60,7 @@ void caesarEnDecoder()
         do
         {
             cin >> answer;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             switch (answer)
             {
@@ -82,7 +85,7 @@ void caesarEnDecoder()
         cipherWithCaesar(strText, strNewText, pALPHABET, cipherMode);
 
         cout << "\n Тэкст пасля" << ((cipherMode == eCipherMode::DECRYPT_MODE) ? " дэ" : " ") << "шыфравання:\n";
-        cout << strNewText << endl;
+        cout << strNewText << '\n';
     } while (true);
 }
 

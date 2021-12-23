@@ -5,23 +5,45 @@
 #include <sstream>
 #include <string>
 #include "calc_exception.h"
-using namespace std;
 
-const static unsigned MAX_NESTING_VALUE = 100;
-const static double MIN_POS_VALUE = 0.00000000001;
-const static double MAX_VALUE_FOR_FACTORIAL = 150.0;
-const static double MAX_VALUE_FOR_EXPONENT = 600.0;
+using std::cin;
+using std::cout;
+using std::string;
 
-static UniversalExprType g_prevAnswer{ 0.0 };
+namespace
+{
+    const unsigned MAX_NESTING_VALUE = 100;
+    const double MIN_POS_VALUE = 0.00000000001;
+    const double MAX_VALUE_FOR_EXPONENT = 600.0;
 
-static stringstream g_expression;
-static eTokenValue g_currentToken = eTokenValue::PRINT;
-static UniversalExprType g_numberValue{ 0.0 };
-static string g_stringValue = "";
+    enum class eTokenValue
+    {
+        NUMBER, WORD, PRINT, COMMA = ',',
+        PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^', FACT = '!',
+        LP = '(', RP = ')', LSB = '[', RSB = ']', LB = '{', RB = '}'
+    };
 
-static int g_parenthesesCount = 0;
-static int g_bracesCount = 0;
-static unsigned g_nestingChecker = 0;
+    static UniversalExprType g_prevAnswer{ 0.0 };
+
+    std::stringstream g_expression;
+    eTokenValue g_currentToken = eTokenValue::PRINT;
+    UniversalExprType g_numberValue{ 0.0 };
+    string g_stringValue = "";
+
+    int g_parenthesesCount = 0;
+    int g_bracesCount = 0;
+    unsigned g_nestingChecker = 0;
+}
+
+static UniversalExprType expr(bool get);
+static UniversalExprType term(bool get);
+static UniversalExprType prim(bool get);
+static eTokenValue getToken();
+
+
+//================================================
+// void numberCalculator()
+//================================================
 
 void numberCalculator()
 {
@@ -41,7 +63,7 @@ void numberCalculator()
 
         do {
             cin >> answer;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             switch (answer)
             {
@@ -63,13 +85,14 @@ void numberCalculator()
                 try
                 {
                     g_prevAnswer = expr(true);
-                    cout << "\n Значэнне выразу: " << setprecision(10) << g_prevAnswer << '\n';
+                    cout << "\n Значэнне выразу: " << std::setprecision(10) << g_prevAnswer << '\n';
                 }
                 catch (CalcException& err) {
-                    cerr << "\n Памылка: " << err.what() << '\n';
+                    std::cerr << "\n Памылка: " << err.what() << '\n';
                 }
-                catch (...) {
-                    cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
+                catch (const std::exception& err) {
+                    std::cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
+                    std::cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
                 }
             }
                 break;
@@ -122,7 +145,12 @@ void numberCalculator()
     } while (true);
 }
 
-UniversalExprType expr(bool get)
+
+//================================================
+// static UniversalExprType expr(bool get)
+//================================================
+
+static UniversalExprType expr(bool get)
 {
     if (++g_nestingChecker > MAX_NESTING_VALUE) {
         throw CalcException("надта складаны выраз");
@@ -147,7 +175,12 @@ UniversalExprType expr(bool get)
     }
 }
 
-UniversalExprType term(bool get)
+
+//================================================
+// static UniversalExprType term(bool get)
+//================================================
+
+static UniversalExprType term(bool get)
 {
     if (++g_nestingChecker > MAX_NESTING_VALUE) {
         throw CalcException("надта складаны выраз");
@@ -204,7 +237,8 @@ UniversalExprType term(bool get)
     }
 }
 
-UniversalExprType prim(bool get)
+
+static UniversalExprType prim(bool get)
 {
     if (++g_nestingChecker > MAX_NESTING_VALUE) {
         throw CalcException("надта складаны выраз");
@@ -559,7 +593,12 @@ UniversalExprType prim(bool get)
     }
 }
 
-eTokenValue getToken()
+
+//================================================
+// static eTokenValue getToken()
+//================================================
+
+static eTokenValue getToken()
 {
     char ch;
 
@@ -650,6 +689,11 @@ eTokenValue getToken()
         }
     }
 }
+
+
+//================================================
+// long double factorial(unsigned long long value)
+//================================================
 
 long double factorial(unsigned long long value)
 {

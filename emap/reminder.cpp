@@ -8,19 +8,27 @@
 #include <Windows.h>
 #include "reminder.h"
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::setw;
+using std::setfill;
+using std::string;
+using std::vector;
 
-static vector<unsigned> g_remIDs;
-static vector<string> g_remMsgs;
-static vector<tm> g_remTimes;
-static unsigned long long g_remsCount = 0;
+namespace
+{
+	static vector<unsigned> g_remIDs;
+	static vector<string> g_remMsgs;
+	static vector<tm> g_remTimes;
+	static unsigned long long g_remsCount = 0;
 
-static bool g_remToSetExists = false;
-static time_t g_deltaTimeToSet = 0;
-static string g_msgToSet = "";
+	static bool g_remToSetExists = false;
+	static time_t g_deltaTimeToSet = 0;
+	static string g_msgToSet = "";
 
-static bool g_toShowMenu = true;
-static mutex g_mtx;
+	static bool g_toShowMenu = true;
+	std::mutex g_mtx;
+}
 
 void reminder()
 {
@@ -41,7 +49,7 @@ void reminder()
 			char answer;
 			do {
 				cin >> answer;
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 				switch (answer)
 				{
@@ -104,8 +112,8 @@ void setRem()
 			getline(cin, hmsInput);
 			try
 			{
-				if (stod(hmsInput) < 0) throw out_of_range("hours value is  too low");
-				if (stod(hmsInput) > 10000) throw out_of_range("hours value is too hign");
+				if (stod(hmsInput) < 0) throw std::out_of_range("hours value is  too low");
+				if (stod(hmsInput) > 10000) throw std::out_of_range("hours value is too hign");
 				hours = stoull(hmsInput);
 				hmsInputIsOK = true;
 			}
@@ -123,8 +131,8 @@ void setRem()
 			getline(cin, hmsInput);
 			try
 			{
-				if (stod(hmsInput) < 0) throw out_of_range("mins value is  too low");
-				if (stod(hmsInput) > 10000) throw out_of_range("mins value is too hign");
+				if (stod(hmsInput) < 0) throw std::out_of_range("mins value is  too low");
+				if (stod(hmsInput) > 10000) throw std::out_of_range("mins value is too hign");
 				mins = stoull(hmsInput);
 				hmsInputIsOK = true;
 			}
@@ -142,8 +150,8 @@ void setRem()
 			getline(cin, hmsInput);
 			try
 			{
-				if (stod(hmsInput) < 0) throw out_of_range("secs value is  too low");
-				if (stod(hmsInput) > 10000) throw out_of_range("secs value is too hign");
+				if (stod(hmsInput) < 0) throw std::out_of_range("secs value is  too low");
+				if (stod(hmsInput) > 10000) throw std::out_of_range("secs value is too hign");
 				secs = stoull(hmsInput);
 				hmsInputIsOK = true;
 			}
@@ -196,13 +204,13 @@ void delRem()
 			try
 			{
 				if ((stod(remToDelInput) < 1) || (stod(remToDelInput) > STATED_REMS_COUNT + 3.0)) {
-					throw out_of_range("incorrect choice");
+					throw std::out_of_range("incorrect choice");
 				}
 
 				remToDel = stoul(remToDelInput);
 
 				if ((remToDel < 1) || (remToDel > STATED_REMS_COUNT + 2.0)) {
-					throw out_of_range("incorrect choice");
+					throw std::out_of_range("incorrect choice");
 				}
 
 				break;

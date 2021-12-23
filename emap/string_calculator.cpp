@@ -1,7 +1,10 @@
 #include "string_calculator.h"
 #include <iostream>
 #include <string>
-using namespace std;
+
+using std::cin;
+using std::cout;
+using std::string;
 
 void stringCalculator()
 {
@@ -22,7 +25,7 @@ void stringCalculator()
 
 		do {
 			cin >> answer;
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 			switch (answer)
 			{
@@ -88,7 +91,7 @@ void findSubstr()
 		cout << "\n Радок не ўтрымлівае дадзены падрадок.\n";
 	}
 	else {
-		cout << "\n Пазіцыя падрадка ў радку: " << pos << endl;
+		cout << "\n Пазіцыя падрадка ў радку: " << pos << '\n';
 	}
 }
 
@@ -117,7 +120,7 @@ void replaceSubstr()
 
 			do {
 				cin >> answer;
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 				switch (answer)
 				{
@@ -141,7 +144,7 @@ void replaceSubstr()
 	str.replace(pos, subStrToReplace.length(), subStrToReplaceWith);
 
 	cout << "\n Радок пасля замены падрадка:\n";
-	cout << str << endl;
+	cout << str << '\n';
 }
 
 void countLetters()
@@ -196,6 +199,6 @@ void countLetters()
 		}
 	}
 
-	cout << "\n Колькасць галосных у радку: " << nVowels << endl;
-	cout << "\n Колькасць зычных у радку: " << nConsonants << endl;
+	cout << "\n Колькасць галосных у радку: " << nVowels << '\n';
+	cout << "\n Колькасць зычных у радку: " << nConsonants << '\n';
 }

@@ -1,7 +1,10 @@
 #include "bin_dec_converter.h"
 #include <iostream>
 #include <string>
-using namespace std;
+
+using std::cin;
+using std::cout;
+using std::string;
 
 void binDecConverter()
 {
@@ -20,7 +23,7 @@ void binDecConverter()
 
         do {
             cin >> answer;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             switch (answer)
             {
@@ -119,12 +122,12 @@ void convertBinToDec()
             decNumber *= -1;
         }
 
-        cout << "\n Лік у дзесятковай сістэме лічэння: " << decNumber << endl;
+        cout << "\n Лік у дзесятковай сістэме лічэння: " << decNumber << '\n';
     }
-    catch (const exception& err)
+    catch (const std::exception& err)
     {
-        cerr << " Штосьці пайшло не так.  :/\n";
-        cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
+        std::cerr << " Штосьці пайшло не так.  :/\n";
+        std::cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
     }
 }
 
@@ -203,9 +206,9 @@ void convertDecToBin()
             try {
                 fractionPartOfDec = modf(stod(decNumberInput), &integerPartOfDec);
             }
-            catch (out_of_range)
+            catch (std::out_of_range)
             {
-                cerr << " Лік надта вялікі. Увядзіце іншы лік:\n";
+                std::cerr << " Лік надта вялікі. Увядзіце іншы лік:\n";
                 inputIsOK = false;
             }
         }
@@ -220,7 +223,7 @@ void convertDecToBin()
         {
             while (integerPartOfDec > 0)
             {
-                binNumber = to_string(int(fmod(integerPartOfDec, 2))) + binNumber;
+                binNumber = std::to_string(int(fmod(integerPartOfDec, 2))) + binNumber;
                 integerPartOfDec = floor(integerPartOfDec / 2);
             }
         }
@@ -251,11 +254,11 @@ void convertDecToBin()
             }
         }
 
-        cout << " Лік у двайковай сістэме лічэння: " << binNumber << endl;
+        cout << " Лік у двайковай сістэме лічэння: " << binNumber << '\n';
     }
-    catch (const exception& err)
+    catch (const std::exception& err)
     {
-        cerr << " Штосьці пайшло не так.  :/\n";
-        cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
+        std::cerr << " Штосьці пайшло не так.  :/\n";
+        std::cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
     }
 }

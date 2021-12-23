@@ -11,18 +11,9 @@ const std::map<std::string, double> CONSTANTS
     { (std::string)"e", 2.718281828459045 }
 };
 
-enum class eTokenValue
-{
-    NUMBER, WORD, PRINT, COMMA = ',',
-    PLUS = '+', MINUS = '-', MUL = '*', DIV = '/', POW = '^', FACT = '!',
-    LP = '(', RP = ')', LSB = '[', RSB = ']', LB = '{', RB = '}'
-};
+const double MAX_VALUE_FOR_FACTORIAL = 150.0;
 
 void numberCalculator();
-UniversalExprType expr(bool get);
-UniversalExprType term(bool get);
-UniversalExprType prim(bool get);
-eTokenValue getToken();
 
 long double factorial(unsigned long long value);
 

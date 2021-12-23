@@ -15,7 +15,7 @@ int main()
 {
 	using std::cin;
 	using std::cout;
-
+	
 	system("chcp 1251 > nul");  // Windows-1251
 
 	std::thread th(checkRem);
