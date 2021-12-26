@@ -1,5 +1,5 @@
-#include "timetable.h"
 #include <iostream>
+#include "timetable.h"
 
 using std::cin;
 using std::cout;

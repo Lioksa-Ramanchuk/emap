@@ -1,6 +1,6 @@
-#include "string_calculator.h"
 #include <iostream>
 #include <string>
+#include "string_calculator.h"
 
 using std::cin;
 using std::cout;

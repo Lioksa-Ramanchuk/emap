@@ -1,10 +1,10 @@
-#include "number_calculator.h"
 #include <iomanip>
 #include <iostream>
 #include <map>
 #include <sstream>
 #include <string>
 #include "calc_exception.h"
+#include "number_calculator.h"
 
 using std::cin;
 using std::cout;

@@ -1,6 +1,6 @@
-#include "bin_dec_converter.h"
 #include <iostream>
 #include <string>
+#include "bin_dec_converter.h"
 
 using std::cin;
 using std::cout;

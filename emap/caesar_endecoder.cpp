@@ -1,6 +1,6 @@
-#include "caesar_endecoder.h"
 #include <iostream>
 #include <string>
+#include "caesar_endecoder.h"
 
 using std::cin;
 using std::cout;

@@ -1,5 +1,6 @@
 #include "number_calculator.h"  //  алькул€тар
 #include "string_calculator.h"  // –адковы калькул€тар
+#include "dozenal_mul_table.h"	// ƒванаццаткова€ табл≥ца множанн€
 #include "current_date_time.h"  // √адз≥нн≥к
 #include "timetable.h"          // –асклад зан€ткаҐ
 #include "bin_dec_converter.h"  // BIN/DEC канвертар
@@ -7,6 +8,7 @@
 #include "caesar_endecoder.h"	// Ўыфратар-дэшыфратар ÷эзара
 
 #include <iostream>
+#include <string>
 #include <thread>
 #define NOMINMAX
 #include <Windows.h>
@@ -16,60 +18,75 @@ int main()
 	using std::cin;
 	using std::cout;
 	
-	system("chcp 1251 > nul");  // Windows-1251
+	system("chcp 1251 > nul");		// Windows-1251
 
-	std::thread th(checkRem);
+	srand((unsigned)time(NULL));	// –андом
+
+	std::thread th(checkRem);		// ѕраверка напам≥наҐ
 	th.detach();
 
-	char answer;
+	std::string answer;
+	bool answerIsOK = true;
+	
 	do
 	{
 		system("CLS");
 		cout << "\n √алоҐнае меню.\n";
 
 		cout << "\n јб€рыце вары€нт выкарыстанн€ праграмы:\n";
-		cout << "  1 ЧЧ> калькул€тар\n";
-		cout << "  2 ЧЧ> радковы калькул€тар\n";
-		cout << "  3 ЧЧ> гадз≥нн≥к\n";
-		cout << "  4 ЧЧ> расклад зан€ткаҐ\n";
-		cout << "  5 ЧЧ> BIN/DEC канвертар\n";
-		cout << "  6 ЧЧ> напам≥нальн≥к\n";
-		cout << "  7 ЧЧ> шыфратар-дэшыфратар ÷эзара\n";
-		cout << "  8 ЧЧ> адкрыць сайт з недакументацы€й\n";
-		cout << "  9 ЧЧ> выйсц≥ з праграмы\n";
+		cout << "  1 ЧЧЧ> калькул€тар\n";
+		cout << "  2 ЧЧЧ> радковы калькул€тар\n";
+		cout << "  3 ЧЧЧ> дванаццаткова€ табл≥ца множанн€\n";
+		cout << "  4 ЧЧЧ> гадз≥нн≥к\n";
+		cout << "  5 ЧЧЧ> расклад зан€ткаҐ\n";
+		cout << "  6 ЧЧЧ> BIN/DEC канвертар\n";
+		cout << "  7 ЧЧЧ> напам≥нальн≥к\n";
+		cout << "  8 ЧЧЧ> шыфратар-дэшыфратар ÷эзара\n";
+		cout << "  9 ЧЧЧ> адкрыць сайт з недакументацы€й\n";
+		cout << "  10 ЧЧ> выйсц≥ з праграмы\n";
 
 		do
 		{
-			cin >> answer;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			answer = toupper(answer);
+			answerIsOK = true;
+			getline(cin, answer);
 
-			switch (answer)
-			{
-			case '1': numberCalculator();
-				break;
-			case '2': stringCalculator();
-				break;
-			case '3': currentDateTime();
-				break;
-			case '4': timetable();
-				break;
-			case '5': binDecConverter();
-				break;
-			case '6': reminder();
-				break;
-			case '7': caesarEnDecoder();
-				break;
-			case '8': ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
-				break;
-			case '9':
-				break;
-			default:
-				cout << " Ќекарэктны Ґвод. ѕаспрабуйце €шчэ раз:\n";
+			if (answer == "1") {
+				numberCalculator();
+			}
+			else if (answer == "2") {
+				stringCalculator();
+			}
+			else if (answer == "3") {
+				dozenalMulTable();
+			}
+			else if (answer == "4") {
+				currentDateTime();
+			}
+			else if (answer == "5") {
+				timetable();
+			}
+			else if (answer == "6") {
+				binDecConverter();
+			}
+			else if (answer == "7") {
+				reminder();
+			}
+			else if (answer == "8") {
+				caesarEnDecoder();
+			}
+			else if (answer == "9") {
+				ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
+			}
+			else if (answer == "10") {
 				break;
 			}
-		} while ((answer < '1') || (answer > '9'));
-	} while (answer != '9');
+			else
+			{
+				answerIsOK = false;
+				cout << " Ќекарэктны Ґвод. ѕаспрабуйце €шчэ раз:\n";
+			}
+		} while (!answerIsOK);
+	} while (answer != "10");
 
 	return 0;
 }

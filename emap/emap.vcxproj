@@ -145,6 +145,7 @@
     <ClCompile Include="caesar_endecoder.cpp" />
     <ClCompile Include="calc_exception.cpp" />
     <ClCompile Include="current_date_time.cpp" />
+    <ClCompile Include="dozenal_mul_table.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="number_calculator.cpp" />
     <ClCompile Include="reminder.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="caesar_endecoder.h" />
     <ClInclude Include="calc_exception.h" />
     <ClInclude Include="current_date_time.h" />
+    <ClInclude Include="dozenal_mul_table.h" />
     <ClInclude Include="number_calculator.h" />
     <ClInclude Include="reminder.h" />
     <ClInclude Include="string_calculator.h" />
