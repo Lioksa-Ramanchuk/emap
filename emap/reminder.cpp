@@ -35,6 +35,9 @@ void reminder()
 	system("CLS");
 	cout << "\n Напамінальнік.\n";
 
+	int choice = 0;
+	string choiceInput = "";
+
 	do
 	{
 		if (g_toShowMenu)
@@ -46,51 +49,71 @@ void reminder()
 			cout << "  4 ——> перайсці ў галоўнае меню\n";
 			cout << "  5 ——> выйсці з праграмы\n";
 
-			char answer;
-			do {
-				cin >> answer;
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			while (true)
+			{
+				getline(cin, choiceInput);
 
-				switch (answer)
+				try
 				{
-				case '1':
-					setRem();
-					break;
-				case '2':
-					delRem();
-					break;
-				case '3':
-				{
-					g_mtx.lock();
-					if (g_remsCount)
+					for (char ch : choiceInput)
 					{
-						cout << "\n Спіс дзейных напамінаў:\n";
-
-						for (int i = 0; i < g_remsCount; i++) {
-							cout << "  " << g_remMsgs[i] << "\t(на" <<
-								" " << setw(2) << setfill('0') << g_remTimes[i].tm_mday <<
-								"." << setw(2) << setfill('0') << g_remTimes[i].tm_mon + 1 <<
-								"." << setw(2) << setfill('0') << g_remTimes[i].tm_year + 1900 <<
-								" " << setw(2) << setfill('0') << g_remTimes[i].tm_hour <<
-								":" << setw(2) << setfill('0') << g_remTimes[i].tm_min <<
-								":" << setw(2) << setfill('0') << g_remTimes[i].tm_sec << ")\n";
+						if (!isdigit(ch)) {
+							throw std::out_of_range("выбар павінен быць цэлым лікам");
 						}
 					}
-					else {
-						cout << "\n Напаміны не зададзеныя.\n";
+
+					choice = stoi(choiceInput);
+
+					if ((choice < 1) || (choice > 5)) {
+						throw std::out_of_range("выбар павінен быць ад 1 да 5");
 					}
-					g_mtx.unlock();
-				}
+
 					break;
-				case '4':
-					return;
-				case '5':
-					exit(0);
-				default:
+				}
+				catch (...) {
 					cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
-					break;
 				}
-			} while ((answer < '1') || (answer > '5'));
+			}
+
+			switch (choice)
+			{
+			case 1:
+				setRem();
+				break;
+			case 2:
+				delRem();
+				break;
+			case 3:
+			{
+				g_mtx.lock();
+				if (g_remsCount)
+				{
+					cout << "\n Спіс дзейных напамінаў:\n";
+
+					for (int i = 0; i < g_remsCount; i++) {
+						cout << "  " << g_remMsgs[i] << "\t(на" <<
+							" " << setw(2) << setfill('0') << g_remTimes[i].tm_mday <<
+							"." << setw(2) << setfill('0') << g_remTimes[i].tm_mon + 1 <<
+							"." << setw(2) << setfill('0') << g_remTimes[i].tm_year + 1900 <<
+							" " << setw(2) << setfill('0') << g_remTimes[i].tm_hour <<
+							":" << setw(2) << setfill('0') << g_remTimes[i].tm_min <<
+							":" << setw(2) << setfill('0') << g_remTimes[i].tm_sec << ")\n";
+					}
+				}
+				else {
+					cout << "\n Напаміны не зададзеныя.\n";
+				}
+				g_mtx.unlock();
+			}
+				break;
+			case 4:
+				return;
+			case 5:
+				exit(0);
+			default:
+				cout << "Вы не павінны бачыць гэты радок.\n";
+				break;
+			}
 		}
 	} while (true);
 }

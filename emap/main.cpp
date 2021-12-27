@@ -25,8 +25,8 @@ int main()
 	std::thread th(checkRem);		// Праверка напамінаў
 	th.detach();
 
-	std::string answer;
-	bool answerIsOK = true;
+	int choice = 0;
+	std::string choiceInput = "";
 	
 	do
 	{
@@ -45,48 +45,68 @@ int main()
 		cout << "  9 ———> адкрыць сайт з недакументацыяй\n";
 		cout << "  10 ——> выйсці з праграмы\n";
 
-		do
+		while (true)
 		{
-			answerIsOK = true;
-			getline(cin, answer);
+			getline(cin, choiceInput);
 
-			if (answer == "1") {
-				numberCalculator();
-			}
-			else if (answer == "2") {
-				stringCalculator();
-			}
-			else if (answer == "3") {
-				dozenalMulTable();
-			}
-			else if (answer == "4") {
-				currentDateTime();
-			}
-			else if (answer == "5") {
-				timetable();
-			}
-			else if (answer == "6") {
-				binDecConverter();
-			}
-			else if (answer == "7") {
-				reminder();
-			}
-			else if (answer == "8") {
-				caesarEnDecoder();
-			}
-			else if (answer == "9") {
-				ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
-			}
-			else if (answer == "10") {
+			try
+			{
+				for (char ch : choiceInput)
+				{
+					if (!isdigit(ch)) {
+						throw std::out_of_range("выбар павінен быць цэлым лікам");
+					}
+				}
+
+				choice = stoi(choiceInput);
+
+				if ((choice < 1) || (choice > 10)) {
+					throw std::out_of_range("выбар павінен быць ад 1 да 10");
+				}
+
 				break;
 			}
-			else
-			{
-				answerIsOK = false;
+			catch (...) {
 				cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
 			}
-		} while (!answerIsOK);
-	} while (answer != "10");
+		}
+
+		switch (choice)
+		{
+		case 1:
+			numberCalculator();
+			break;
+		case 2:
+			stringCalculator();
+			break;
+		case 3:
+			dozenalMulTable();
+			break;
+		case 4:
+			currentDateTime();
+			break;
+		case 5:
+			timetable();
+			break;
+		case 6:
+			binDecConverter();
+			break;
+		case 7:
+			reminder();
+			break;
+		case 8:
+			caesarEnDecoder();
+			break;
+		case 9:
+			ShellExecuteA(GetConsoleWindow(), "open", "..\\emap.html", NULL, NULL, SW_SHOWDEFAULT);
+			break;
+		case 10:
+			break;
+		default:
+			cout << "Вы не павінны бачыць гэты радок.\n";
+			break;
+		}
+	} while (choice != 10);
 
 	return 0;
 }

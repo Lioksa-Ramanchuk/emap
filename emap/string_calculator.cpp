@@ -12,8 +12,10 @@ void stringCalculator()
 
 	cout << "\n Радковы калькулятар.\n";
 
-	char answer;
-	do
+	int choice = 0;
+	string choiceInput = "";
+
+	while (true)
 	{
 		cout << "\n Абярыце:\n";
 		cout << "  1 ——> параўнаць два радкі\n";
@@ -23,30 +25,51 @@ void stringCalculator()
 		cout << "  5 ——> перайсці ў галоўнае меню\n";
 		cout << "  6 ——> выйсці з праграмы\n";
 
-		do {
-			cin >> answer;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		while (true)
+		{
+			getline(cin, choiceInput);
 
-			switch (answer)
+			try
 			{
-			case '1': compareStrings();
-				break;
-			case '2': findSubstr();
-				break;
-			case '3': replaceSubstr();
-				break;
-			case '4': countLetters();
-				break;
-			case '5':
-				return;
-			case '6':
-				exit(0);
-			default:
-				cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+				for (char ch : choiceInput)
+				{
+					if (!isdigit(ch)) {
+						throw std::out_of_range("выбар павінен быць цэлым лікам");
+					}
+				}
+
+				choice = stoi(choiceInput);
+
+				if ((choice < 1) || (choice > 6)) {
+					throw std::out_of_range("выбар павінен быць ад 1 да 6");
+				}
+
 				break;
 			}
-		} while ((answer < '1')||(answer > '6'));
-	} while (true);
+			catch (...) {
+				cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+			}
+		}
+
+		switch (choice)
+		{
+		case 1: compareStrings();
+			break;
+		case 2: findSubstr();
+			break;
+		case 3: replaceSubstr();
+			break;
+		case 4: countLetters();
+			break;
+		case 5:
+			return;
+		case 6:
+			exit(0);
+		default:
+			cout << "Вы не павінны бачыць гэты радок.\n";
+			break;
+		}
+	}
 }
 
 void compareStrings()
@@ -103,7 +126,9 @@ void replaceSubstr()
 	cout << "\n Увядзіце радок, у якім трэба замяніць падрадок:\n";
 	getline(cin, str);
 
-	char answer;
+	int choice = 0;
+	string choiceInput = "";
+
 	do
 	{
 		cout << "\n Увядзіце падрадок, які трэба замяніць:\n";
@@ -118,23 +143,44 @@ void replaceSubstr()
 			cout << "  2 ——> перайсці ў меню радковага калькулятора\n";
 			cout << "  3 ——> выйсці з праграмы\n";
 
-			do {
-				cin >> answer;
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			while (true)
+			{
+				getline(cin, choiceInput);
 
-				switch (answer)
+				try
 				{
-				case '1':
-					break;
-				case '2':
-					return;
-				case '3':
-					exit(0);
-				default:
-					cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+					for (char ch : choiceInput)
+					{
+						if (!isdigit(ch)) {
+							throw std::out_of_range("выбар павінен быць цэлым лікам");
+						}
+					}
+
+					choice = stoi(choiceInput);
+
+					if ((choice < 1) || (choice > 3)) {
+						throw std::out_of_range("выбар павінен быць ад 1 да 3");
+					}
+
 					break;
 				}
-			} while ((answer < '1') || (answer > '3'));
+				catch (...) {
+					cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+				}
+			}
+
+			switch (choice)
+			{
+			case '1':
+				break;
+			case '2':
+				return;
+			case '3':
+				exit(0);
+			default:
+				cout << "Вы не павінны бачыць гэты радок.\n";
+				break;
+			}
 		}
 	} while (pos == string::npos);
 

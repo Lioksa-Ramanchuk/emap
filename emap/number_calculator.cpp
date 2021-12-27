@@ -52,8 +52,10 @@ void numberCalculator()
     cout << "\n Калькулятар.\n";
     cout << " Вылічвае значэнне ўведзенага выразу.\n";
 
-    char answer;
-    do
+    int choice = 0;
+    string choiceInput = "";
+
+    while (true)
     {
         cout << "\n Абярыце:\n";
         cout << "  1 ——> вылічыць значэнне выразу\n";
@@ -61,88 +63,110 @@ void numberCalculator()
         cout << "  3 ——> перайсці ў галоўнае меню\n";
         cout << "  4 ——> выйсці з праграмы\n";
 
-        do {
-            cin >> answer;
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        while (true)
+        {
+            getline(cin, choiceInput);
 
-            switch (answer)
+            try
             {
-            case '1':
-            {
-                cout << "\n Увядзіце выраз:\n";
-                string expressionString;
-                getline(cin, expressionString);
-
-                g_expression.str("");
-                g_expression.clear();
-                g_numberValue = UniversalExprType(0.0);
-                g_parenthesesCount = 0;
-                g_bracesCount = 0;
-                g_nestingChecker = 0;
-
-                g_expression << expressionString;
-
-                try
+                for (char ch : choiceInput)
                 {
-                    g_prevAnswer = expr(true);
-                    cout << "\n Значэнне выразу: " << std::setprecision(10) << g_prevAnswer << '\n';
+                    if (!isdigit(ch)) {
+                        throw std::out_of_range("выбар павінен быць цэлым лікам");
+                    }
                 }
-                catch (CalcException& err) {
-                    std::cerr << "\n Памылка: " << err.what() << '\n';
+
+                choice = stoi(choiceInput);
+
+                if ((choice < 1) || (choice > 4)) {
+                    throw std::out_of_range("выбар павінен быць ад 1 да 4");
                 }
-                catch (const std::exception& err) {
-                    std::cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
-                    std::cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
-                }
-            }
-                break;
-            case '2':
-                cout << "\n Зарэзерваваныя канстанты:     Значэнне:\n";
-                cout << "  pi                            3.141592653589793\n";
-                cout << "  e                             2.718281828459045\n";
-                cout << "\n Спіс дазволеных аперацый для лікаў:          Прыклад выразу:            Вынік:\n";
-                cout << "  +                     складанне              2+3                        5\n";
-                cout << "  -                     адніманне              4-5                        -1\n";
-                cout << "  *                     множанне               4*2                        8\n";
-                cout << "  /                     дзяленне               7/2                        3.5\n";
-                cout << "  ( )                   дужкі                  4*(2+3)                    20\n";
-                cout << "  ^                     ступеняванне           3^2                        9\n";
-                cout << "  !                     фактарыял              4!                         24\n";
-                cout << "  abs, abs()            модуль                 abs-4, abs(-4)             4\n";
-                cout << "  sqrt, sqrt()          квадратны корань       sqrt4, sqrt(4)             2\n";
-                cout << "  root, root()          квадратны корань       root9, root(9)             3\n";
-                cout << "  root[n], root[n]()    корань n-й ступені     root[3]8, root[3](8)       2\n";
-                cout << "  lg, lg()              дзесятковы лагарыфм    lg10, lg(10)               1\n";
-                cout << "  log, log()            дзесятковы лагарыфм    log100, log(100)           2\n";
-                cout << "  ln, ln()              натуральны лагарыфм    ln7.389056099, ln(e^2)     2\n";
-                cout << "  log[n], log[n]()      лагарыфм па аснове n   log[2]8, log[2](8)         3\n";
-                cout << "  exp, exp()            экспанента             exp2, exp(2)               7.389056099\n";
-                cout << "  sin, sin()            сінус                  sin0, sin(pi)              0\n";
-                cout << "  cos, cos()            косінус                cos0, cos(pi/2)            1\n";
-                cout << "  tan, tan()            тангенс                tan0, tan(pi)              0\n";
-                cout << "  cot, cot()            катангенс              cot1.570796, cot(pi/2)     0\n";
-                cout << "\n Спіс дазволеных аперацый для вектараў:       Прыклад выразу:            Вынік:\n";
-                cout << "  +                     складанне              {1, 2} + {3, -1}           { 4, 1 }\n";
-                cout << "                                               {3, -1} + 4                { 7, 3 }\n";
-                cout << "  -                     адніманне              {1, 2} - {3, -1}           { -2, 3 }\n";
-                cout << "                                               {3, -1} - 4                { -1, -5 }\n";
-                cout << "  *                     множанне (скалярнае)   {1, 2} * {3, -1}           1\n";
-                cout << "                                               {3, -1} * 4                { 12, -4 }\n";
-                cout << "  /                     дзяленне на лік        {3, -1} / 2                { 1.5, -0.5 }\n";
-                cout << "  norm, norm()          норма (модуль)         norm{3, 4}, norm({3, 4})   5\n";
-                cout << "\n Іншае:\n";
-                cout << "  Ans                   значэнне мінулага выразу\n";
-                break;
-            case '3':
-                return;
-            case '4':
-                exit(0);
-            default:
-                cout << " Некарэктны ўвод. Увядзіце яшчэ раз:\n";
+
                 break;
             }
-        } while ((answer < '1') || (answer > '4'));
-    } while (true);
+            catch (...) {
+                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+            }
+        }
+
+        switch (choice)
+        {
+        case 1:
+        {
+            cout << "\n Увядзіце выраз:\n";
+            string expressionString;
+            getline(cin, expressionString);
+
+            g_expression.str("");
+            g_expression.clear();
+            g_numberValue = UniversalExprType(0.0);
+            g_parenthesesCount = 0;
+            g_bracesCount = 0;
+            g_nestingChecker = 0;
+
+            g_expression << expressionString;
+
+            try
+            {
+                g_prevAnswer = expr(true);
+                cout << "\n Значэнне выразу: " << std::setprecision(10) << g_prevAnswer << '\n';
+            }
+            catch (CalcException& err) {
+                std::cerr << "\n Памылка: " << err.what() << '\n';
+            }
+            catch (const std::exception& err)
+            {
+                std::cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
+                std::cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
+            }
+        }
+            break;
+        case 2:
+            cout << "\n Зарэзерваваныя канстанты:     Значэнне:\n";
+            cout << "  pi                            3.141592653589793\n";
+            cout << "  e                             2.718281828459045\n";
+            cout << "\n Спіс дазволеных аперацый для лікаў:          Прыклад выразу:            Вынік:\n";
+            cout << "  +                     складанне              2+3                        5\n";
+            cout << "  -                     адніманне              4-5                        -1\n";
+            cout << "  *                     множанне               4*2                        8\n";
+            cout << "  /                     дзяленне               7/2                        3.5\n";
+            cout << "  ( )                   дужкі                  4*(2+3)                    20\n";
+            cout << "  ^                     ступеняванне           3^2                        9\n";
+            cout << "  !                     фактарыял              4!                         24\n";
+            cout << "  abs, abs()            модуль                 abs-4, abs(-4)             4\n";
+            cout << "  sqrt, sqrt()          квадратны корань       sqrt4, sqrt(4)             2\n";
+            cout << "  root, root()          квадратны корань       root9, root(9)             3\n";
+            cout << "  root[n], root[n]()    корань n-й ступені     root[3]8, root[3](8)       2\n";
+            cout << "  lg, lg()              дзесятковы лагарыфм    lg10, lg(10)               1\n";
+            cout << "  log, log()            дзесятковы лагарыфм    log100, log(100)           2\n";
+            cout << "  ln, ln()              натуральны лагарыфм    ln7.389056099, ln(e^2)     2\n";
+            cout << "  log[n], log[n]()      лагарыфм па аснове n   log[2]8, log[2](8)         3\n";
+            cout << "  exp, exp()            экспанента             exp2, exp(2)               7.389056099\n";
+            cout << "  sin, sin()            сінус                  sin0, sin(pi)              0\n";
+            cout << "  cos, cos()            косінус                cos0, cos(pi/2)            1\n";
+            cout << "  tan, tan()            тангенс                tan0, tan(pi)              0\n";
+            cout << "  cot, cot()            катангенс              cot1.570796, cot(pi/2)     0\n";
+            cout << "\n Спіс дазволеных аперацый для вектараў:       Прыклад выразу:            Вынік:\n";
+            cout << "  +                     складанне              {1, 2} + {3, -1}           { 4, 1 }\n";
+            cout << "                                               {3, -1} + 4                { 7, 3 }\n";
+            cout << "  -                     адніманне              {1, 2} - {3, -1}           { -2, 3 }\n";
+            cout << "                                               {3, -1} - 4                { -1, -5 }\n";
+            cout << "  *                     множанне (скалярнае)   {1, 2} * {3, -1}           1\n";
+            cout << "                                               {3, -1} * 4                { 12, -4 }\n";
+            cout << "  /                     дзяленне на лік        {3, -1} / 2                { 1.5, -0.5 }\n";
+            cout << "  norm, norm()          норма (модуль)         norm{3, 4}, norm({3, 4})   5\n";
+            cout << "\n Іншае:\n";
+            cout << "  Ans                   значэнне мінулага выразу\n";
+            break;
+        case 3:
+            return;
+        case 4:
+            exit(0);
+        default:
+            cout << "Вы не павінны бачыць гэты радок.\n";
+            break;
+        }
+    }
 }
 
 

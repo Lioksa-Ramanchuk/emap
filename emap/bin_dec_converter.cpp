@@ -12,8 +12,10 @@ void binDecConverter()
     cout << "\n Канвертар двайковых лікаў у дзесятковыя і наадварот.\n";
     cout << " Канвертуе дадатныя, адмоўныя, цэлыя, дробныя лікі.\n";
 
-    char answer;
-    do
+    int choice = 0;
+    string choiceInput = "";
+
+    while (true)
     {
         cout << "\n Абярыце:\n";
         cout << "  1 ——> перавесці лік з двайковай сістэмы лічэння ў дзесятковую\n";
@@ -21,26 +23,47 @@ void binDecConverter()
         cout << "  3 ——> перайсці ў галоўнае меню\n";
         cout << "  4 ——> выйсці з праграмы\n";
 
-        do {
-            cin >> answer;
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        while (true)
+        {
+            getline(cin, choiceInput);
 
-            switch (answer)
+            try
             {
-            case '1': convertBinToDec();
-                break;
-            case '2': convertDecToBin();
-                break;
-            case '3':
-                return;
-            case '4':
-                exit(0);
-            default:
-                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+                for (char ch : choiceInput)
+                {
+                    if (!isdigit(ch)) {
+                        throw std::out_of_range("выбар павінен быць цэлым лікам");
+                    }
+                }
+
+                choice = stoi(choiceInput);
+
+                if ((choice < 1) || (choice > 4)) {
+                    throw std::out_of_range("выбар павінен быць ад 1 да 4");
+                }
+
                 break;
             }
-        } while ((answer < '1') || (answer > '4'));
-    } while (true);
+            catch (...) {
+                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+            }
+        }
+
+        switch (choice)
+        {
+        case 1: convertBinToDec();
+            break;
+        case 2: convertDecToBin();
+            break;
+        case 3:
+            return;
+        case 4:
+            exit(0);
+        default:
+            cout << "Вы не павінны бачыць гэты радок.\n";
+            break;
+        }
+    }
 }
 
 void convertBinToDec()
@@ -144,7 +167,7 @@ void convertDecToBin()
     bool decNumberHasDots = false;
     bool inputIsOK = true;
 
-    cout << "\n Введите число в десятичной системе счисления:\n";
+    cout << "\n Увядзіце лік у дзесятковай сістэме злічэння:\n";
 
     do
     {

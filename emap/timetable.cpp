@@ -10,8 +10,10 @@ void timetable()
 
     cout << "\n Расклад зяняткаў.\n";
 
-    char answer;
-    do
+    int choice = 0;
+    std::string choiceInput = "";
+
+    while (true)
     {
         cout << "\n Абярыце, на які дзень тыдня вывесці расклад заняткаў:\n";
         cout << "  1 ——> панядзелак\n";
@@ -24,31 +26,52 @@ void timetable()
         cout << "  8 ——> перайсці ў галоўнае меню\n";
         cout << "  9 ——> выйсці з праграмы\n";
 
-        do {
-            cin >> answer;
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        while (true)
+        {
+            getline(cin, choiceInput);
 
-            switch (answer)
+            try
             {
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-                showTimetable(answer - '0' - 1);
-                break;
-            case '8':
-                return;
-            case '9':
-                exit(0);
-            default:
-                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+                for (char ch : choiceInput)
+                {
+                    if (!isdigit(ch)) {
+                        throw std::out_of_range("выбар павінен быць цэлым лікам");
+                    }
+                }
+
+                choice = stoi(choiceInput);
+
+                if ((choice < 1) || (choice > 9)) {
+                    throw std::out_of_range("выбар павінен быць ад 1 да 9");
+                }
+
                 break;
             }
-        } while ((answer < '1')||(answer > '9'));
-    } while (true);
+            catch (...) {
+                cout << " Некарэктны ўвод. Паспрабуйце яшчэ раз:\n";
+            }
+        }
+
+        switch (choice)
+        {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            showTimetable(choice - 1);
+            break;
+        case 8:
+            return;
+        case 9:
+            exit(0);
+        default:
+            cout << "Вы не павінны бачыць гэты радок.\n";
+            break;
+        }
+    }
 }
 
 void showTimetable(unsigned day)
