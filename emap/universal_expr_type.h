@@ -18,6 +18,8 @@ public:
     double value;
     std::vector<UniversalExprType> values;
 
+    void fillMatrix();
+
     friend std::ostream& operator<<(std::ostream& out, const UniversalExprType& EXPR);
 
     UniversalExprType operator-();

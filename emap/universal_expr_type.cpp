@@ -19,19 +19,51 @@ UniversalExprType::UniversalExprType(double val)
 
 
 //====================================================================
+//  void UniversalExprType::fillMatrix()
+//====================================================================
+
+void UniversalExprType::fillMatrix()
+{
+    if (exprType == eExprType::MATRIX)
+    {
+        unsigned rowLength = 0;
+        unsigned maxRowLength = 0;
+        
+        for (UniversalExprType& row : values)
+        {
+            rowLength = row.values.size();
+
+            if (rowLength > maxRowLength) {
+                maxRowLength = rowLength;
+            }
+        }
+
+        for (UniversalExprType& row : values)
+        {
+            row.values.resize(maxRowLength, 0);
+        }
+    }
+}
+
+
+//====================================================================
 //  ostream& operator<<(ostream& out, const UniversalExprType& EXPR)
 //====================================================================
 
 std::ostream& operator<<(std::ostream& out, const UniversalExprType& EXPR)
 {
-    if (EXPR.exprType == eExprType::NUMBER)
+    switch (EXPR.exprType)
+    {
+    case eExprType::NUMBER:
     {
         out << EXPR.value;
+
+        break;
     }
-    else if (EXPR.exprType == eExprType::VECTOR)
+    case eExprType::VECTOR:
     {
         out << "{ ";
-        
+
         const unsigned N_VALUES = EXPR.values.size();
         if (N_VALUES)
         {
@@ -42,7 +74,33 @@ std::ostream& operator<<(std::ostream& out, const UniversalExprType& EXPR)
         }
 
         out << " }";
+
+        break;
     }
+    case eExprType::MATRIX:
+    {
+        UniversalExprType expr = EXPR;
+
+        expr.fillMatrix();
+
+        out << "[ ";
+
+        const unsigned N_ROWS = expr.values.size();
+
+        if (N_ROWS)
+        {
+            for (unsigned i = 0; i < N_ROWS - 1; i++) {
+                out << expr.values[i] << ", ";
+            }
+            out << expr.values[N_ROWS - 1];
+        }
+
+        out << " ]";
+
+        break;
+    }
+    }
+    
     return out;
 }
 
@@ -53,18 +111,37 @@ std::ostream& operator<<(std::ostream& out, const UniversalExprType& EXPR)
 
 UniversalExprType UniversalExprType::operator-()
 {
-    if (exprType == eExprType::NUMBER)
+    UniversalExprType result = *this;
+
+    switch (result.exprType)
     {
-        value *= -1;
+    case eExprType::NUMBER:
+    {
+        result.value *= -1;
+
+        break;
     }
-    else if (exprType == eExprType::VECTOR)
+    case eExprType::VECTOR:
     {
-        for (UniversalExprType& val : values) {
+        for (UniversalExprType& val : result.values) {
             val = -val;
         }
+
+        break;
+    }
+    case eExprType::MATRIX:
+    {
+        result.fillMatrix();
+
+        for (UniversalExprType& val : result.values) {
+            val = -val;
+        }
+
+        break;
+    }
     }
 
-    return *this;
+    return result;
 }
 
 
@@ -74,38 +151,107 @@ UniversalExprType UniversalExprType::operator-()
 
 UniversalExprType UniversalExprType::operator+(const UniversalExprType& RIGHT_EXPR)
 {
-    if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    UniversalExprType result = *this;
+
+    if ((result.exprType == eExprType::NUMBER) &&
+        (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
-        value += RIGHT_EXPR.value;
+        result.value += RIGHT_EXPR.value;
     }
-    else if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    else if ((result.exprType == eExprType::NUMBER)
+        && 
+        ((RIGHT_EXPR.exprType == eExprType::VECTOR) ||
+         (RIGHT_EXPR.exprType == eExprType::MATRIX)))
     {
-        for (const UniversalExprType& val : RIGHT_EXPR.values) {
-            values.push_back(UniversalExprType(*this) + val);
+        result.values = RIGHT_EXPR.values;
+        result.exprType = RIGHT_EXPR.exprType;
+        result.fillMatrix();
+        
+        for (UniversalExprType& val : result.values) {
+            val = val + (UniversalExprType)result.value;
         }
 
-        value = 0.0;
-        exprType = eExprType::VECTOR;
+        result.value = 0.0;
     }
-    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    else if (((result.exprType == eExprType::VECTOR) ||
+              (result.exprType == eExprType::MATRIX))
+        &&
+        (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
-        for (UniversalExprType& val : values) {
+        result.fillMatrix();
+
+        for (UniversalExprType& val : result.values) {
             val = val + RIGHT_EXPR;
         }
     }
-    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    else if ((result.exprType == eExprType::VECTOR) &&
+        (RIGHT_EXPR.exprType == eExprType::VECTOR))
     {
         const unsigned V_SIZE = values.size();
+
         if (V_SIZE != RIGHT_EXPR.values.size()) {
             throw CalcException("нельга скласц≥ вектары з рознай колькасцю каардынат");
         }
 
         for (unsigned i = 0; i < V_SIZE; i++) {
-            values[i] = values[i] + RIGHT_EXPR.values[i];
+            result.values[i] = result.values[i] + RIGHT_EXPR.values[i];
+        }
+    }
+    else if ((result.exprType == eExprType::VECTOR) &&
+        (RIGHT_EXPR.exprType == eExprType::MATRIX))
+    {
+        throw CalcException("нельга скласц≥ вектар ≥ матрыцу");
+    }
+    else if ((result.exprType == eExprType::MATRIX) &&
+        (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    {
+        throw CalcException("нельга скласц≥ матрыцу ≥ вектар");
+    }
+    else if ((result.exprType == eExprType::MATRIX) &&
+        (RIGHT_EXPR.exprType == eExprType::MATRIX))
+    {
+        const unsigned N_ROWS = result.values.size();
+
+        if (N_ROWS != RIGHT_EXPR.values.size()) {
+            throw CalcException("нельга скласц≥ матрыцы з рознай памернасцю");
+        }
+
+        result.fillMatrix();
+        
+        unsigned nCols = 0;
+        
+        if (N_ROWS) {
+            nCols = result.values[0].values.size();
+        }
+
+        unsigned nRightCols = 0;
+        unsigned maxNRightCols = 0;
+
+        for (const UniversalExprType& RIGHT_ROW : RIGHT_EXPR.values)
+        {
+            nRightCols = RIGHT_ROW.values.size();
+
+            if (nRightCols > maxNRightCols) {
+                maxNRightCols = nRightCols;
+            }
+        }
+
+        if (nCols != maxNRightCols) {
+            throw CalcException("нельга скласц≥ матрыцы з рознай памернасцю");
+        }
+
+        for (unsigned iRow = 0; iRow < N_ROWS; iRow++)
+        {
+            nRightCols = RIGHT_EXPR.values[iRow].values.size();
+
+            for (unsigned jCol = 0; jCol < nRightCols; jCol++)
+            {
+                result.values[iRow].values[jCol] = result.values[iRow].values[jCol] + RIGHT_EXPR.values[iRow].values[jCol];
+            }
         }
     }
 
-    return *this;
+    return result;
 }
 
 
@@ -115,27 +261,41 @@ UniversalExprType UniversalExprType::operator+(const UniversalExprType& RIGHT_EX
 
 UniversalExprType UniversalExprType::operator-(const UniversalExprType& RIGHT_EXPR)
 {
-    if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
-    {
-        value -= RIGHT_EXPR.value;
-    }
-    else if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
-    {
+    UniversalExprType result = *this;
 
-        for (const UniversalExprType& val : RIGHT_EXPR.values) {
-            values.push_back(UniversalExprType(*this) - val);
+    if ((result.exprType == eExprType::NUMBER) &&
+        (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    {
+        result.value -= RIGHT_EXPR.value;
+    }
+    else if ((result.exprType == eExprType::NUMBER)
+        && 
+        ((RIGHT_EXPR.exprType == eExprType::VECTOR) ||
+         (RIGHT_EXPR.exprType == eExprType::MATRIX)))
+    {
+        result.values = RIGHT_EXPR.values;
+        result.exprType = RIGHT_EXPR.exprType;
+        result.fillMatrix();
+        
+        for (UniversalExprType& val : result.values) {
+            val = -val + (UniversalExprType)result.value;
         }
 
-        exprType = eExprType::VECTOR;
-        value = 0.0;
+        result.value = 0.0;
     }
-    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    else if (((exprType == eExprType::VECTOR) ||
+              (exprType == eExprType::MATRIX))
+        &&
+        (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
-        for (UniversalExprType& val : values) {
+        result.fillMatrix();
+
+        for (UniversalExprType& val : result.values) {
             val = val - RIGHT_EXPR;
         }
     }
-    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    else if ((result.exprType == eExprType::VECTOR) &&
+        (RIGHT_EXPR.exprType == eExprType::VECTOR))
     {
         const unsigned V_SIZE = values.size();
 
@@ -144,11 +304,64 @@ UniversalExprType UniversalExprType::operator-(const UniversalExprType& RIGHT_EX
         }
 
         for (unsigned i = 0; i < V_SIZE; i++) {
-            values[i] = values[i] - RIGHT_EXPR.values[i];
+            result.values[i] = result.values[i] - RIGHT_EXPR.values[i];
+        }
+    }
+    else if ((result.exprType == eExprType::VECTOR) &&
+        (RIGHT_EXPR.exprType == eExprType::MATRIX))
+    {
+        throw CalcException("нельга адн€ць ад вектара матрыцу");
+    }
+    else if ((result.exprType == eExprType::MATRIX) &&
+        (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    {
+        throw CalcException("нельга адн€ць ад матрыцы вектар");
+    }
+    else if ((result.exprType == eExprType::MATRIX) &&
+        (RIGHT_EXPR.exprType == eExprType::MATRIX))
+    {
+        const unsigned N_ROWS = result.values.size();
+
+        if (N_ROWS != RIGHT_EXPR.values.size()) {
+            throw CalcException("нельга знайсц≥ рознасць матрыц з рознай памернасцю");
+        }
+
+        result.fillMatrix();
+
+        unsigned nCols = 0;
+
+        if (N_ROWS) {
+            nCols = result.values[0].values.size();
+        }
+
+        unsigned nRightCols = 0;
+        unsigned maxNRightCols = 0;
+
+        for (const UniversalExprType& RIGHT_ROW : RIGHT_EXPR.values)
+        {
+            nRightCols = RIGHT_ROW.values.size();
+
+            if (nRightCols > maxNRightCols) {
+                maxNRightCols = nRightCols;
+            }
+        }
+
+        if (nCols != maxNRightCols) {
+            throw CalcException("нельга знайсц≥ рознасць матрыц з рознай памернасцю");
+        }
+
+        for (unsigned iRow = 0; iRow < N_ROWS; iRow++)
+        {
+            nRightCols = RIGHT_EXPR.values[iRow].values.size();
+
+            for (unsigned jCol = 0; jCol < nRightCols; jCol++)
+            {
+                result.values[iRow].values[jCol] = result.values[iRow].values[jCol] - RIGHT_EXPR.values[iRow].values[jCol];
+            }
         }
     }
 
-    return *this;
+    return result;
 }
 
 
@@ -158,42 +371,147 @@ UniversalExprType UniversalExprType::operator-(const UniversalExprType& RIGHT_EX
 
 UniversalExprType UniversalExprType::operator*(const UniversalExprType& RIGHT_EXPR)
 {
-    if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    UniversalExprType result = *this;
+
+    if ((result.exprType == eExprType::NUMBER) &&
+        (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
-        value *= RIGHT_EXPR.value;
+        result.value *= RIGHT_EXPR.value;
     }
-    else if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    else if ((result.exprType == eExprType::NUMBER)
+        &&
+        ((RIGHT_EXPR.exprType == eExprType::VECTOR) ||
+            (RIGHT_EXPR.exprType == eExprType::MATRIX)))
     {
         for (const UniversalExprType& val : RIGHT_EXPR.values) {
-            values.push_back(UniversalExprType(*this) * val);
+            result.values.push_back(UniversalExprType(*this) * val);
         }
 
-        value = 0.0;
-        exprType = eExprType::VECTOR;
+        result.value = 0.0;
+        result.exprType = RIGHT_EXPR.exprType;
+
+        result.fillMatrix();
     }
-    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    else if (((result.exprType == eExprType::VECTOR) ||
+              (result.exprType == eExprType::MATRIX))
+        &&
+        (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
-        for (UniversalExprType& val : values) {
+        for (UniversalExprType& val : result.values) {
             val = val * RIGHT_EXPR;
         }
+
+        result.fillMatrix();
     }
-    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    else if ((result.exprType == eExprType::VECTOR) &&
+        (RIGHT_EXPR.exprType == eExprType::VECTOR))
     {
-        const unsigned V_SIZE = values.size();
+        const unsigned V_SIZE = result.values.size();
 
         if (V_SIZE != RIGHT_EXPR.values.size()) {
             throw CalcException("нельга памножыць вектары з рознай колькасцю каардынат");
         }
 
-        UniversalExprType result{ 0.0 };
+        UniversalExprType resultVal{ 0.0 };
+
         for (unsigned i = 0; i < V_SIZE; i++) {
-            result = result + values[i] * RIGHT_EXPR.values[i];
+            resultVal = resultVal + result.values[i] * RIGHT_EXPR.values[i];
+        }
+        result = resultVal;
+    }
+    else if ((result.exprType == eExprType::VECTOR) &&
+        (RIGHT_EXPR.exprType == eExprType::MATRIX))
+    {
+        if (result.values.size() != RIGHT_EXPR.values.size()) {
+            throw CalcException("нельга памножыць вектар на матрыцу (колькасць каардынат вектара не супадае з колькасцю радкоҐ матырцы)");
         }
 
-        *this = result;
+        result.exprType = eExprType::MATRIX;
+
+        result = result * RIGHT_EXPR;
+    }
+    else if ((result.exprType == eExprType::MATRIX) &&
+        (RIGHT_EXPR.exprType == eExprType::VECTOR))
+    {
+        result.fillMatrix();
+
+        unsigned nCols = 0;
+        if (result.values.size()) {
+            nCols = values[0].values.size();
+        }
+
+        if (nCols != RIGHT_EXPR.values.size()) {
+            throw CalcException("нельга памножыць матрыцу на вектар (колькасць слупкоҐ матрыцы не супадае з колькасцю каардынат вектара)");
+        }
+
+        for (UniversalExprType& leftRow : result.values)
+        {
+            UniversalExprType resultRow{ 0.0 };
+            resultRow.exprType = eExprType::VECTOR;
+
+            resultRow.values.push_back(leftRow * RIGHT_EXPR);
+
+            leftRow = resultRow;
+        }
+    }
+    else if ((result.exprType == eExprType::MATRIX) &&
+        (RIGHT_EXPR.exprType == eExprType::MATRIX))
+    {
+        UniversalExprType rightExpr = RIGHT_EXPR;
+        
+        result.fillMatrix();
+        rightExpr.fillMatrix();
+
+        unsigned nLeftRows = result.values.size();
+
+        unsigned nLeftCols = 0;
+        if (nLeftRows) {
+            nLeftCols = result.values[0].values.size();
+        }
+
+        if (nLeftCols != rightExpr.values.size()) {
+            throw CalcException("нельга памножыць матрыцу на матрыцу (колькасць слупкоҐ першай матрыцы не супадае з колькасцю радкоҐ другой)");
+        }
+
+        unsigned nRightCols = 0;
+        if (rightExpr.values.size()) {
+            nRightCols = rightExpr.values[0].values.size();
+        }
+
+        UniversalExprType resultMatrix{ 0.0 };
+        resultMatrix.exprType = eExprType::MATRIX;
+
+        UniversalExprType resultRow{ 0.0 };
+        resultRow.exprType = eExprType::VECTOR;
+
+        UniversalExprType resultVal{ 0.0 };
+
+        for (unsigned iRow = 0; iRow < nLeftRows; iRow++)
+        {
+            resultRow.exprType = eExprType::VECTOR;
+            resultRow.values.clear();
+            
+            for (unsigned jCol = 0; jCol < nRightCols; jCol++)
+            {
+                resultVal.exprType = eExprType::NUMBER;
+                resultVal.values.clear();
+                resultVal.value = 0.0;
+
+                for (unsigned i = 0; i < nLeftCols; i++)
+                {
+                    resultVal = resultVal + result.values[iRow].values[i] * rightExpr.values[i].values[jCol];
+                }
+
+                resultRow.values.push_back(resultVal);
+            }
+
+            resultMatrix.values.push_back(resultRow);
+        }
+
+        result = resultMatrix;
     }
 
-    return *this;
+    return result;
 }
 
 
@@ -203,21 +521,28 @@ UniversalExprType UniversalExprType::operator*(const UniversalExprType& RIGHT_EX
 
 UniversalExprType UniversalExprType::operator/(const UniversalExprType& RIGHT_EXPR)
 {
+    UniversalExprType result = *this;
+
     if ((exprType == eExprType::NUMBER) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
-        value /= RIGHT_EXPR.value;
+        result.value /= RIGHT_EXPR.value;
     }
-    else if ((exprType == eExprType::VECTOR) && (RIGHT_EXPR.exprType == eExprType::NUMBER))
+    else if (((result.exprType == eExprType::VECTOR) ||
+              (result.exprType == eExprType::MATRIX))
+        &&
+        (RIGHT_EXPR.exprType == eExprType::NUMBER))
     {
-        for (UniversalExprType& val : values) {
+        for (UniversalExprType& val : result.values) {
             val = val / RIGHT_EXPR;
         }
+
+        result.fillMatrix();
     }
     else {
-        throw CalcException("дз€л≥ць можно тольк≥ на л≥к");
+        throw CalcException("дз€л≥ць можна тольк≥ на л≥к");
     }
 
-    return *this;
+    return result;
 }
 
 
@@ -228,11 +553,16 @@ UniversalExprType UniversalExprType::operator/(const UniversalExprType& RIGHT_EX
 UniversalExprType::operator std::string()
 {
     std::string str = "";
-    if (exprType == eExprType::NUMBER)
+
+    switch (exprType)
+    {
+    case eExprType::NUMBER:
     {
         str = std::to_string(value);
+
+        break;
     }
-    else if (exprType == eExprType::VECTOR)
+    case eExprType::VECTOR:
     {
         str += "{ ";
 
@@ -246,6 +576,29 @@ UniversalExprType::operator std::string()
         }
 
         str += " }";
+
+        break;
+    }
+    case eExprType::MATRIX:
+    {
+        fillMatrix();
+
+        str += "[ ";
+
+        const unsigned N_ROWS = values.size();
+
+        if (N_ROWS)
+        {
+            for (unsigned i = 0; i < N_ROWS - 1; i++) {
+                str += values[i] + ',' + ' ';
+            }
+            str += values[N_ROWS - 1];
+        }
+
+        str += " ]";
+
+        break;
+    }
     }
 
     return str;

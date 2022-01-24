@@ -32,6 +32,7 @@ namespace
 
     int g_parenthesesCount = 0;
     int g_bracesCount = 0;
+    int g_bracketsCount = 0;
     unsigned g_nestingChecker = 0;
 }
 
@@ -119,8 +120,9 @@ void numberCalculator()
                 std::cerr << "\n Чэл, ты нашто калькулятар зламаў...\n";
                 std::cerr << " Памылка: " << typeid(err).name() << ": " << err.what() << '\n';
             }
-        }
+
             break;
+        }
         case 2:
             cout << "\n Зарэзерваваныя канстанты:     Значэнне:\n";
             cout << "  pi                            3.141592653589793\n";
@@ -157,6 +159,7 @@ void numberCalculator()
             cout << "  norm, norm()          норма (модуль)         norm{3, 4}, norm({3, 4})   5\n";
             cout << "\n Іншае:\n";
             cout << "  Ans                   значэнне мінулага выразу\n";
+
             break;
         case 3:
             return;
@@ -233,27 +236,41 @@ static UniversalExprType term(bool get)
             else {
                 throw CalcException("дзяліць можно толькі на лік");
             }
-        }
+
             break;
+        }
         case eTokenValue::NUMBER:
         case eTokenValue::LP:
         case eTokenValue::LB:
             left = left * prim(false);
             break;
         case eTokenValue::RP:
+        {
             g_parenthesesCount--;
             if (g_parenthesesCount < 0) {
                 throw CalcException("сустрэты нечаканы аператар )");
             }
             g_nestingChecker--;
             return left;
+        }
         case eTokenValue::RB:
+        {
             g_bracesCount--;
             if (g_bracesCount < 0) {
                 throw CalcException("сустрэты нечаканы аператар }");
             }
             g_nestingChecker--;
             return left;
+        }
+        case eTokenValue::RSB:
+        {
+            g_bracketsCount--;
+            if (g_bracketsCount < 0) {
+                throw CalcException("сустрэты нечаканы аператар ]");
+            }
+            g_nestingChecker--;
+            return left;
+        }
         default:
             g_nestingChecker--;
             return left;
@@ -302,8 +319,53 @@ static UniversalExprType prim(bool get)
         value = vec;
 
         getToken();
-    }
+
         break;
+    }
+    case eTokenValue::LSB:
+    {
+        g_bracketsCount++;
+
+        UniversalExprType matrix;
+        matrix.exprType = eExprType::MATRIX;
+
+        while (g_currentToken != eTokenValue::RSB)
+        {
+            getToken();
+
+            if (g_currentToken == eTokenValue::PRINT) {
+                throw CalcException("чакалася ]");
+            }
+
+            UniversalExprType val = expr(false);
+
+            switch (val.exprType)
+            {
+            case eExprType::NUMBER:
+            {
+                UniversalExprType row;
+                row.exprType = eExprType::VECTOR;
+                row.values.push_back(val);
+                matrix.values.push_back(row);
+
+                break;
+            }
+            case eExprType::VECTOR:
+            {
+                matrix.values.push_back(val);
+                break;
+            }
+            }
+        }
+
+        matrix.fillMatrix();
+
+        value = matrix;
+
+        getToken();
+
+        break;
+    }
     case eTokenValue::PLUS:
         value = prim(true);
         break;
@@ -318,8 +380,9 @@ static UniversalExprType prim(bool get)
             throw CalcException("чакалася )");
         }
         getToken();
-    }
+
         break;
+    }
     case eTokenValue::WORD:
     {
         string stringValue = g_stringValue;
@@ -532,8 +595,9 @@ static UniversalExprType prim(bool get)
         else {
             throw CalcException((string)"сустрэты невядомы сімвал " + stringValue[0]);
         }
-    }
+
         break;
+    }
     default:
         throw CalcException("чакаўся першасны выраз");
     }
@@ -582,8 +646,9 @@ static UniversalExprType prim(bool get)
                 }
                 value = result;
             }
-        }
+
             break;
+        }
         case eTokenValue::FACT:
         {
             if (value.exprType != eExprType::NUMBER) {
@@ -608,8 +673,9 @@ static UniversalExprType prim(bool get)
             }
 
             getToken();
-        }
+
             break;
+        }
         default:
             g_nestingChecker--;
             return value;
@@ -684,7 +750,6 @@ static eTokenValue getToken()
 
         return g_currentToken = eTokenValue::NUMBER;
     }
-
     default:
         if (isalpha(ch))
         {
