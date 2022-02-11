@@ -205,14 +205,14 @@ void countLetters()
 	unsigned nConsonants = 0;
 	for (char letter : str)
 	{
-		if (
-			(letter == 'A') || (letter == 'E') || (letter == 'I') || (letter == 'O') || (letter == 'U') || (letter == 'Y') ||
-			(letter == 'a') || (letter == 'e') || (letter == 'i') || (letter == 'o') || (letter == 'u') || (letter == 'y') ||
+		letter = toupper(letter);
 
-			(letter == 'À') || (letter == 'Å') || (letter == '¨') || (letter == 'È') || (letter == '²') || (letter == 'Î') ||
-			(letter == 'Ó') || (letter == 'Û') || (letter == 'İ') || (letter == 'Ş') || (letter == 'ß') ||
-			(letter == 'à') || (letter == 'å') || (letter == '¸') || (letter == 'è') || (letter == '³') || (letter == 'î') ||
-			(letter == 'ó') || (letter == 'û') || (letter == 'ı') || (letter == 'ş') || (letter == 'ÿ')
+		if (
+			(letter == 'A') || (letter == 'E') || (letter == 'I') || (letter == 'O') || (letter == 'U') || (letter == 'Y')
+			||
+			(letter == 'À') || (letter == 'Å') || (letter == '¨') || (letter == 'È') || (letter == '²') ||
+			(letter == 'Î') || (letter == 'Ó') || (letter == 'Û') || (letter == 'İ') || (letter == 'Ş') ||
+			(letter == 'ß') || (letter == '¸') || (letter == '³') || (letter == 'î')
 			)
 		{
 			nVowels++;
@@ -222,22 +222,14 @@ void countLetters()
 				(letter == 'B') || (letter == 'C') || (letter == 'D') || (letter == 'F') || (letter == 'G') || (letter == 'H') ||
 				(letter == 'J') || (letter == 'K') || (letter == 'L') || (letter == 'M') || (letter == 'N') || (letter == 'P') ||
 				(letter == 'Q') || (letter == 'R') || (letter == 'S') || (letter == 'T') || (letter == 'V') || (letter == 'W') ||
-				(letter == 'X') || (letter == 'Z')				
-				||				
-				(letter == 'b') || (letter == 'c') || (letter == 'd') || (letter == 'f') || (letter == 'g') || (letter == 'h') ||
-				(letter == 'j') || (letter == 'k') || (letter == 'l') || (letter == 'm') || (letter == 'n') || (letter == 'p') ||
-				(letter == 'q') || (letter == 'r') || (letter == 's') || (letter == 't') || (letter == 'v') || (letter == 'w') ||
-				(letter == 'x') || (letter == 'z')
+				(letter == 'X') || (letter == 'Z')
 				||
 				(letter == 'Á') || (letter == 'Â') || (letter == 'Ã') || (letter == 'Ä') || (letter == 'Æ') || (letter == 'Ç') ||
 				(letter == 'É') || (letter == 'Ê') || (letter == 'Ë') || (letter == 'Ì') || (letter == 'Í') || (letter == 'Ï') ||
 				(letter == 'Ğ') || (letter == 'Ñ') || (letter == 'Ò') || (letter == '¡') || (letter == 'Ô') || (letter == 'Õ') ||
-				(letter == '×') || (letter == 'Ø') || (letter == 'Ù') || (letter == 'Ú') || (letter == 'ü')
+				(letter == 'Ö') || (letter == '×') || (letter == 'Ø') || (letter == 'Ù') || (letter == 'Ú') || (letter == 'Ü')
 				||
-				(letter == 'á') || (letter == 'â') || (letter == 'ã') || (letter == 'ä') || (letter == 'æ') || (letter == 'ç') ||
-				(letter == 'é') || (letter == 'ê') || (letter == 'ë') || (letter == 'ì') || (letter == 'í') || (letter == 'ï') ||
-				(letter == 'ğ') || (letter == 'ñ') || (letter == 'ò') || (letter == '¢') || (letter == 'ô') || (letter == 'õ') ||
-				(letter == '÷') || (letter == 'ø') || (letter == 'ù') || (letter == 'ú') || (letter == 'ü')
+				(letter == '¢')
 				) 
 			{
 				nConsonants++;

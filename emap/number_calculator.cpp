@@ -582,7 +582,7 @@ static UniversalExprType prim(bool get)
                 throw CalcException("норму можна вылічыць толькі для вектара");
             }
             
-            for (UniversalExprType val : value.values)
+            for (const UniversalExprType& val : value.values)
             {
                 if (val.exprType != eExprType::NUMBER) {
                     throw CalcException("норму можна вылічыць толькі для вектара лікаў");
@@ -591,6 +591,26 @@ static UniversalExprType prim(bool get)
             
             value = value * value;
             value.value = sqrt(value.value);
+        }
+        else if (stringValue == "det")
+        {
+            value = prim(true);
+            if (value.exprType != eExprType::MATRIX) {
+                throw CalcException("вызначальнік можна вылічыць толькі для матрыцы");
+            }
+
+            unsigned nRows = value.values.size();
+            unsigned nCols = 0;
+
+            if (nRows) {
+                nCols = value.values[0].values.size();
+            }
+
+            if (nRows != nCols) {
+                throw CalcException("вызначальнік можна вылічыць толькі для квадратнай матрыцы");
+            }
+
+            
         }
         else {
             throw CalcException((string)"сустрэты невядомы сімвал " + stringValue[0]);
