@@ -205,14 +205,27 @@ void countLetters()
 	unsigned nConsonants = 0;
 	for (char letter : str)
 	{
-		letter = toupper(letter);
+		if (letter >= 'a' && letter <= 'z') {
+			letter += 'A' - 'a';
+		}
+		else if (letter >= 'à' && letter <= 'ÿ') {
+			letter += 'À' - 'à';
+		}
+		else if (letter == '¸') {
+			letter = '¨';
+		}
+		else if (letter == '³') {
+			letter = '²';
+		}
+		else if (letter == '¢') {
+			letter = '¡';
+		}
 
 		if (
 			(letter == 'A') || (letter == 'E') || (letter == 'I') || (letter == 'O') || (letter == 'U') || (letter == 'Y')
 			||
-			(letter == 'À') || (letter == 'Å') || (letter == '¨') || (letter == 'È') || (letter == '²') ||
-			(letter == 'Î') || (letter == 'Ó') || (letter == 'Û') || (letter == 'İ') || (letter == 'Ş') ||
-			(letter == 'ß') || (letter == '¸') || (letter == '³') || (letter == 'î')
+			(letter == 'À') || (letter == 'Å') || (letter == '¨') || (letter == 'È') || (letter == '²') || (letter == 'Î') ||
+			(letter == 'Ó') || (letter == 'Û') || (letter == 'İ') || (letter == 'Ş') || (letter == 'ß')
 			)
 		{
 			nVowels++;
@@ -228,8 +241,6 @@ void countLetters()
 				(letter == 'É') || (letter == 'Ê') || (letter == 'Ë') || (letter == 'Ì') || (letter == 'Í') || (letter == 'Ï') ||
 				(letter == 'Ğ') || (letter == 'Ñ') || (letter == 'Ò') || (letter == '¡') || (letter == 'Ô') || (letter == 'Õ') ||
 				(letter == 'Ö') || (letter == '×') || (letter == 'Ø') || (letter == 'Ù') || (letter == 'Ú') || (letter == 'Ü')
-				||
-				(letter == '¢')
 				) 
 			{
 				nConsonants++;
